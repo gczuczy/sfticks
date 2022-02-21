@@ -49,6 +49,8 @@ int main(int argc, char *argv[]) {
   // parse the file
   try {
     Loader *l = new Loader(filename);
+
+    l->parse();
   }
   catch (std::exception e) {
     printf("Caught exception\n");
