@@ -63,6 +63,7 @@ void Loader::parse() {
   */
   // first check the header
   Reader headers(c_save, c_savesize);
+  uint64_t offset;
 
   c_header_version = headers.fetch_int32(0);
   printf("Header version: %i\n", c_header_version);
@@ -72,6 +73,43 @@ void Loader::parse() {
 
   c_build_version = headers.fetch_int32(8);
   printf("Build version: %i\n", c_build_version);
+
+  c_world_type = headers.fetch_string(12);
+  printf("World type: %s\n", c_world_type.c_str());
+  offset = 12 + c_world_type.length()+4;
+
+  c_world_properties = headers.fetch_string(offset);
+  printf("World properties: %s\n", c_world_properties.c_str());
+  offset += c_world_properties.length()+4;
+
+  c_session_name = headers.fetch_string(offset);
+  printf("Session name: %s\n", c_session_name.c_str());
+  offset += c_session_name.length()+4;
+  //printf("Offset: %lx\n", offset);
+
+  c_playtime = headers.fetch_int32(offset);
+  offset += 4;
+  printf("Play time: %i seconds\n", c_playtime);
+
+  c_save_date = headers.fetch_int64(offset);
+  offset += 8;
+  printf("Save date: %li ticks\n", c_save_date);
+
+  c_visiblity = headers.fetch_int8(offset);
+  ++offset;
+  printf("Visibility: %i\n", c_visiblity);
+  
+  c_editor_object_version = headers.fetch_int32(offset);
+  offset += 4;
+  printf("Editor Object Version: %i\n", c_editor_object_version);
+
+  c_mod_metadata = headers.fetch_string(offset);
+  offset += c_mod_metadata.length() + 4;
+  printf("Mod metadata: %s\n", c_mod_metadata.c_str());
+
+  c_mod_flags = headers.fetch_int32(offset);
+  offset += 4;
+  printf("Mod flags: %i\n", c_mod_flags);
 }
 
 // Reader
@@ -81,9 +119,25 @@ Loader::Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_
 Loader::Reader::~Reader() {
 }
 
+int8_t Loader::Reader::fetch_int8(uint64_t _pos) const {
+  return *((int8_t*)(c_buffer+_pos));
+}
+
 int32_t Loader::Reader::fetch_int32(uint64_t _pos) const {
 #ifdef __FreeBSD__
   return (int32_t)le32toh(*((uint32_t*)(c_buffer+_pos)));
 #endif
+}
+
+int64_t Loader::Reader::fetch_int64(uint64_t _pos) const {
+#ifdef __FreeBSD__
+  return (int64_t)le32toh(*((uint64_t*)(c_buffer+_pos)));
+#endif
+}
+
+std::string Loader::Reader::fetch_string(uint64_t pos) const {
+  int32_t len = fetch_int32(pos);
+  //printf("String len: %i/%s\n", len, (c_buffer+pos+4));
+  return std::string((const char*)(c_buffer+pos+4), len);
 }
 

@@ -6,6 +6,7 @@
 #include <boost/program_options.hpp>
 
 #include "Loader.hh"
+#include "Timer.hh"
 
 namespace po = boost::program_options;
 
@@ -48,6 +49,7 @@ int main(int argc, char *argv[]) {
 
   // parse the file
   try {
+    Timer tl("Loader");
     Loader *l = new Loader(filename);
 
     l->parse();

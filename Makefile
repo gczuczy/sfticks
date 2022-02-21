@@ -2,7 +2,7 @@ INCPATH=-I/usr/local/include
 CXXFLAGS=-Werror -pedantic -std=c++17 -Wno-c11-extensions $(INCPATH)
 LDFLAGS=-L/usr/local/lib -pthread -lboost_program_options
 
-OBJS=main.o Loader.o Exception.o
+OBJS=main.o Loader.o Exception.o Timer.o
 OUT=../bin/sfticks
 
 .if defined(DEBUG)

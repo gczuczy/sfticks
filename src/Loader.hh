@@ -19,6 +19,7 @@ private:
     int8_t fetch_int8(uint64_t _pos) const;
     int32_t fetch_int32(uint64_t _pos) const;
     int64_t fetch_int64(uint64_t _pos) const;
+    std::string fetch_string(uint64_t pos) const;
   private:
     char *c_buffer;
     uint64_t c_len;
@@ -29,6 +30,7 @@ private:
   int c_fd;
   uint64_t c_savesize;
   char *c_save;
+
   // headers
   int32_t c_header_version;
   int32_t c_save_version;
