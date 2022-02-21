@@ -1,3 +1,13 @@
+# emacs saves
+*~
+.\#*
+
+# depends
+.depend
+
+# output
+bin/sfticks
+
 # Prerequisites
 *.d
 
