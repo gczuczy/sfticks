@@ -1,8 +1,8 @@
 INCPATH=-I/usr/local/include
 CXXFLAGS=-Werror -pedantic -std=c++17 -Wno-c11-extensions $(INCPATH)
-LDFLAGS=
+LDFLAGS=-L/usr/local/lib -pthread -lboost_program_options
 
-OBJS=main.o
+OBJS=main.o Loader.o Exception.o
 OUT=../bin/sfticks
 
 .if defined(DEBUG)
@@ -23,7 +23,7 @@ sfticks: .depend $(OUT)
 depend: .depend
 
 .depend: ../Makefile
-	mkdep $(INCPATH) ../src/*.cc
+	mkdep $(INCPATH) ../src/*.cc ../src/*.hh
 
 clean:
 	rm -f .depend $(OUT) $(OBJS)
