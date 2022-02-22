@@ -1,4 +1,7 @@
 
+#ifndef SFT_EXCEPTION_H
+#define SFT_EXCEPTION_H
+
 #include <exception>
 #include <string>
 
@@ -13,3 +16,5 @@ private:
   std::string c_error;
   
 };
+
+#endif

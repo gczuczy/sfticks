@@ -1,5 +1,10 @@
+
+#ifndef SFT_LOADER_H
+#define SFT_LOADER_H
+
 #include <string>
 #include <stdint.h>
+#include "vectors.hh"
 
 class Loader {
 public:
@@ -8,7 +13,7 @@ public:
 
   void parse();
 
-private:
+  public:
   class ChunkReader;
   class Reader {
   protected:
@@ -22,10 +27,15 @@ private:
     inline uint64_t pos() const {return c_pos;};
     inline uint64_t len() const {return c_len;};
     inline bool eof() const {return c_pos >= c_len;};
-    Reader& fetch_int8(int8_t& _val);
-    Reader& fetch_int32(int32_t& _val);
-    Reader& fetch_int64(int64_t& _val);
-    Reader& fetch_string(std::string& _val);
+    inline Reader &skip(int64_t _len) {c_pos += _len; return *this;};
+    Reader& fetch(int8_t& _val);
+    Reader& fetch(int32_t& _val);
+    Reader& fetch(int64_t& _val);
+    Reader& fetch(float& _val);
+    Reader& fetch(Vector2& _val);
+    Reader& fetch(Vector3& _val);
+    Reader& fetch(Vector4& _val);
+    Reader& fetch(std::string& _val);
     char* pass(uint64_t _len);
 
   protected:
@@ -64,4 +74,7 @@ private:
   int32_t c_editor_object_version;
   std::string c_mod_metadata;
   int32_t c_mod_flags;
+  int32_t c_world_object_count, c_world_object_property_count, c_world_collected_object_count;
 };
+
+#endif

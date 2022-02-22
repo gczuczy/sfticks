@@ -1,4 +1,7 @@
 
+#ifndef SFT_TIMER_H
+#define SFT_TIMER_H
+
 #include <sys/time.h>
 
 #include <string>
@@ -15,3 +18,5 @@ private:
   bool c_freq;
   struct timeval c_start;
 };
+
+#endif

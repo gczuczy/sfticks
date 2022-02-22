@@ -2,6 +2,7 @@
 
 #include "Loader.hh"
 #include "Exception.hh"
+#include "SaveEntity.hh"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,6 +13,8 @@
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <zlib.h>
+
+#include <memory>
 
 #ifdef __FreeBSD__
 #include <sys/endian.h>
@@ -69,18 +72,18 @@ void Loader::parse() {
   Reader headers(c_save, c_savesize);
 
   headers
-    .fetch_int32(c_header_version)
-    .fetch_int32(c_save_version)
-    .fetch_int32(c_build_version)
-    .fetch_string(c_world_type)
-    .fetch_string(c_world_properties)
-    .fetch_string(c_session_name)
-    .fetch_int32(c_playtime)
-    .fetch_int64(c_save_date)
-    .fetch_int8(c_visiblity)
-    .fetch_int32(c_editor_object_version)
-    .fetch_string(c_mod_metadata)
-    .fetch_int32(c_mod_flags);
+    .fetch(c_header_version)
+    .fetch(c_save_version)
+    .fetch(c_build_version)
+    .fetch(c_world_type)
+    .fetch(c_world_properties)
+    .fetch(c_session_name)
+    .fetch(c_playtime)
+    .fetch(c_save_date)
+    .fetch(c_visiblity)
+    .fetch(c_editor_object_version)
+    .fetch(c_mod_metadata)
+    .fetch(c_mod_flags);
 
   printf("Header version: %i\n", c_header_version);
   printf("Save version: %i\n", c_save_version);
@@ -97,6 +100,20 @@ void Loader::parse() {
 
   // chunk
   auto data = ChunkReader(headers);
+
+  data.skip(4).fetch(c_world_object_count);
+
+  // read world objects
+  for (int i=0; i<c_world_object_count; ++i) {
+    int32_t objtype, len, index(0);
+    std::string name, proptype, blah;
+
+    data.fetch(objtype);
+    printf("Objtype: 0x%04x / %i\n", objtype, objtype);
+    auto obj = std::make_shared<SaveEntity>(data);
+    obj->debug();
+    break;
+  }
 }
 
 
@@ -123,13 +140,13 @@ Loader::Reader& Loader::Reader::debug(uint64_t _lookahead) {
   return *this;
 }
 
-Loader::Reader& Loader::Reader::fetch_int8(int8_t& _val) {
+Loader::Reader& Loader::Reader::fetch(int8_t& _val) {
   _val = *((int8_t*)(c_buffer+c_pos));
   ++c_pos;
   return *this;
 }
 
-Loader::Reader& Loader::Reader::fetch_int32(int32_t& _val) {
+Loader::Reader& Loader::Reader::fetch(int32_t& _val) {
 #ifdef __FreeBSD__
   _val = (int32_t)le32toh(*((uint32_t*)(c_buffer+c_pos)));
 #endif
@@ -137,7 +154,7 @@ Loader::Reader& Loader::Reader::fetch_int32(int32_t& _val) {
   return *this;
 }
 
-Loader::Reader& Loader::Reader::fetch_int64(int64_t& _val) {
+Loader::Reader& Loader::Reader::fetch(int64_t& _val) {
 #ifdef __FreeBSD__
   _val = (int64_t)le64toh(*((uint64_t*)(c_buffer+c_pos)));
 #endif
@@ -145,9 +162,38 @@ Loader::Reader& Loader::Reader::fetch_int64(int64_t& _val) {
   return *this;
 }
 
-Loader::Reader& Loader::Reader::fetch_string(std::string& _val) {
+Loader::Reader& Loader::Reader::fetch(float& _val) {
+  if ( sizeof(float) != 4 ) throw Exception("Float size is not 4");
+  memcpy((void*)&_val, c_buffer, sizeof(float));
+  c_pos += 4;
+  return *this;
+}
+
+Loader::Reader& Loader::Reader::fetch(Vector2& _val) {
+  float x,y;
+  fetch(x).fetch(y);
+  _val = Vector2(x, y);
+  return *this;
+}
+
+Loader::Reader& Loader::Reader::fetch(Vector3& _val) {
+  float x,y,z;
+  fetch(x).fetch(y).fetch(z);
+  _val = Vector3(x, y, z);
+  return *this;
+}
+
+Loader::Reader& Loader::Reader::fetch(Vector4& _val) {
+  float x,y,z,w;
+  fetch(x).fetch(y).fetch(z).fetch(w);
+  _val = Vector4(x, y, z, 2);
+  return *this;
+}
+
+
+Loader::Reader& Loader::Reader::fetch(std::string& _val) {
   int32_t len;
-  this->fetch_int32(len);
+  this->fetch(len);
 
   _val = std::string((const char*)(c_buffer+c_pos), len);
   c_pos += len;
@@ -184,12 +230,12 @@ Loader::ChunkReader::ChunkReader(Reader &_reader): c_reader(_reader) {
     // fetch the chunk header
     // https://satisfactory.fandom.com/wiki/Save_files#Compressed_Save_File_Format
     c_reader
-      .fetch_int64(magic)
-      .fetch_int64(maxchunk)
-      .fetch_int64(clen1)
-      .fetch_int64(uclen1)
-      .fetch_int64(clen2)
-      .fetch_int64(uclen2)
+      .fetch(magic)
+      .fetch(maxchunk)
+      .fetch(clen1)
+      .fetch(uclen1)
+      .fetch(clen2)
+      .fetch(uclen2)
       ;
     if ( magic != CHUNK_MAGIC ) {
       printf("Expected/got magic: 0x%08lx/0x%08lx\n", CHUNK_MAGIC, magic);
