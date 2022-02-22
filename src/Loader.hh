@@ -9,20 +9,40 @@ public:
   void parse();
 
 private:
+  class ChunkReader;
   class Reader {
+  protected:
+    Reader();
   public:
-    Reader() = delete;
     Reader(const Reader&) = delete;
     Reader(char *_buffer, uint64_t _len);
     virtual ~Reader();
 
-    int8_t fetch_int8(uint64_t _pos) const;
-    int32_t fetch_int32(uint64_t _pos) const;
-    int64_t fetch_int64(uint64_t _pos) const;
-    std::string fetch_string(uint64_t pos) const;
-  private:
+    Reader& debug(uint64_t _lookahead);
+    inline uint64_t pos() const {return c_pos;};
+    inline uint64_t len() const {return c_len;};
+    inline bool eof() const {return c_pos >= c_len;};
+    Reader& fetch_int8(int8_t& _val);
+    Reader& fetch_int32(int32_t& _val);
+    Reader& fetch_int64(int64_t& _val);
+    Reader& fetch_string(std::string& _val);
+    char* pass(uint64_t _len);
+
+  protected:
     char *c_buffer;
     uint64_t c_len;
+    uint64_t c_pos;
+  };
+
+  class ChunkReader: public Reader {
+    ChunkReader() = delete;
+    ChunkReader(const Reader&) = delete;
+  public:
+    ChunkReader(Reader &);
+    virtual ~ChunkReader();
+
+  private:
+    Reader &c_reader;
   };
 
 private:

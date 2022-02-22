@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-#include <exception>
 #include <iostream>
 
 #include <boost/program_options.hpp>
 
 #include "Loader.hh"
 #include "Timer.hh"
+#include "Exception.hh"
 
 namespace po = boost::program_options;
 
@@ -54,8 +54,11 @@ int main(int argc, char *argv[]) {
 
     l->parse();
   }
-  catch (std::exception e) {
-    printf("Caught exception\n");
+  catch (Exception &e) {
+    printf("Caught exception: %s\n", e.what());
+  }
+  catch (std::exception &e) {
+    printf("Caught exception: %s\n", e.what());
   }
   return 0;
 }
