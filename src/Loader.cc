@@ -3,6 +3,7 @@
 #include "Loader.hh"
 #include "Exception.hh"
 #include "SaveEntity.hh"
+#include "SaveComponent.hh"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -54,20 +55,6 @@ Loader::~Loader() {
 }
 
 void Loader::parse() {
-  /*
-    int32_t c_header_version;
-    int32_t c_save_version;
-    int32_t c_build_version;
-    std::string c_world_type;
-    std::string c_world_properties;
-    std::string c_session_name;
-    int32_t c_playtime; // seconds
-    int64_t c_save_date; //ticks
-    int8_t c_visiblity;
-    int32_t c_editor_object_version;
-    std::string c_mod_metadata;
-    int32_t c_mod_flags;
-  */
   // first check the header
   Reader headers(c_save, c_savesize);
 
@@ -111,11 +98,18 @@ void Loader::parse() {
     std::string name, proptype, blah;
 
     data.fetch(objtype);
-    printf("Objtype: 0x%04x / %i\n", objtype, objtype);
-    auto obj = std::make_shared<SaveEntity>(data);
-    obj->debug();
-    break;
+    std::shared_ptr<SaveObject> obj;
+    if ( objtype == 1 ) {
+      obj = std::make_shared<SaveEntity>(data);
+    } else if ( objtype == 0 ) {
+      obj = std::make_shared<SaveComponent>(data);
+    } else {
+      printf("Objtype: 0x%04x / %i\n", objtype, objtype);
+      throw Exception("Unknown object type");
+    }
   }
+
+  printf("Loaded %i world objects\n", c_world_object_count);
 }
 
 

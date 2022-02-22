@@ -7,17 +7,24 @@
 
 class SaveObject {
 public:
+  enum Type {
+    Entity = 0,
+    Component = 1
+  };
+  
   SaveObject() = delete;
   SaveObject(Loader::Reader& _reader);
   virtual ~SaveObject()=0;
 
-  inline std::string name() {return c_name;};
-  inline std::string property_type() {return c_property_type;};
-  inline std::string instance() {return c_instance;};
+  inline Type type() const {return c_type;};
+  inline std::string name() const {return c_name;};
+  inline std::string property_type() const {return c_property_type;};
+  inline std::string instance() const {return c_instance;};
 
-  virtual void debug() const;
+  virtual void debug();
 
 protected:
+  Type c_type;
   std::string c_name, c_property_type, c_instance;
 };
 

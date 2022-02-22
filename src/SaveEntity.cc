@@ -2,6 +2,7 @@
 #include "SaveEntity.hh"
 
 SaveEntity::SaveEntity(Loader::Reader& _reader): SaveObject(_reader) {
+  c_type = Type::Entity;
   _reader
     .fetch(c_needtransform)
     .fetch(c_rotation)
@@ -9,7 +10,7 @@ SaveEntity::SaveEntity(Loader::Reader& _reader): SaveObject(_reader) {
     .fetch(c_scale)
     .fetch(c_placedinlevel)
     ;
-  printf("SaveEntity ctor\n");
+  //printf("SaveEntity ctor\n");
 }
 
 SaveEntity::~SaveEntity() {

@@ -2,7 +2,7 @@ INCPATH=-I/usr/local/include
 CXXFLAGS=-Werror -pedantic -std=c++17 -Wno-c11-extensions $(INCPATH)
 LDFLAGS=-L/usr/local/lib -pthread -lboost_program_options -lz
 
-OBJS=main.o Loader.o Exception.o Timer.o SaveObject.o SaveEntity.o vectors.o
+OBJS=main.o Loader.o Exception.o Timer.o SaveObject.o SaveEntity.o vectors.o SaveComponent.o
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
 OUT_ZL=../bin/zltest
