@@ -3,7 +3,9 @@ CXXFLAGS=-Werror -pedantic -std=c++17 -Wno-c11-extensions $(INCPATH)
 LDFLAGS=-L/usr/local/lib -pthread -lboost_program_options -lz
 
 OBJS=main.o Loader.o Exception.o Timer.o SaveObject.o SaveEntity.o vectors.o
+OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
+OUT_ZL=../bin/zltest
 
 .if defined(DEBUG)
 CXXFLAGS+= -O0 -glldb
@@ -18,7 +20,7 @@ CXXFLAGS+= -O2
 
 .PHONY = clean sfticks depend .depend
 
-sfticks: .depend $(OUT)
+sfticks: .depend $(OUT) $(OUT_ZL)
 
 depend: .depend
 
@@ -26,10 +28,13 @@ depend: .depend
 	mkdep $(INCPATH) ../src/*.cc ../src/*.hh
 
 clean:
-	rm -f .depend $(OUT) $(OBJS)
+	rm -f .depend $(OUT) $(OUT_ZL) $(OBJS) $(OBJS_ZL)
 	rm -f ../src/*~
 
 $(OUT): $(OBJS)
+	$(CXX) -o $@ $(.ALLSRC) $(LDFLAGS)
+
+$(OUT_ZL): $(OBJS_ZL)
 	$(CXX) -o $@ $(.ALLSRC) $(LDFLAGS)
 
 .cc.o:
