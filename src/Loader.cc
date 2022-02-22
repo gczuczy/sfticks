@@ -101,6 +101,8 @@ void Loader::parse() {
   // chunk
   auto data = ChunkReader(headers);
 
+  //data.dump(std::string("/tmp/sf_")+c_session_name);
+
   data.skip(4).fetch(c_world_object_count);
 
   // read world objects
@@ -204,6 +206,18 @@ char* Loader::Reader::pass(uint64_t _len) {
   uint64_t ppos = c_pos;
   c_pos += _len;
   return c_buffer+ppos;
+}
+
+void Loader::Reader::dump(const std::string _file) {
+  int fd;
+
+  if ( (fd = open(_file.c_str(), O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1 ) {
+    throw Exception("open() failed");
+  }
+
+  write(fd, c_buffer, c_len);
+
+  close(fd);
 }
 
 Loader::ChunkReader::ChunkReader(Reader &_reader): c_reader(_reader) {

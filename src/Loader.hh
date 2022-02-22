@@ -38,6 +38,8 @@ public:
     Reader& fetch(std::string& _val);
     char* pass(uint64_t _len);
 
+    void dump(const std::string _file);
+
   protected:
     char *c_buffer;
     uint64_t c_len;
