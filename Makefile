@@ -9,7 +9,7 @@ OUT=../bin/sfticks
 OUT_ZL=../bin/zltest
 
 .if defined(DEBUG)
-CXXFLAGS+= -O0 -glldb
+CXXFLAGS+= -O0 -DFGT_DEBUG
 .else
 CXXFLAGS+= -O2
 .endif

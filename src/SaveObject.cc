@@ -23,7 +23,6 @@ void SaveObject::debug() {
 }
 
 SaveObject& SaveObject::loadProperties(Reader &_reader) {
-  printf("Loading object properties\n");
   if ( _reader.eof() ) return *this;
 
   std::shared_ptr<SaveProperty> prop;

@@ -4,11 +4,11 @@
 SaveEntity::SaveEntity(Reader& _reader): SaveObject(_reader) {
   c_type = Type::Entity;
   _reader
-    .fetch(c_needtransform)
-    .fetch(c_rotation)
-    .fetch(c_position)
-    .fetch(c_scale)
-    .fetch(c_placedinlevel)
+    (c_needtransform)
+    (c_rotation)
+    (c_position)
+    (c_scale)
+    (c_placedinlevel)
     ;
   //printf("SaveEntity ctor\n");
 }

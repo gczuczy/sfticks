@@ -118,7 +118,7 @@ void Loader::parse() {
   printf("World object property count: %i\n", c_world_object_property_count);
   for (int i=0; i<c_world_object_property_count; ++i) {
     int32_t len;
-    data.fetch(len);
+    data(len);
     Reader prop(data, len);
 
     //prop.dump("/tmp/prop2.dump");

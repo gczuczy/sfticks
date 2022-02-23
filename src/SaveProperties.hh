@@ -13,7 +13,8 @@ enum class PropertyType: int8_t {
   IntProperty=0,
   ObjectProperty,
   ArrayProperty,
-  InterfaceProperty
+  InterfaceProperty,
+  StrProperty
 };
 
 class SaveProperty {
@@ -90,6 +91,19 @@ public:
 
 private:
   std::string c_levelname, c_pathname;
+};
+
+class StrProperty: public SaveProperty {
+public:
+  StrProperty() = delete;
+  StrProperty(const StrProperty&) = delete;
+  StrProperty(std::string& _name, Reader& _reader, int32_t _index);
+  virtual ~StrProperty();
+
+  inline const std::string& value() const {return c_value;};
+
+private:
+  std::string c_value;
 };
 
 #endif
