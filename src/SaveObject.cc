@@ -2,8 +2,9 @@
 #include <stdio.h>
 
 #include "SaveObject.hh"
+#include "SaveProperties.hh"
 
-SaveObject::SaveObject(Loader::Reader &_reader) {
+SaveObject::SaveObject(Reader &_reader) {
   _reader
     .fetch(c_name)
     .fetch(c_property_type)
@@ -19,4 +20,16 @@ void SaveObject::debug() {
 	 c_name.c_str(),
 	 c_property_type.c_str(),
 	 c_instance.c_str());
+}
+
+SaveObject& SaveObject::loadProperties(Reader &_reader) {
+  printf("Loading object properties\n");
+  if ( _reader.eof() ) return *this;
+
+  std::shared_ptr<SaveProperty> prop;
+  while ( (prop = SaveProperty::factory(_reader)) ) {
+    c_properties.push_back(prop);
+  }
+  
+  return *this;
 }

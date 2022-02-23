@@ -1,7 +1,7 @@
 
 #include "SaveComponent.hh"
 
-SaveComponent::SaveComponent(Loader::Reader& _reader): SaveObject(_reader) {
+SaveComponent::SaveComponent(Reader& _reader): SaveObject(_reader) {
   c_type = Type::Component;
   _reader.fetch(c_parent_entity_name);
 }

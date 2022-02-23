@@ -47,10 +47,13 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  // the world we'll load it into
+  SaveWorld sworld;
+
   // parse the file
   try {
     Timer tl("Loader");
-    Loader *l = new Loader(filename);
+    Loader *l = new Loader(filename, sworld);
 
     l->parse();
   }

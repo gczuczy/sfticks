@@ -6,7 +6,7 @@
 
 class SaveComponent: public SaveObject {
 public:
-  SaveComponent(Loader::Reader& _reader);
+  SaveComponent(Reader& _reader);
   virtual ~SaveComponent();
 
   virtual void debug();
