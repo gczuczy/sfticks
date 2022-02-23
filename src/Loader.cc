@@ -129,7 +129,6 @@ void Loader::parse() {
       c_world[i]->debug();
       throw Exception("Prop buffer not empty");
     }
-    break;
   }
 
 }
