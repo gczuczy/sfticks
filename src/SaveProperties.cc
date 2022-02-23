@@ -28,7 +28,7 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
   _reader.debug(32);
   _reader(name)(type)(size)(index);
 
-  if ( name == "none" && type == "" )
+  if ( name == "None" && type == "" )
     return std::shared_ptr<SaveProperty>(0);
 
   if ( type == "IntProperty" ) {
