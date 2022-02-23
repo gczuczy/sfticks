@@ -29,7 +29,7 @@ Reader::~Reader() {
 
 Reader& Reader::debug(uint64_t _lookahead) {
   printf("curr pos: %lu / 0x%lx\n", c_pos, c_pos);
-  for (uint64_t i=0; i<_lookahead; ++i ) {
+  for (uint64_t i=0; i<_lookahead && c_pos+i<c_len; ++i ) {
     if ( i ) {
       if ( i%16 == 0 ) printf("\n");
       else if ( i%8 == 0 ) printf(" ");
@@ -42,13 +42,25 @@ Reader& Reader::debug(uint64_t _lookahead) {
   return *this;
 }
 
+void Reader::lencheck(int64_t _l) {
+  if ( c_pos + _l > c_len ) {
+    char buff[128];
+    int len;
+    len = snprintf(buff, 128, "Reader::lencheck pos(%li) + l(%li) > len(%li)\n",
+		   c_pos, _l, c_len);
+    throw Exception(std::string(buff, len));
+  }
+}
+
 Reader& Reader::fetch(int8_t& _val) {
+  lencheck(1);
   _val = *((int8_t*)(c_buffer+c_pos));
   ++c_pos;
   return *this;
 }
 
 Reader& Reader::fetch(int32_t& _val) {
+  lencheck(4);
 #ifdef __FreeBSD__
   _val = (int32_t)le32toh(*((uint32_t*)(c_buffer+c_pos)));
 #endif
@@ -57,6 +69,7 @@ Reader& Reader::fetch(int32_t& _val) {
 }
 
 Reader& Reader::fetch(int64_t& _val) {
+  lencheck(8);
 #ifdef __FreeBSD__
   _val = (int64_t)le64toh(*((uint64_t*)(c_buffer+c_pos)));
 #endif
@@ -66,6 +79,7 @@ Reader& Reader::fetch(int64_t& _val) {
 
 Reader& Reader::fetch(float& _val) {
   if ( sizeof(float) != 4 ) throw Exception("Float size is not 4");
+  lencheck(4);
   memcpy((void*)&_val, c_buffer, sizeof(float));
   c_pos += 4;
   return *this;
@@ -97,6 +111,7 @@ Reader& Reader::fetch(std::string& _val) {
   int32_t len;
   this->fetch(len);
 
+  lencheck(len);
   if ( len ) _val = std::string((const char*)(c_buffer+c_pos), len-1);
   else _val.empty();
   
@@ -105,6 +120,7 @@ Reader& Reader::fetch(std::string& _val) {
 }
 
 char* Reader::pass(uint64_t _len) {
+  lencheck(_len);
   uint64_t ppos = c_pos;
   c_pos += _len;
   return c_buffer+ppos;
@@ -113,6 +129,7 @@ char* Reader::pass(uint64_t _len) {
 void Reader::dump(const std::string _file) {
   int fd;
 
+  printf("Reader::dump(%s), %li bytes\n", _file.c_str(), c_len);
   if ( (fd = open(_file.c_str(), O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1 ) {
     throw Exception("open() failed");
   }

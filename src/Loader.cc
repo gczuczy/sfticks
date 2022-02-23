@@ -121,14 +121,22 @@ void Loader::parse() {
     data(len);
     Reader prop(data, len);
 
-    //prop.dump("/tmp/prop2.dump");
-    c_world[i]->loadProperties(prop);
+    prop.dump("/tmp/prop1.dump");
+    try {
+      c_world[i]->loadProperties(prop);
+    }
+    catch (Exception &e) {
+      printf("Loader caught exception, showing reader and dumping\n");
+      prop.debug(128);
+      prop.dump("/tmp/prop.except");
+      throw e;
+    }
 
     if ( !prop.eof() ) {
       printf("\n!!! Haven't read all properties (%lu/%lu)\n", prop.pos(), prop.len());
       c_world[i]->debug();
       throw Exception("Prop buffer not empty");
     }
-  }
+  } // for world object property
 
 }

@@ -45,6 +45,9 @@ public:
   inline Reader &operator()(Vector4& _v) {return fetch(_v);};
   inline Reader &operator()(std::string& _v) {return fetch(_v);};
 
+private:
+  void lencheck(int64_t _l);
+
 protected:
   char *c_buffer;
   uint64_t c_len;
