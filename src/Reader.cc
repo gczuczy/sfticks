@@ -112,10 +112,16 @@ Reader& Reader::fetch(std::string& _val) {
   this->fetch(len);
 
   lencheck(len);
-  if ( len ) _val = std::string((const char*)(c_buffer+c_pos), len-1);
-  else _val.empty();
+  if ( len > 0 ) {
+    _val = std::string((const char*)(c_buffer+c_pos), len-1);
+    c_pos += len;
+  } else if ( len < 0 ) {
+    _val = std::string((const char*)(c_buffer+c_pos), (-2*len)-1);
+    c_pos += -2*len;
+  } else {
+    _val.empty();
+  }
   
-  c_pos += len;
   return *this;
 }
 
