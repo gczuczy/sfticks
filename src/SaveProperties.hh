@@ -8,6 +8,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 enum class PropertyType: int8_t {
   IntProperty=0,
@@ -17,7 +18,8 @@ enum class PropertyType: int8_t {
   StrProperty,
   StructProperty,
   EnumProperty,
-  FloatProperty
+  FloatProperty,
+  BoolProperty
 };
 
 class SaveProperty {
@@ -61,7 +63,7 @@ class ObjectProperty: public SaveProperty {
 public:
   ObjectProperty() = delete;
   ObjectProperty(const ObjectProperty&) = delete;
-  ObjectProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size);
+  ObjectProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size, bool _skip=true);
   virtual ~ObjectProperty();
 
   inline const std::string& levelName() const {return c_levelname;};
@@ -119,7 +121,10 @@ public:
   StructProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size);
   virtual ~StructProperty();
 
+  inline std::shared_ptr<SaveProperty> operator[](std::string& idx) {return c_members[idx];};
+
 private:
+  std::map<std::string, std::shared_ptr<SaveProperty> > c_members;
 };
 
 class EnumProperty: public SaveProperty {
@@ -144,5 +149,18 @@ public:
 
 private:
   float c_value;
+};
+
+class BoolProperty: public SaveProperty {
+public:
+  BoolProperty() = delete;
+  BoolProperty(const BoolProperty&) = delete;
+  BoolProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size);
+  virtual ~BoolProperty();
+
+  inline bool value() const {return c_value;};
+
+private:
+  bool c_value;
 };
 #endif

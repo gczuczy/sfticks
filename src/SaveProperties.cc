@@ -12,7 +12,8 @@ static std::map<std::string, PropertyType> g_propmap = {
   {"StrProperty", PropertyType::StrProperty},
   {"StructProperty", PropertyType::StructProperty},
   {"EnumProperty", PropertyType::EnumProperty},
-  {"FloatProperty", PropertyType::FloatProperty}
+  {"FloatProperty", PropertyType::FloatProperty},
+  {"BoolProperty", PropertyType::BoolProperty}
 };
 
 SaveProperty::SaveProperty(std::string& _name, std::string& _type, int32_t _index): c_name(_name), c_index(_index) {
@@ -34,8 +35,6 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
   if ( _reader.eof() )
     return std::shared_ptr<SaveProperty>(0);
   try {
-    _reader.debug(128);
-    _reader.dump("/tmp/saveojbj.dump");
     _reader(name)(type);
   } catch (Exception &e) {
     printf("SaveProperty exception: %s\n", e.what());
@@ -50,14 +49,16 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
 #endif
   //throw Exception("blah");
 
-  if ( name == "None" && type == "" )
+  if ( name == "None" || type == "None" )
     return std::shared_ptr<SaveProperty>(0);
 
   _reader(size)(index);
 
   auto it = g_propmap.find(type);
   if ( it == g_propmap.end() ) {
-    printf("PropertyType not found: %s\n", type.c_str());
+    _reader.debug(32);
+    _reader.dump("/tmp/unprop.dump");
+    printf("PropertyType not found: %s for name %s\n", type.c_str(), name.c_str());
     throw Exception("Unknown property type");
   }
 #if 0
@@ -85,6 +86,8 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(PropertyType _type, Reader& 
     return std::make_shared<EnumProperty>(_name, _reader, _index, _size);
   } else if ( _type == PropertyType::FloatProperty ) {
     return std::make_shared<FloatProperty>(_name, _reader, _index, _size);
+  } else if ( _type == PropertyType::BoolProperty ) {
+    return std::make_shared<BoolProperty>(_name, _reader, _index, _size);
   } else {
     throw Exception("Not implemented yet");
   }
@@ -109,11 +112,12 @@ IntProperty::IntProperty(std::string& _name, Reader& _reader, int32_t _index, in
 IntProperty::~IntProperty() {
 }
 
-ObjectProperty::ObjectProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size): SaveProperty(_name, _index) {
+ObjectProperty::ObjectProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size,
+			       bool _skip): SaveProperty(_name, _index) {
   c_type = PropertyType::ObjectProperty;
 
   try {
-    _reader.skip(1);
+    if ( _skip ) _reader.skip(1);
     _reader(c_levelname)(c_pathname);
   } catch (Exception &e) {
     printf("ObjectProperty exception: %s\n", e.what());
@@ -175,10 +179,16 @@ ArrayProperty::ArrayProperty(std::string& _name, Reader& _reader, int32_t _index
 
     for (int i=0; i<count; ++i ) {
       std::string name = c_name + std::string(".") + std::to_string(i);
-#if 0
-      c_data.push_back(std::make_shared<StructProperty>(name, areader, i, ));
-#endif
       c_data.push_back(SaveProperty::factory(areader));
+    }
+  } else if ( c_valuetype == PropertyType::ObjectProperty ) {
+    int32_t count;
+    areader(count);
+    printf("Member count: %i\n", count);
+
+    for (int i=0; i<count; ++i ) {
+      std::string name = c_name + std::string(".") + std::to_string(i);
+      c_data.push_back(std::make_shared<ObjectProperty>(name, areader, i, 0, false));
     }
   } else {
     printf("ArrayProperty has unimplemented valuetype %s\n", valuetype.c_str());
@@ -236,7 +246,10 @@ StrProperty::~StrProperty() {
 StructProperty::StructProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size): SaveProperty(_name, _index) {  c_type = PropertyType::StructProperty;
 
   std::string name;
-  //_reader.debug(128);
+  /*
+  _reader.dump("/tmp/prop.struct");
+  _reader.debug(128);
+  */
   try {
   _reader(name).skip(4*4+1);
   } catch (Exception &e) {
@@ -247,11 +260,9 @@ StructProperty::StructProperty(std::string& _name, Reader& _reader, int32_t _ind
 
   std::shared_ptr<SaveProperty> obj;
   while ( (obj = SaveProperty::factory(_reader)) ) {
-    
+    //printf("  Struct member: %s/%i\n", obj->name().c_str(), obj->index());
+    c_members[obj->name()] = obj;
   }
-  //_reader.debug(128);
-
-  throw Exception("foo");
 }
 
 StructProperty::~StructProperty() {
@@ -290,4 +301,18 @@ FloatProperty::FloatProperty(std::string& _name, Reader& _reader, int32_t _index
 }
 
 FloatProperty::~FloatProperty() {
+}
+
+BoolProperty::BoolProperty(std::string& _name, Reader& _reader, int32_t _index, int32_t _size): SaveProperty(_name, _index) {
+  int8_t v;
+  _reader(v).skip(1);
+  c_value = v>0;
+#ifdef SFT_DEBUG
+  printf("Loaded Bool %s: %c\n",
+	 c_name.c_str(),
+	 c_value?'t':'f');
+#endif
+}
+
+BoolProperty::~BoolProperty() {
 }
