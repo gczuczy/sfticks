@@ -121,7 +121,6 @@ void Loader::parse() {
     data(len);
     Reader prop(data, len);
 
-    prop.dump("/tmp/prop1.dump");
     try {
       c_world[i]->loadProperties(prop);
     }

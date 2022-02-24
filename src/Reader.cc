@@ -27,8 +27,10 @@ Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_
 Reader::~Reader() {
 }
 
-Reader& Reader::debug(uint64_t _lookahead) {
-  printf("curr pos: %lu / 0x%lx\n", c_pos, c_pos);
+Reader& Reader::debug(uint64_t _lookahead, std::string _label) {
+  if ( _label.length() ) printf("%s curr pos: %lu / 0x%lx\n", _label.c_str(), c_pos, c_pos);
+  else printf("curr pos: %lu / 0x%lx\n", c_pos, c_pos);
+
   for (uint64_t i=0; i<_lookahead && c_pos+i<c_len; ++i ) {
     if ( i ) {
       if ( i%16 == 0 ) printf("\n");
@@ -132,7 +134,7 @@ char* Reader::pass(uint64_t _len) {
   return c_buffer+ppos;
 }
 
-void Reader::dump(const std::string _file) {
+Reader& Reader::dump(const std::string _file) {
   int fd;
 
   printf("Reader::dump(%s), %li bytes\n", _file.c_str(), c_len);
@@ -143,6 +145,7 @@ void Reader::dump(const std::string _file) {
   write(fd, c_buffer, c_len);
 
   close(fd);
+  return *this;
 }
 
 ChunkReader::ChunkReader(Reader &_reader): c_reader(_reader) {

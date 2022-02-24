@@ -18,7 +18,7 @@ public:
   Reader(char *_buffer, uint64_t _len);
   virtual ~Reader();
 
-  Reader& debug(uint64_t _lookahead);
+  Reader& debug(uint64_t _lookahead, std::string _label="");
   inline uint64_t pos() const {return c_pos;};
   inline uint64_t len() const {return c_len;};
   inline bool eof() const {return c_pos >= c_len;};
@@ -33,17 +33,17 @@ public:
   Reader& fetch(std::string& _val);
   char* pass(uint64_t _len);
 
-  void dump(const std::string _file);
+  Reader& dump(const std::string _file);
 
   // quickhand ops
-  inline Reader &operator()(int8_t& _v) {return fetch(_v);};
-  inline Reader &operator()(int32_t& _v) {return fetch(_v);};
-  inline Reader &operator()(int64_t& _v) {return fetch(_v);};
-  inline Reader &operator()(float& _v) {return fetch(_v);};
-  inline Reader &operator()(Vector2& _v) {return fetch(_v);};
-  inline Reader &operator()(Vector3& _v) {return fetch(_v);};
-  inline Reader &operator()(Vector4& _v) {return fetch(_v);};
-  inline Reader &operator()(std::string& _v) {return fetch(_v);};
+  inline Reader& operator()(int8_t& _v) {return fetch(_v);};
+  inline Reader& operator()(int32_t& _v) {return fetch(_v);};
+  inline Reader& operator()(int64_t& _v) {return fetch(_v);};
+  inline Reader& operator()(float& _v) {return fetch(_v);};
+  inline Reader& operator()(Vector2& _v) {return fetch(_v);};
+  inline Reader& operator()(Vector3& _v) {return fetch(_v);};
+  inline Reader& operator()(Vector4& _v) {return fetch(_v);};
+  inline Reader& operator()(std::string& _v) {return fetch(_v);};
 
 private:
   void lencheck(int64_t _l);
