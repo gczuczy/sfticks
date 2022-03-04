@@ -7,29 +7,88 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
+#include <boost/functional/hash.hpp>
+
 #include "Reader.hh"
 #include "Exception.hh"
 
 #define CHUNK_MAGIC ((int64_t)0x9e2a83c1)
 
-// Reader
-Reader::Reader(): c_buffer(0), c_len(0), c_pos(0) {
+std::string hexhash(const std::string& _str) {
+  boost::hash<std::string> strhash;
+  char buff[32];
+  int len;
+
+  size_t h = strhash(_str);
+  len = snprintf(buff, 31, "%04zx", h);
+  return std::string(buff, len);
 }
 
-Reader::Reader(Reader& _parent, uint64_t len): c_pos(0) {
+bool Reader::c_in_exception(false);
+uint32_t Reader::c_id_idx(0);
+
+// Reader
+Reader::Reader(): c_buffer(0), c_len(0), c_pos(0), c_hasparent(false) {
+  c_id = ++c_id_idx;
+}
+
+Reader::Reader(Reader& _parent, uint64_t len, std::string _file, int _line, std::string _comment)
+  : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
+  c_id = ++c_id_idx;
   c_buffer = _parent.pass(len);
   c_len = len;
+  c_parent_file = _parent.c_file;
+  c_parent_line = _parent.c_line;
+  c_parent_comment = _parent.c_comment;
+  c_parent_id = _parent.c_id;
 }
 
-Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_pos(0) {
+Reader::Reader(Reader& _parent, const std::string _mark, uint64_t len, std::string _file, int _line,
+	       std::string _comment)
+  : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
+  c_id = ++c_id_idx;
+  c_pos = _parent.offset(_mark);
+  c_buffer = _parent.pass(_mark, len);
+  c_len = len;
+  c_parent_file = _parent.c_file;
+  c_parent_line = _parent.c_line;
+  c_parent_comment = _parent.c_comment;
+  c_parent_id = _parent.c_id;
 }
 
-Reader::~Reader() {
+Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_pos(0), c_hasparent(false) {
+  c_id = ++c_id_idx;
+}
+
+Reader::~Reader() noexcept(false) {
+  if ( c_in_exception ) return;
+  if ( c_pos < c_len ) {
+    printf(" ! Unused content in reader(%u) from %s:%i - %s\n",
+	   c_id, c_file.c_str(), c_line, c_comment.c_str());
+    printf(" Pos: %li / 0x%lx\n Len: %li / 0x%lx\n",
+	   c_pos, c_pos,
+	   c_len, c_len);
+    if ( c_hasparent )
+      printf(" Parent(%u): %s:%i - %s\n",
+	     c_id, c_file.c_str(), c_line, c_comment.c_str());
+    std::string hash = hexhash(std::string(c_buffer, c_len));
+
+    debug(128);
+    dump(std::string("/tmp/")+hash+std::string(".dump"));
+    c_in_exception = true;
+    throw Exception("Reader has unused content");
+  }
 }
 
 Reader& Reader::debug(uint64_t _lookahead, std::string _label) {
-  if ( _label.length() ) printf("%s curr pos: %lu / 0x%lx\n", _label.c_str(), c_pos, c_pos);
-  else printf("curr pos: %lu / 0x%lx\n", c_pos, c_pos);
+  if ( _label.length() ) printf("Reader(%u) curr pos: %lu / 0x%lx\t%s\n     len: %lu / 0x%lx\n",
+				c_id,
+				c_pos, c_pos, _label.c_str(),
+				c_len, c_len);
+  else printf("Reader(%u) curr pos: %lu / 0x%lx\n     len: %lu / 0x%lx\n",
+	      c_id,
+	      c_pos, c_pos,
+	      c_len, c_len);
 
   for (uint64_t i=0; i<_lookahead && c_pos+i<c_len; ++i ) {
     if ( i ) {
@@ -41,6 +100,13 @@ Reader& Reader::debug(uint64_t _lookahead, std::string _label) {
   }
   printf("\n");
 
+  // marks
+  if ( !c_marks.empty() ) {
+    printf(" Markings:\n");
+    for (auto it = c_marks.begin(); it != c_marks.end(); ++it)
+      printf("  - %s: %lu\n", it->first.c_str(), it->second);
+  }
+
   return *this;
 }
 
@@ -48,10 +114,18 @@ void Reader::lencheck(int64_t _l) {
   if ( c_pos + _l > c_len ) {
     char buff[128];
     int len;
-    len = snprintf(buff, 128, "Reader::lencheck pos(%li) + l(%li) > len(%li)\n",
-		   c_pos, _l, c_len);
+    len = snprintf(buff, 128, "Reader(%u)::lencheck pos(%li) + l(%li) > len(%li)\n",
+		   c_id, c_pos, _l, c_len);
     throw Exception(std::string(buff, len));
   }
+}
+
+uint64_t Reader::offset(const std::string& _mark) {
+  auto it = c_marks.find(_mark);
+  if ( it == c_marks.end() ) {
+    EXCEPTION("Mark not found");
+  }
+  return c_pos - it->second;
 }
 
 Reader& Reader::fetch(int8_t& _val) {
@@ -121,7 +195,7 @@ Reader& Reader::fetch(std::string& _val) {
     _val = std::string((const char*)(c_buffer+c_pos), (-2*len)-1);
     c_pos += -2*len;
   } else {
-    _val.empty();
+    _val.clear();
   }
   
   return *this;
@@ -134,10 +208,19 @@ char* Reader::pass(uint64_t _len) {
   return c_buffer+ppos;
 }
 
+char* Reader::pass(const std::string& _mark, uint64_t _len) {
+  auto it = c_marks.find(_mark);
+  if ( it == c_marks.end() ) {
+    EXCEPTION("No such mark");
+  }
+  c_pos = it->second;
+  return pass(_len);
+}
+
 Reader& Reader::dump(const std::string _file) {
   int fd;
 
-  printf("Reader::dump(%s), %li bytes\n", _file.c_str(), c_len);
+  printf("Reader(%u)::dump(%s), %li bytes\n", c_id, _file.c_str(), c_len);
   if ( (fd = open(_file.c_str(), O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1 ) {
     throw Exception("open() failed");
   }

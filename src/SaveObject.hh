@@ -6,7 +6,7 @@
 #include <list>
 
 #include "Reader.hh"
-#include "SaveProperties.hh"
+#include "SaveProperty.hh"
 
 class SaveObject {
 public:

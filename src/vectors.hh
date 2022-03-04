@@ -4,6 +4,8 @@
 
 #include <stdint.h>
 
+#include <string>
+
 class Vector2 {
 public:
   Vector2();
@@ -11,6 +13,8 @@ public:
 
   inline float x() const {return c_x;};
   inline float y() const {return c_y;};
+
+  std::string str() const;
 
 private:
   float c_x,c_y;
@@ -25,6 +29,7 @@ public:
   inline float y() const {return c_y;};
   inline float z() const {return c_z;};
 
+  std::string str() const;
 private:
   float c_x, c_y, c_z;
 };
@@ -39,6 +44,7 @@ public:
   inline float z() const {return c_z;};
   inline float w() const {return c_w;};
 
+  std::string str() const;
 private:
   float c_x, c_y, c_z, c_w;
 };

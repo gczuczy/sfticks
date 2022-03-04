@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "SaveObject.hh"
-#include "SaveProperties.hh"
+#include "SaveProperty.hh"
 
 SaveObject::SaveObject(Reader &_reader) {
   _reader
