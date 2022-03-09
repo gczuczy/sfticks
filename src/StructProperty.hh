@@ -12,7 +12,7 @@ class StructProperty: public SaveProperty {
 public:
   class Header: public SaveProperty::Header {
   public:
-    Header(Reader &_, std::string _name, int32_t _index);
+    Header(Reader &_, std::string _name, int32_t _index, bool _nested=false);
     Header(std::string _strtype, std::string _name, int32_t _index);
     virtual ~Header();
 

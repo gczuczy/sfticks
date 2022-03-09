@@ -12,7 +12,7 @@ OUT=../bin/sfticks
 OUT_ZL=../bin/zltest
 
 .if defined(DEBUG)
-CXXFLAGS+= -O0 -DSFT_DEBUG -ferror-limit=1
+CXXFLAGS+= -O0 -DSFT_DEBUG -ferror-limit=2
 .else
 CXXFLAGS+= -O2
 .endif

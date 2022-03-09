@@ -55,11 +55,11 @@ PropertyType ptype(const std::string &_v) {
 }
 
 SaveProperty::Header::Header(PropertyType _pt, Reader &_r, std::string& _name, int32_t _index)
-  : c_ptype(_pt), c_name(_name), c_index(_index){
+  : c_ptype(_pt), c_name(_name), c_index(_index), c_len(0) {
 };
 
 SaveProperty::Header::Header(PropertyType _pt, std::string& _name, int32_t _index)
-  : c_ptype(_pt), c_name(_name), c_index(_index){
+  : c_ptype(_pt), c_name(_name), c_index(_index), c_len(0) {
 }
 
 SaveProperty::Header::~Header() {
@@ -68,7 +68,14 @@ SaveProperty::Header::~Header() {
 std::shared_ptr<SaveProperty::Header> SaveProperty::Header::factory(Reader &_r, PropertyType _pt,
 						      std::string _name, int32_t _index) {
   TRACE;
-  t.detail("proptype", _pt);
+  t.detail("proptype", _pt)
+    .detail("name", _name)
+    .detail("index", _index)
+    .detail("reader", _r.id())
+    .detail("readerpos", _r.pos())
+    .detail("readerlen", _r.len());
+  
+  t.debug();
   if ( _pt == PropertyType::IntProperty ) {
     return std::make_shared<IntProperty::Header>(_r, _name, _index);
   } else if ( _pt == PropertyType::ObjectProperty ) {
@@ -135,9 +142,12 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
   int32_t size, index;
 
   TRACE;
-  t.detail("reader", _reader.id());
+  t.detail("reader", _reader.id())
+    .detail("readerpos", _reader.pos())
+    .detail("readerlen", _reader.len());
   //_reader.debug(128, "NameProperty check").dump("/tmp/unprop2.dump");
   t.printf("SaveProperty check pos:%li len:%li\n", _reader.pos(), _reader.len());
+  _reader.dump("");
   if ( _reader.eof() )
     return std::shared_ptr<SaveProperty>(0);
   try {
@@ -147,6 +157,7 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
     t.printf("SaveProperty exception: %s\n", e.what());
     throw e;
   }
+  _reader.debug(32, "SaveProperty::factory name read");
   t.detail("name", name);
 
   if ( name == "None" ) {
@@ -157,6 +168,7 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
     return std::shared_ptr<SaveProperty>(0);
   }
   _reader(type);
+  _reader.debug(32, "SaveProperty::factory type read");
   t.detail("type", type);
 
   //throw Exception("blah");
@@ -198,10 +210,12 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
 	 type.c_str(),
 	 size);
 #endif
-  if ( g_callcounter == 3 ) {
+  if ( g_callcounter == 4 ) {
+    t.debug();
     printf("LOFASZ\n");
     throw Exception("size check");
   }
+  _reader.debug(32, "SaveProperty::factory calling factory(header)");
   return factory(header, freader);
 }
 

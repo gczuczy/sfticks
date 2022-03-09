@@ -5,13 +5,34 @@
 
 #include <set>
 
-StructProperty::Header::Header(Reader &_r, std::string _name, int32_t _index)
+StructProperty::Header::Header(Reader &_r, std::string _name, int32_t _index, bool _nested)
   : SaveProperty::Header(PropertyType::StructProperty, _r, _name, _index) {
-  _r.skip(4+4+1)(c_struct_type);
+  TRACE;
+  t.detail("name", c_name)
+    .detail("type", c_ptype)
+    .detail("index", c_index)
+    .detail("nested", _nested?"yes":"no")
+    .detail("reader", _r.id())
+    .detail("readerpos", _r.pos())
+    .detail("readerlen", _r.len());
+  _r.debug(128, "StructProperty::Header::Header start");
+  if ( _nested ) {
+    _r(c_len).skip(4)(c_struct_type);
+  } else {
+    _r.skip(4+4+1)(c_struct_type);
+  }
+  t.detail("datalen", c_len);
+  t.detail("structtype", c_struct_type);
+  t.debug();
 };
 
 StructProperty::Header::Header(std::string _strtype, std::string _name, int32_t _index)
   : SaveProperty::Header(PropertyType::StructProperty, _name, _index), c_struct_type(_strtype) {
+  TRACE;
+  t.detail("name", c_name)
+    .detail("type", c_ptype)
+    .detail("index", c_index)
+    .detail("structtype", c_struct_type);
 }
 
 StructProperty::Header::~Header() {
@@ -107,10 +128,22 @@ void StructProperty::parse(Reader& _reader) {
     }
 #endif
     std::shared_ptr<SaveProperty> obj;
-    while ( (obj = SaveProperty::factory(_reader)) ) {
-      t.printf("  Struct member: %s/%i\n", obj->name().c_str(), obj->index());
-      c_members[obj->name()] = obj;
+    _reader.debug(32, "struct-generic").dump("/tmp/struct-generic.dump");
+    try {
+      while ( !_reader.eof() && (obj = SaveProperty::factory(_reader)) ) {
+	t.printf("  Struct member: %s/%i\n", obj->name().c_str(), obj->index());
+	c_members[obj->name()] = obj;
+	_reader.debug(32, "struct-generic-after");
+      }
     }
+    catch (Exception &e) {
+      printf("!!! - START -  Struct-Generic exception: %s\n", e.what());
+      _reader.debug(32, "struct-generic-e").dump("/tmp/struct-generic-e.dump");
+      t.debug();
+      printf("!!! - END - Struct-Generic exception: %s\n", e.what());
+      throw e;
+    }
+    _reader.debug(32, "struct-generic-end");
   }
 #ifdef SFT_DEBUG
   t.printf("Loaded StructProperty %s\n", c_name.c_str());

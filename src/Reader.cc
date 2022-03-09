@@ -27,33 +27,42 @@ std::string hexhash(const std::string& _str) {
 bool Reader::c_in_exception(false);
 uint32_t Reader::c_id_idx(0);
 
-// Reader
 Reader::Reader(): c_buffer(0), c_len(0), c_pos(0), c_hasparent(false) {
   c_id = ++c_id_idx;
 }
 
-Reader::Reader(Reader& _parent, uint64_t len, std::string _file, int _line, std::string _comment)
+Reader::Reader(Reader& _parent, uint64_t _len, std::string _file, int _line, std::string _comment)
   : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
   c_id = ++c_id_idx;
-  c_buffer = _parent.pass(len);
-  c_len = len;
+  c_buffer = _parent.pass(_len);
+  c_len = _len;
   c_parent_file = _parent.c_file;
   c_parent_line = _parent.c_line;
   c_parent_comment = _parent.c_comment;
   c_parent_id = _parent.c_id;
+#ifdef SFT_DEBUG
+  char buff[128];
+  int blen = snprintf(buff, 127, "/tmp/reader-%u.dump", c_id);
+  dump(std::string(buff, blen));
+#endif
 }
 
-Reader::Reader(Reader& _parent, const std::string _mark, uint64_t len, std::string _file, int _line,
+Reader::Reader(Reader& _parent, const std::string _mark, uint64_t _len, std::string _file, int _line,
 	       std::string _comment)
   : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
   c_id = ++c_id_idx;
   c_pos = _parent.offset(_mark);
-  c_buffer = _parent.pass(_mark, len);
-  c_len = len;
+  c_buffer = _parent.pass(_mark, _len);
+  c_len = _len;
   c_parent_file = _parent.c_file;
   c_parent_line = _parent.c_line;
   c_parent_comment = _parent.c_comment;
   c_parent_id = _parent.c_id;
+#ifdef SFT_DEBUG
+  char buff[128];
+  int blen = snprintf(buff, 127, "/tmp/reader-%i.dump", c_id);
+  dump(std::string(buff, blen));
+#endif
 }
 
 Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_pos(0), c_hasparent(false) {
@@ -71,9 +80,9 @@ Reader::~Reader() noexcept(false) {
     if ( c_hasparent )
       printf(" Parent(%u): %s:%i - %s\n",
 	     c_id, c_file.c_str(), c_line, c_comment.c_str());
-    std::string hash = hexhash(std::string(c_buffer, c_len));
 
-    debug(128);
+    std::string hash = hexhash(std::string(c_buffer, c_len));
+    debug(128, hash);
     dump(std::string("/tmp/")+hash+std::string(".dump"));
     c_in_exception = true;
     throw Exception("Reader has unused content");
@@ -114,9 +123,11 @@ void Reader::lencheck(int64_t _l) {
   if ( c_pos + _l > c_len ) {
     char buff[128];
     int len;
-    len = snprintf(buff, 128, "Reader(%u)::lencheck pos(%li) + l(%li) > len(%li)\n",
+    len = snprintf(buff, 128, "Reader(%u)::lencheck pos(%li) + l(%li) > len(%li)",
 		   c_id, c_pos, _l, c_len);
-    throw Exception(std::string(buff, len));
+    std::string msg(buff, len);
+    debug(32, msg);
+    EXCEPTION(msg);
   }
 }
 

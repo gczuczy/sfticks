@@ -5,6 +5,7 @@
 
 ObjectProperty::Header::Header(Reader &_r, std::string _name, int32_t _index)
   : SaveProperty::Header(PropertyType::ObjectProperty, _r, _name, _index) {
+  _r.skip(1);
 }
 
 ObjectProperty::Header::Header(std::string _name, int32_t _index)

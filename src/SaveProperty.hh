@@ -51,6 +51,7 @@ protected:
     PropertyType c_ptype;
     std::string c_name;
     int32_t c_index;
+    int32_t c_len;
   }; // Header
 public:
   SaveProperty(const SaveProperty&) = delete;
