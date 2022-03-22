@@ -18,46 +18,46 @@ https://satisfactory.fandom.com/wiki/Resource_Well_Pressurizer#Pressurizer
  */
 // sftick's scope is everything with belts. So only belt-related
 // entites are being implemented for now
-eunm class FGEntityTypes:int32_t {
+enum class FGEntityType : int32_t {
   GenericEntity = 0,
   // belts
-    ConveyorBeltMk1,
-    ConveyorBeltMk2,
-    ConveyorBeltMk3,
-    ConveyorBeltMk4,
-    ConveyorBeltMk5,
-    ConveyorLiftMk1,
-    ConveyorLiftMk2,
-    ConveyorLiftMk3,
-    ConveyorLiftMk4,
-    ConveyorLiftMk5,
+  ConveyorBeltMk1,
+  ConveyorBeltMk2,
+  ConveyorBeltMk3,
+  ConveyorBeltMk4,
+  ConveyorBeltMk5,
+  ConveyorLiftMk1,
+  ConveyorLiftMk2,
+  ConveyorLiftMk3,
+  ConveyorLiftMk4,
+  ConveyorLiftMk5,
   // production units, "converters"
-    AssemblerMk1,
-    Blender,
-    ConstructorMk1,
-    FoundryMk1,
-    HadronCollider,
-    ManufacturerMk1,
-    OilRefinery,
-    Packager,
-    SmelterMk1,
+  AssemblerMk1,
+  Blender,
+  ConstructorMk1,
+  FoundryMk1,
+  HadronCollider,
+  ManufacturerMk1,
+  OilRefinery,
+  Packager,
+  SmelterMk1,
   // miners
-    MinerMk1,
-    MinerMk2,
-    MinerMk3,
+  MinerMk1,
+  MinerMk2,
+  MinerMk3,
   // generators
-    GeneratorCoal,
-    GeneratorFuel,
-    GeneratorNuclear,
+  GeneratorCoal,
+  GeneratorFuel,
+  GeneratorNuclear,
   // storage units and transportation
-    DroneStation,
-    StorageContainerMk1,
-    StorageContainerMk2,
-    TrainDockingStation,
+  DroneStation,
+  StorageContainerMk1,
+  StorageContainerMk2,
+  TrainDockingStation,
   // sinks
-    ResourceSink,
-    SpaceElevator,
-}
+  ResourceSink,
+  SpaceElevator,
+};
 
 class FGEntity: public FGObjectHeader {
   FGEntity()=delete;
@@ -66,13 +66,13 @@ public:
   virtual ~FGEntity();
 
   FGEntity& associate(FGComponentSP _component);
-  inline entityType() const {return c_entity_type;};
+  inline FGEntityType entityType() const {return c_entity_type;};
 
 private:
   virtual void deserialize(Reader &_reader);
 
 private:
-  FGEntityTypes c_entity_type;
+  FGEntityType c_entity_type;
 
 protected:
   int32_t c_needtransform;
