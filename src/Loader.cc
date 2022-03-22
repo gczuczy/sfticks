@@ -1,8 +1,6 @@
 
 #include "Loader.hh"
 #include "Exception.hh"
-#include "SaveEntity.hh"
-#include "SaveComponent.hh"
 #include "Reader.hh"
 #include "Trace.hh"
 
@@ -20,7 +18,7 @@
 #include <sys/endian.h>
 #endif
 
-Loader::Loader(const std::string &_file, SaveWorld& _world): c_world(_world), c_filename(_file) {
+Loader::Loader(const std::string &_file): c_filename(_file) {
   TRACE;
 
   t.printf("Loading save file: %s\n", c_filename.c_str());
@@ -52,40 +50,30 @@ Loader::~Loader() {
   munmap(c_save, c_savesize);
 }
 
-void Loader::parse() {
-  // first check the header
-  Reader headers(c_save, c_savesize);
+std::shared_ptr<World> Loader::parse() {
   TRACE;
+  std::shared_ptr<World> world;
+  Reader headers(c_save, c_savesize);
+  World::Header world_header;
 
-  headers
-    .fetch(c_header_version)
-    .fetch(c_save_version)
-    .fetch(c_build_version)
-    .fetch(c_world_type)
-    .fetch(c_world_properties)
-    .fetch(c_session_name)
-    .fetch(c_playtime)
-    .fetch(c_save_date)
-    .fetch(c_visiblity)
-    .fetch(c_editor_object_version)
-    .fetch(c_mod_metadata)
-    .fetch(c_mod_flags);
+  world_header.deserialize(headers);
+  world = std::make_shared<World>(world_header);
+  
+  auto data = ChunkReader(headers);
+  try {
+    world->deserialize(data);
+  }
+  catch (Exception& e) {
+    printf("World->deserialize exception: %s\n", e.what());
+    throw e;
+  }
 
-  t.printf("Header version: %i\n", c_header_version);
-  t.printf("Save version: %i\n", c_save_version);
-  t.printf("Build version: %i\n", c_build_version);
-  t.printf("World type: %s\n", c_world_type.c_str());
-  t.printf("World properties: %s\n", c_world_properties.c_str());
-  t.printf("Session name: %s\n", c_session_name.c_str());
-  t.printf("Play time: %i seconds\n", c_playtime);
-  t.printf("Save date: %li ticks\n", c_save_date);
-  t.printf("Visibility: %i\n", c_visiblity);
-  t.printf("Editor Object Version: %i\n", c_editor_object_version);
-  t.printf("Mod metadata: %s\n", c_mod_metadata.c_str());
-  t.printf("Mod flags: %i\n", c_mod_flags);
+  return world;
+  /*
+  // first check the header
+
 
   // chunk
-  auto data = ChunkReader(headers);
 
   //data.dump(std::string("/tmp/sf_")+c_session_name);
 
@@ -109,6 +97,7 @@ void Loader::parse() {
     c_world.add(obj);
   }
   t.printf("Loaded %i world objects\n", c_world_object_count);
+  return;
 
   // read world ojbect properties
   data.fetch(c_world_object_property_count);
@@ -141,5 +130,5 @@ void Loader::parse() {
       throw Exception("Prop buffer not empty");
     }
   } // for world object property
-
+  */
 }

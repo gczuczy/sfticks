@@ -2,11 +2,14 @@ INCPATH=-I/usr/local/include
 CXXFLAGS=-Werror -pedantic -std=c++20 -Wno-c11-extensions $(INCPATH)
 LDFLAGS=-L/usr/local/lib -pthread -lboost_program_options -lz
 
-OBJS=main.o Loader.o Exception.o Timer.o SaveObject.o SaveEntity.o vectors.o SaveComponent.o \
-	SaveWorld.o Reader.o ObjectReference.o Trace.o SaveProperty.o IntProperty.o \
+PROPERTY_OBJS=SaveProperty.o IntProperty.o \
 	ObjectProperty.o ArrayProperty.o InterfaceProperty.o StrProperty.o StructProperty.o \
 	EnumProperty.o FloatProperty.o BoolProperty.o TextProperty.o NameProperty.o ByteProperty.o \
-	Int64Property.o MapProperty.o
+	Int64Property.o MapProperty.o SaveWorld.o SaveComponent.o SaveObject.o SaveEntity.o ObjectReference.o
+
+OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o World.o SavePropertyType.o \
+	FGObjectHeader.o misc.o FGEntity.o FGGenericEntity.o FGComponent.o FGGenericComponent.o FGBuilding.o \
+	FGConveyorBelt.o
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
 OUT_ZL=../bin/zltest

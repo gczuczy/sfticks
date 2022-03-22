@@ -147,7 +147,7 @@ std::shared_ptr<SaveProperty> SaveProperty::factory(Reader& _reader) {
     .detail("readerlen", _reader.len());
   //_reader.debug(128, "NameProperty check").dump("/tmp/unprop2.dump");
   t.printf("SaveProperty check pos:%li len:%li\n", _reader.pos(), _reader.len());
-  _reader.dump("");
+  _reader.dump("/tmp/lofasz");
   if ( _reader.eof() )
     return std::shared_ptr<SaveProperty>(0);
   try {

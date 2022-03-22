@@ -9,7 +9,7 @@
 #include <memory>
 #include <list>
 
-#include "SaveProperty.hh"
+#include "SavePropertyType.hh"
 
 #define TRACE Trace t(__FILE__, __LINE__, __PRETTY_FUNCTION__)
 
@@ -24,9 +24,9 @@ public:
   Trace(std::string _file, int _line, std::string _func);
   ~Trace();
 
-  void printf(const char* fmt...);
+  __attribute__((format(printf, 2, 3))) void printf(const char* fmt...);
   Trace& detail(const std::string &_name, const std::string& _value);
-  Trace& detail(const std::string &_name, PropertyType _v);
+  Trace& detail(const std::string &_name, SavePropertyType _v);
   Trace& detail(const std::string &_name, int32_t _v);
   Trace& detail(const std::string &_name, uint32_t _v);
   Trace& detail(const std::string &_name, int64_t _v);

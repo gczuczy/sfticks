@@ -48,14 +48,14 @@ int main(int argc, char *argv[]) {
   }
 
   // the world we'll load it into
-  SaveWorld sworld;
+  std::shared_ptr<World> world;
 
   // parse the file
   try {
     Timer tl("Loader");
-    Loader *l = new Loader(filename, sworld);
+    Loader *l = new Loader(filename);
 
-    l->parse();
+    world = l->parse();
   }
   catch (Exception &e) {
     printf("Caught exception: %s\n", e.what());

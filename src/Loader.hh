@@ -2,29 +2,31 @@
 #ifndef SFT_LOADER_H
 #define SFT_LOADER_H
 
-#include <string>
 #include <stdint.h>
 
-#include "SaveWorld.hh"
+#include <string>
+#include <memory>
+
+#include "World.hh"
 
 class Loader {
 public:
   Loader()=delete;
-  Loader(const std::string& _file, SaveWorld& _world);
+  Loader(const std::string& _file);
   ~Loader();
 
-  void parse();
+  std::shared_ptr<World> parse();
 
   public:
 
 private:
-  SaveWorld &c_world;
   std::string c_filename;
   int c_fd;
   uint64_t c_savesize;
   char *c_save;
 
   // headers
+  /*
   int32_t c_header_version;
   int32_t c_save_version;
   int32_t c_build_version;
@@ -38,6 +40,7 @@ private:
   std::string c_mod_metadata;
   int32_t c_mod_flags;
   int32_t c_world_object_count, c_world_object_property_count, c_world_collected_object_count;
+  */
 };
 
 #endif

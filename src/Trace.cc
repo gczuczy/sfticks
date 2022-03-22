@@ -45,7 +45,7 @@ Trace& Trace::detail(const std::string &_name, const std::string& _value) {
   return *this;
 }
 
-Trace& Trace::detail(const std::string &_name, PropertyType _v) {
+Trace& Trace::detail(const std::string &_name, SavePropertyType _v) {
   c_data->details[_name] = ptypestr(_v);
   return *this;
 }
