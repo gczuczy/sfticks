@@ -9,7 +9,8 @@ PROPERTY_OBJS=SaveProperty.o IntProperty.o \
 
 OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o World.o SavePropertyType.o \
 	FGObjectHeader.o misc.o FGEntity.o FGGenericEntity.o FGComponent.o FGGenericComponent.o FGBuilding.o \
-	FGConveyorBelt.o
+	FGConveyorBelt.o FGConveyorBeltMk1.o FGConveyorBeltMk2.o FGConveyorBeltMk3.o FGConveyorBeltMk4.o \
+	FGConveyorBeltMk5.o
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
 OUT_ZL=../bin/zltest

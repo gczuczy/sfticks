@@ -5,3 +5,6 @@ FGConveyorBelt::FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader
   : FGBuilding(_et, _reader, _fgoh), c_throughput(_throughput) {
 }
 
+FGConveyorBelt::~FGConveyorBelt() {
+}
+

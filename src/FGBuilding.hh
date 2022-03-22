@@ -8,7 +8,7 @@ class FGBuilding: public FGEntity {
 public:
   FGBuilding()=delete;
   FGBuilding(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGBuilding()=0;
+  virtual ~FGBuilding();
 
 private:
   //virtual void deserialize(Reader &_reader);

@@ -7,6 +7,11 @@
 #include "misc.hh"
 #include "FGGenericEntity.hh"
 #include "FGGenericComponent.hh"
+#include "FGConveyorBeltMk1.hh"
+#include "FGConveyorBeltMk2.hh"
+#include "FGConveyorBeltMk3.hh"
+#include "FGConveyorBeltMk4.hh"
+#include "FGConveyorBeltMk5.hh"
 
 #include <set>
 #include <iostream>
@@ -84,11 +89,31 @@ void World::deserialize(Reader &_reader) {
 
     FGObjectHeader header(_reader);
 
-    printf("Read object header(%i/%i):\n%s", i, c_world_object_count, header.str().c_str());
+    //printf("Read object header(%i/%i):\n%s", i, c_world_object_count, header.str().c_str());
 
     if ( header.isEntity() ) {
       printf("Entity: %s\n", header.FGObjectType().c_str());
-      if ( false ) {
+      printf("%s", header.str().c_str());
+      if ( header.FGObjectType() == "Build_ConveyorBeltMk1_C" ) {
+	auto obj = std::make_shared<FGConveyorBeltMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk2_C" ) {
+	auto obj = std::make_shared<FGConveyorBeltMk2>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk3_C" ) {
+	auto obj = std::make_shared<FGConveyorBeltMk3>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk4_C" ) {
+	auto obj = std::make_shared<FGConveyorBeltMk4>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk5_C" ) {
+	auto obj = std::make_shared<FGConveyorBeltMk5>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
       } else {
 	auto obj = std::make_shared<FGGenericEntity>(_reader, header);
 	c_entities[header.instance()] = obj;
@@ -111,6 +136,7 @@ void World::deserialize(Reader &_reader) {
 
   }
   t.printf("Loaded %i world objects\n", c_world_object_count);
+  t.printf("Belts loaded: %lu\n", c_belts.size());
 
   // associate components with their entities
   t.printf("Associating components with their entites\n");

@@ -10,6 +10,7 @@
 #include "Saveable.hh"
 #include "FGEntity.hh"
 #include "FGComponent.hh"
+#include "FGConveyorBelt.hh"
 
 class World: public Saveable {
 public:
@@ -66,6 +67,8 @@ private:
   std::map<std::string, std::shared_ptr<FGEntity> > c_entities;
   // components
   std::map<std::string, FGComponentSP > c_components;
+  // belts
+  std::map<std::string, FGConveyorBeltSP> c_belts;
 };
 
 #endif

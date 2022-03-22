@@ -30,7 +30,7 @@ FGObjectHeader::~FGObjectHeader() {
 }
 
 bool FGObjectHeader::parse_inststr(const std::string& _str, bool _entity, FGObjectHeader::instdata& _data) {
-#ifdef SFT_DEBUG
+#ifdef SFT_DEBUG_LOADER
   printf("Parsing(entity:%c) %s\n", _entity?'t':'f', _str.c_str());
 #endif
   _data.clear();

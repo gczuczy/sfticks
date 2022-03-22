@@ -8,7 +8,7 @@ class FGConveyorBelt: public FGBuilding {
 public:
   FGConveyorBelt()=delete;
   FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, int32_t _throughput);
-  virtual ~FGConveyorBelt() = 0;
+  virtual ~FGConveyorBelt();
 
   inline int32_t throughput() const {return c_throughput;};
 
@@ -16,5 +16,7 @@ private:
   int32_t c_throughput; // items per minute
   //virtual void deserialize(Reader &_reader);
 };
+
+typedef std::shared_ptr<FGConveyorBelt> FGConveyorBeltSP;
 
 #endif
