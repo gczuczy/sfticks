@@ -31,6 +31,9 @@ enum class FGEntityType : int32_t {
   ConveyorLiftMk3,
   ConveyorLiftMk4,
   ConveyorLiftMk5,
+  ConveyorAttachmentMerger,
+  ConveyorAttachmentSplitterSmart,
+  ConveyorAttachmentSplitter,
   // production units, "converters"
   AssemblerMk1,
   Blender,

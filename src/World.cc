@@ -12,6 +12,14 @@
 #include "FGConveyorBeltMk3.hh"
 #include "FGConveyorBeltMk4.hh"
 #include "FGConveyorBeltMk5.hh"
+#include "FGConveyorLiftMk1.hh"
+#include "FGConveyorLiftMk2.hh"
+#include "FGConveyorLiftMk3.hh"
+#include "FGConveyorLiftMk4.hh"
+#include "FGConveyorLiftMk5.hh"
+#include "FGConveyorAttachmentMerger.hh"
+#include "FGConveyorAttachmentSplitter.hh"
+#include "FGConveyorAttachmentSplitterSmart.hh"
 
 #include <set>
 #include <iostream>
@@ -114,6 +122,38 @@ void World::deserialize(Reader &_reader) {
 	auto obj = std::make_shared<FGConveyorBeltMk5>(_reader, header);
 	c_entities[header.instance()] = obj;
 	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk1_C" ) {
+	auto obj = std::make_shared<FGConveyorLiftMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk2_C" ) {
+	auto obj = std::make_shared<FGConveyorLiftMk2>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk3_C" ) {
+	auto obj = std::make_shared<FGConveyorLiftMk3>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk4_C" ) {
+	auto obj = std::make_shared<FGConveyorLiftMk4>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk5_C" ) {
+	auto obj = std::make_shared<FGConveyorLiftMk5>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belts[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentMerger_C" ) {
+	auto obj = std::make_shared<FGConveyorAttachmentMerger>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belt_logics[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentSplitter_C" ) {
+	auto obj = std::make_shared<FGConveyorAttachmentSplitter>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belt_logics[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentSplitterSmart_C" ) {
+	auto obj = std::make_shared<FGConveyorAttachmentSplitterSmart>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_belt_logics[header.instance()] = obj;
       } else {
 	auto obj = std::make_shared<FGGenericEntity>(_reader, header);
 	c_entities[header.instance()] = obj;
@@ -137,6 +177,7 @@ void World::deserialize(Reader &_reader) {
   }
   t.printf("Loaded %i world objects\n", c_world_object_count);
   t.printf("Belts loaded: %lu\n", c_belts.size());
+  t.printf("Beltlogics loaded: %lu\n", c_belt_logics.size());
 
   // associate components with their entities
   t.printf("Associating components with their entites\n");

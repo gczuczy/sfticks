@@ -11,6 +11,7 @@
 #include "FGEntity.hh"
 #include "FGComponent.hh"
 #include "FGConveyorBelt.hh"
+#include "FGConveyorBeltLogic.hh"
 
 class World: public Saveable {
 public:
@@ -69,6 +70,8 @@ private:
   std::map<std::string, FGComponentSP > c_components;
   // belts
   std::map<std::string, FGConveyorBeltSP> c_belts;
+  // belt logics. splitters/mergers/etc
+  std::map<std::string, FGConveyorBeltLogicSP> c_belt_logics;
 };
 
 #endif
