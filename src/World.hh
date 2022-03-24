@@ -12,6 +12,8 @@
 #include "FGComponent.hh"
 #include "FGConveyorBelt.hh"
 #include "FGConveyorBeltLogic.hh"
+#include "FGIOUnit.hh"
+#include "FGStorageUnit.hh"
 
 class World: public Saveable {
 public:
@@ -72,6 +74,10 @@ private:
   std::map<std::string, FGConveyorBeltSP> c_belts;
   // belt logics. splitters/mergers/etc
   std::map<std::string, FGConveyorBeltLogicSP> c_belt_logics;
+  // IO Units
+  std::map<std::string, FGIOUnitSP> c_iounits;
+  // storage units
+  std::map<std::string, FGStorageUnitSP> c_storage_units;
 };
 
 #endif

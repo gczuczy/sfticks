@@ -95,7 +95,7 @@ bool FGObjectHeader::parse_inststr(const std::string& _str, bool _entity, FGObje
 }
 
 void FGObjectHeader::deserialize(Reader& _reader) {
-  TRACE;
+  //TRACE;
   _reader(c_objtype)(c_name)(c_proptype)(c_instance);
   instdata data;
 

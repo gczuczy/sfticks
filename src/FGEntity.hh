@@ -34,6 +34,10 @@ enum class FGEntityType : int32_t {
   ConveyorAttachmentMerger,
   ConveyorAttachmentSplitterSmart,
   ConveyorAttachmentSplitter,
+  // miners
+  MinerMk1,
+  MinerMk2,
+  MinerMk3,
   // production units, "converters"
   AssemblerMk1,
   Blender,
@@ -44,22 +48,18 @@ enum class FGEntityType : int32_t {
   OilRefinery,
   Packager,
   SmelterMk1,
-  // miners
-  MinerMk1,
-  MinerMk2,
-  MinerMk3,
   // generators
   GeneratorCoal,
   GeneratorFuel,
   GeneratorNuclear,
+  // sinks
+  ResourceSink,
+  SpaceElevator,
   // storage units and transportation
   DroneStation,
   StorageContainerMk1,
   StorageContainerMk2,
   TrainDockingStation,
-  // sinks
-  ResourceSink,
-  SpaceElevator,
 };
 
 class FGEntity: public FGObjectHeader {

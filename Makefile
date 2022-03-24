@@ -12,7 +12,10 @@ OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o W
 	FGConveyorBelt.o FGConveyorBeltMk1.o FGConveyorBeltMk2.o FGConveyorBeltMk3.o FGConveyorBeltMk4.o \
 	FGConveyorBeltMk5.o FGConveyorLiftMk1.o FGConveyorLiftMk2.o FGConveyorLiftMk3.o FGConveyorLiftMk4.o \
 	FGConveyorLiftMk5.o FGConveyorBeltLogic.o FGConveyorAttachmentMerger.o FGConveyorAttachmentSplitter.o \
-	FGConveyorAttachmentSplitterSmart.o
+	FGConveyorAttachmentSplitterSmart.o FGIOUnit.o FGAssemblerMk1.o FGBlender.o FGConstructorMk1.o FGFoundryMk1.o \
+	FGHadronCollider.o FGManufacturerMk1.o FGOilRefinery.o FGPackager.o FGSmelterMk1.o FGGeneratorCoal.o FGGeneratorFuel.o \
+	FGGeneratorNuclear.o FGResourceSink.o FGSpaceElevator.o FGStorageUnit.o FGDroneStation.o FGStorageContainerMk1.o \
+	FGStorageContainerMk2.o FGTrainDockingStation.o
 
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks

@@ -21,13 +21,13 @@ bool strtoint32(const std::string& _str, int32_t& _retval) {
   auto [ptr, ec] {std::from_chars(_str.data(), _str.data()+_str.size(), _retval)};
 
   if ( ec == std::errc::invalid_argument ) {
-#ifdef SFT_DEBUG
+#ifdef SFT_DEBUG_MISC
     printf("Cannot convert '%s' to int\n", _str.c_str());
 #endif
     return false;
     //EXCEPTION("Cannot convert to int");
   } else if ( ec == std::errc::result_out_of_range ) {
-#ifdef SFT_DEBUG
+#ifdef SFT_DEBUG_MISC
     printf("Cannot convert '%s' to int, out of range\n", _str.c_str());
 #endif
     return false;

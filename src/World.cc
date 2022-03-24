@@ -20,6 +20,25 @@
 #include "FGConveyorAttachmentMerger.hh"
 #include "FGConveyorAttachmentSplitter.hh"
 #include "FGConveyorAttachmentSplitterSmart.hh"
+#include "FGAssemblerMk1.hh"
+#include "FGBlender.hh"
+#include "FGConstructorMk1.hh"
+#include "FGFoundryMk1.hh"
+#include "FGHadronCollider.hh"
+#include "FGManufacturerMk1.hh"
+#include "FGOilRefinery.hh"
+#include "FGPackager.hh"
+#include "FGSmelterMk1.hh"
+#include "FGGeneratorCoal.hh"
+#include "FGGeneratorFuel.hh"
+#include "FGGeneratorNuclear.hh"
+#include "FGResourceSink.hh"
+#include "FGSpaceElevator.hh"
+#include "FGDroneStation.hh"
+#include "FGStorageContainerMk1.hh"
+#include "FGStorageContainerMk2.hh"
+#include "FGTrainDockingStation.hh"
+//#include "FG.hh"
 
 #include <set>
 #include <iostream>
@@ -68,7 +87,7 @@ std::string World::Header::str() const {
     strprintf("World properties: %s\n", c_world_properties.c_str()) +
     strprintf("Session name: %s\n", c_session_name.c_str()) +
     strprintf("Play time: %i seconds\n", c_playtime) +
-    strprintf("Save date: %i ticks\n", c_save_version) +
+    strprintf("Save date: %li ticks\n", c_save_date) +
     strprintf("Visibility: %i\n", c_visiblity) +
     strprintf("Editor Object Version: %i\n", c_editor_object_version) +
     strprintf("Mod metadata: %s\n", c_mod_metadata.c_str()) +
@@ -100,8 +119,8 @@ void World::deserialize(Reader &_reader) {
     //printf("Read object header(%i/%i):\n%s", i, c_world_object_count, header.str().c_str());
 
     if ( header.isEntity() ) {
-      printf("Entity: %s\n", header.FGObjectType().c_str());
-      printf("%s", header.str().c_str());
+      //printf("Entity: %s\n", header.FGObjectType().c_str());
+      //printf("%s", header.str().c_str());
       if ( header.FGObjectType() == "Build_ConveyorBeltMk1_C" ) {
 	auto obj = std::make_shared<FGConveyorBeltMk1>(_reader, header);
 	c_entities[header.instance()] = obj;
@@ -154,6 +173,78 @@ void World::deserialize(Reader &_reader) {
 	auto obj = std::make_shared<FGConveyorAttachmentSplitterSmart>(_reader, header);
 	c_entities[header.instance()] = obj;
 	c_belt_logics[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_AssemblerMk1_C" ) {
+	auto obj = std::make_shared<FGAssemblerMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_Blender_C" ) {
+	auto obj = std::make_shared<FGBlender>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ConstructorMk1_C" ) {
+	auto obj = std::make_shared<FGConstructorMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_FoundryMk1_C" ) {
+	auto obj = std::make_shared<FGFoundryMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_HadronCollider_C" ) {
+	auto obj = std::make_shared<FGHadronCollider>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ManufacturerMk1_C" ) {
+	auto obj = std::make_shared<FGManufacturerMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_OilRefinery_C" ) {
+	auto obj = std::make_shared<FGOilRefinery>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_Packager_C" ) {
+	auto obj = std::make_shared<FGPackager>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_SmelterMk1_C" ) {
+	auto obj = std::make_shared<FGSmelterMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_GeneratorCoal_C" ) {
+	auto obj = std::make_shared<FGGeneratorCoal>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_GeneratorFuel_C" ) {
+	auto obj = std::make_shared<FGGeneratorFuel>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_GeneratorNuclear_C" ) {
+	auto obj = std::make_shared<FGGeneratorNuclear>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_ResourceSink_C" ) {
+	auto obj = std::make_shared<FGResourceSink>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_SpaceElevator_C" ) {
+	auto obj = std::make_shared<FGSpaceElevator>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_iounits[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_DroneStation_C" ) {
+	auto obj = std::make_shared<FGDroneStation>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_storage_units[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_StorageContainerMk1_C" ) {
+	auto obj = std::make_shared<FGStorageContainerMk1>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_storage_units[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_StorageContainerMk2_C" ) {
+	auto obj = std::make_shared<FGStorageContainerMk2>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_storage_units[header.instance()] = obj;
+      } else if ( header.FGObjectType() == "Build_TrainDockingStation_C" ) {
+	auto obj = std::make_shared<FGTrainDockingStation>(_reader, header);
+	c_entities[header.instance()] = obj;
+	c_storage_units[header.instance()] = obj;
       } else {
 	auto obj = std::make_shared<FGGenericEntity>(_reader, header);
 	c_entities[header.instance()] = obj;
@@ -178,6 +269,8 @@ void World::deserialize(Reader &_reader) {
   t.printf("Loaded %i world objects\n", c_world_object_count);
   t.printf("Belts loaded: %lu\n", c_belts.size());
   t.printf("Beltlogics loaded: %lu\n", c_belt_logics.size());
+  t.printf("IOUnits loaded: %lu\n", c_iounits.size());
+  t.printf("StorageUnits loaded: %lu\n", c_storage_units.size());
 
   // associate components with their entities
   t.printf("Associating components with their entites\n");
