@@ -10,8 +10,11 @@ public:
   FGResourceSink(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGResourceSink();
 
+  inline float& mProducingTimer() {return c_mProducingTimer;};
+
 private:
   //virtual void deserialize(Reader &_reader);
+  float c_mProducingTimer;
 };
 
 #endif

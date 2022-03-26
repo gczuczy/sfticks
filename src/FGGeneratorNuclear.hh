@@ -2,9 +2,9 @@
 #ifndef SFT_FGGENERATORNUCLEAR_H
 #define SFT_FGGENERATORNUCLEAR_H
 
-#include "FGIOUnit.hh"
+#include "FGGeneratorUnit.hh"
 
-class FGGeneratorNuclear: public FGIOUnit {
+class FGGeneratorNuclear: public FGGeneratorUnit {
 public:
   FGGeneratorNuclear()=delete;
   FGGeneratorNuclear(Reader& _reader, FGObjectHeader& _fgoh);

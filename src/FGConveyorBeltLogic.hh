@@ -14,6 +14,7 @@ public:
   FGConveyorBeltLogic(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConveyorBeltLogic();
 
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

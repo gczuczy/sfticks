@@ -8,3 +8,4 @@ FGConveyorBelt::FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader
 FGConveyorBelt::~FGConveyorBelt() {
 }
 
+

@@ -10,8 +10,12 @@ public:
   FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConveyorAttachmentSplitter();
 
+  inline int32_t& mCurrentOutputIndex() {return c_mCurrentOutputIndex;};
+
+
 private:
   //virtual void deserialize(Reader &_reader);
+  int32_t c_mCurrentOutputIndex;
 };
 
 #endif

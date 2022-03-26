@@ -47,10 +47,10 @@ void Saveable::loadProperties(Reader& _reader) {
   std::string name, proptype;
   int32_t len, idx;
   while ( !_reader.eof() ) {
-    printf("\n\nStarting on next property\n");
-    _reader.dump("/tmp/prop.dump").debug(32, "prop starting");
+    //printf("\n\nStarting on next property\n");
+    //_reader.dump("/tmp/prop.dump").debug(32, "prop starting");
     _reader(name)(proptype);
-    printf("+Read '%s'/'%s'\n", name.c_str(), proptype.c_str());
+    //printf("+Read '%s'/'%s'\n", name.c_str(), proptype.c_str());
 
     // "None" means the end of it
     if ( name == "None" ) break;
@@ -58,14 +58,14 @@ void Saveable::loadProperties(Reader& _reader) {
     _reader(len)(idx);
 
     if ( noskips.find(proptype) == noskips.end() ) {
-      printf(" + skip(1) for %s\n", proptype.c_str());
+      //printf(" + skip(1) for %s\n", proptype.c_str());
       _reader.skip(1);
     } else {
-      printf(" + no skip for %s\n", proptype.c_str());
+      //printf(" + no skip for %s\n", proptype.c_str());
     }
 
     if ( len == 0 ) {
-      _reader.dump("/tmp/prop-len0.dump");
+      //_reader.dump("/tmp/prop-len0.dump");
       len = 1;
     }
 
@@ -88,6 +88,7 @@ void Saveable::loadProperties(Reader& _reader) {
       printf("!! UNHANDLED\n name: '%s'\n proptype: '%s'\n len: %i\n idx: %i\n",
 	     name.c_str(), proptype.c_str(), len, idx);
       printf("%s", str().c_str());
+      _reader.debug(32, "prop pos");
       Reader uh(_reader, len);
       uh.dump("/tmp/unhandled-prop.dump");
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
@@ -99,11 +100,15 @@ void Saveable::loadProperties(Reader& _reader) {
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
     }
 
-    printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
-    
+    //printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
+
     try {
-      Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-      it->second.handler(std::ref(propreader), idx);
+      if ( proptype == "StructProperty" ) {
+	it->second.handler(std::ref(_reader), idx);
+      } else {
+	Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+	it->second.handler(std::ref(propreader), idx);
+      }
     }
     catch (std::exception &e) {
       printf("Exception while calling handler: %s\n", e.what());

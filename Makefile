@@ -15,7 +15,7 @@ OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o W
 	FGConveyorAttachmentSplitterSmart.o FGIOUnit.o FGAssemblerMk1.o FGBlender.o FGConstructorMk1.o FGFoundryMk1.o \
 	FGHadronCollider.o FGManufacturerMk1.o FGOilRefinery.o FGPackager.o FGSmelterMk1.o FGGeneratorCoal.o FGGeneratorFuel.o \
 	FGGeneratorNuclear.o FGResourceSink.o FGSpaceElevator.o FGStorageUnit.o FGDroneStation.o FGStorageContainerMk1.o \
-	FGStorageContainerMk2.o FGTrainDockingStation.o
+	FGStorageContainerMk2.o FGTrainDockingStation.o FGGeneratorUnit.o
 
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks

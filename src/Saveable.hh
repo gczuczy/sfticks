@@ -42,7 +42,7 @@ public:
 protected:
   void defineProperty(const std::string& _propname, const std::string& _proptype, prophfn_t _handler);
   void loadProperties(Reader& _reader);
-  inline void setObjDefDecls(const std::set<std::string>& _odd) {c_objdef_decls = std::move(_odd);};
+  inline void setObjDefDecls(std::set<std::string> _odd) {c_objdef_decls.merge(_odd);};
 
 public:
   virtual void deserialize(Reader& _reader)=0;

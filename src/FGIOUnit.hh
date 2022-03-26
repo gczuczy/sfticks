@@ -13,11 +13,16 @@ class FGIOUnit: public FGBuilding {
 public:
   FGIOUnit()=delete;
   FGIOUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
-  FGIOUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, const std::set<std::string>& _objdefdecls);
   virtual ~FGIOUnit();
+
+  inline float& mCurrentManufacturingProgress() {return c_mCurrentManufacturingProgress;};
+
+private:
+  void defPropLoaders();
 
 private:
   //virtual void deserialize(Reader &_reader);
+  float c_mCurrentManufacturingProgress;
 };
 
 typedef std::shared_ptr<FGIOUnit> FGIOUnitSP;
