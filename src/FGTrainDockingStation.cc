@@ -39,6 +39,10 @@ FGTrainDockingStation::FGTrainDockingStation(Reader& _reader, FGObjectHeader& _f
 		   _r(b);
 		   c_mIsLoadUnloading = b == 1;
 		 });
+  defineProperty("mSavedDockingStatus", "EnumProperty",
+		 [&](Reader& _r, int32_t)->void{
+		   _r(c_mSavedDockingStatus);
+		 });
 }
 
 FGTrainDockingStation::~FGTrainDockingStation() {

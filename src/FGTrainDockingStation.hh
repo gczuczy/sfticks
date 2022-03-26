@@ -18,6 +18,7 @@ public:
   inline bool& mIsInLoadMode() {return c_mIsInLoadMode;};
   inline bool& mHasDockedActor() {return c_mHasDockedActor;};
   inline bool& mIsLoadUnloading() {return c_mIsLoadUnloading;};
+  inline std::string& mSavedDockingStatus() {return c_mSavedDockingStatus;};
 
 private:
   //virtual void deserialize(Reader &_reader);
@@ -25,6 +26,7 @@ private:
   float c_mTimeSinceLastLoadTransferUpdate, c_mTimeSinceLastUnloadTransferUpdate,
     c_mSmoothedLoadRate, c_mSmoothedUnloadRate;
   bool c_mIsOrientationReversed, c_mIsInLoadMode, c_mHasDockedActor, c_mIsLoadUnloading;
+  std::string c_mSavedDockingStatus; // ETrainPlatformDockingStatus
 };
 
 #endif

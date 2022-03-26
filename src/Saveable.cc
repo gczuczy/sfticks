@@ -43,7 +43,7 @@ void Saveable::defineProperty(const std::string& _propname, const std::string& _
 }
 
 void Saveable::loadProperties(Reader& _reader) {
-  std::set<std::string> noskips{"StructProperty"};
+  std::set<std::string> noskips{"StructProperty", "EnumProperty", "ArrayProperty"};
   std::string name, proptype;
   int32_t len, idx;
   while ( !_reader.eof() ) {
@@ -88,7 +88,6 @@ void Saveable::loadProperties(Reader& _reader) {
       printf("!! UNHANDLED\n name: '%s'\n proptype: '%s'\n len: %i\n idx: %i\n",
 	     name.c_str(), proptype.c_str(), len, idx);
       printf("%s", str().c_str());
-      _reader.debug(32, "prop pos");
       Reader uh(_reader, len);
       uh.dump("/tmp/unhandled-prop.dump");
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
@@ -105,6 +104,12 @@ void Saveable::loadProperties(Reader& _reader) {
     try {
       if ( proptype == "StructProperty" ) {
 	it->second.handler(std::ref(_reader), idx);
+      } else if ( proptype == "EnumProperty" ) {
+	std::string enumtype;
+	_reader(enumtype).skip(1);
+	//printf("enumtype: %s\n", enumtype.c_str());
+	Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+	it->second.handler(std::ref(propreader), idx);
       } else {
 	Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
 	it->second.handler(std::ref(propreader), idx);
