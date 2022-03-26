@@ -13,6 +13,7 @@ class FGIOUnit: public FGBuilding {
 public:
   FGIOUnit()=delete;
   FGIOUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
+  FGIOUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, const std::set<std::string>& _objdefdecls);
   virtual ~FGIOUnit();
 
 private:

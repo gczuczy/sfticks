@@ -68,6 +68,7 @@ private:
   FGEntity()=delete;
 public:
   FGEntity(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
+  FGEntity(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, const std::set<std::string>& _objdefdecls);
   virtual ~FGEntity();
 
   FGEntity& associate(FGComponentSP _component);

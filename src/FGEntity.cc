@@ -6,6 +6,12 @@ FGEntity::FGEntity(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh)
   deserialize(_reader);
 }
 
+FGEntity::FGEntity(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, const std::set<std::string>& _objdefdecls)
+  : FGObjectHeader(_fgoh), c_entity_type(_et) {
+  setObjDefDecls(std::move(_objdefdecls));
+  deserialize(_reader);
+}
+
 FGEntity::~FGEntity() {
 }
 

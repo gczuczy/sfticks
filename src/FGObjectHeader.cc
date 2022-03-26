@@ -10,14 +10,6 @@
 #include "Exception.hh"
 
 
-FGObjectHeader::compdef::compdef(std::string _ns, std::string _compname)
-  : ns(std::move(_ns)), compname(std::move(_compname)) {
-}
-
-FGObjectHeader::compdef::compdef(compdef&& other)
-  : ns(std::move(other.ns)), compname(std::move(other.compname)) {
-}
-
 void FGObjectHeader::instdata::clear() {
   str1 = "";
   str2 = "";

@@ -6,6 +6,18 @@
 #include "Exception.hh"
 #include "misc.hh"
 
+Saveable::objdef::objdef(std::string _ns, std::string _compname)
+  : ns(std::move(_ns)), compname(std::move(_compname)) {
+}
+
+Saveable::objdef::objdef(objdef&& other)
+  : ns(std::move(other.ns)), compname(std::move(other.compname)) {
+}
+
+Saveable::objdef::objdef(Reader& _r) {
+  _r(ns)(compname);
+}
+
 Saveable::prophdef::prophdef(std::string _pn, std::string _pt, prophfn_t _h)
   : propname(std::move(_pn)), proptype(std::move(_pt)), handler(_h) {
 }
@@ -15,6 +27,9 @@ Saveable::prophdef::prophdef(prophdef&& other)
 }
 
 Saveable::Saveable() {
+}
+
+Saveable::Saveable(const std::set<std::string>& _objdefdecls): c_objdef_decls(std::move(_objdefdecls)) {
 }
 
 Saveable::~Saveable() {
@@ -38,12 +53,27 @@ void Saveable::loadProperties(Reader& _reader) {
 
     _reader(len)(idx).skip(1);
 
+    // first special-case objdefs
+    if ( proptype == "ObjectProperty" ) {
+      auto oit = c_objdef_decls.find(name);
+      if ( oit != c_objdef_decls.end() ) {
+	// so it's both and ObjectProperty, and it's
+	// also defined to use this mechanics
+	Reader objreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
+	c_objdefs.emplace(name, objreader);
+	// this specialization is handled, proceed
+	continue;
+      }
+    }
+
     auto it = c_propdefs.find(name);
 
     if ( it == c_propdefs.end() ) {
       printf("!! UNHANDLED\n name: '%s'\n proptype: '%s'\n len: %i\n idx: %i\n",
 	     name.c_str(), proptype.c_str(), len, idx);
       printf("%s", str().c_str());
+      Reader uh(_reader, len);
+      uh.dump("/tmp/unhandled-prop.dump");
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
     }
 
@@ -53,15 +83,14 @@ void Saveable::loadProperties(Reader& _reader) {
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
     }
 
-    printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
+    //printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
     try {
       Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-      propreader.debug(4, "propreader-pre");
       it->second.handler(std::ref(propreader), idx);
-      propreader.debug(4, "propreader-post");
     }
     catch (std::exception &e) {
       printf("Exception while calling handler: %s\n", e.what());
+      throw e;
     }
   }
 }

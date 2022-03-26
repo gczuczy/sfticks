@@ -8,15 +8,6 @@
 
 class FGObjectHeader: public Saveable {
 private:
-  struct compdef {
-    compdef() = default;
-    compdef(std::string _ns, std::string _compname);
-    compdef(const compdef&) = default;
-    compdef(compdef&& other);
-    compdef& operator=(const compdef& other)=default;
-    std::string ns;
-    std::string compname;
-  };
   struct instdata {
     std::string str1; // namespace
     std::string str2; // :PersistentLevel
@@ -62,8 +53,8 @@ protected:
   std::string c_fgobjtype;
   std::string c_component_name;
 
-  compdef c_basecomp;
-  std::list<compdef> c_compdefs;
+  objdef c_basecomp;
+  std::list<objdef> c_compdefs;
 };
 
 #endif
