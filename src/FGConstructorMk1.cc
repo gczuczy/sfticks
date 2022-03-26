@@ -15,7 +15,7 @@ FGConstructorMk1::FGConstructorMk1(Reader& _reader, FGObjectHeader& _fgoh)
 		 [&](Reader& _r, int32_t)->void{_r(c_mTimeSinceStartStopProducing);});
   defineProperty("mIsProducing", "BoolProperty",
 		 [&](Reader& _r, int32_t)->void{
-		   int32_t b;
+		   int8_t b;
 		   _r(b);
 		   c_mIsProducing = b == 1;
 		 });

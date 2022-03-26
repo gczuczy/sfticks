@@ -43,15 +43,31 @@ void Saveable::defineProperty(const std::string& _propname, const std::string& _
 }
 
 void Saveable::loadProperties(Reader& _reader) {
+  std::set<std::string> noskips{"StructProperty"};
   std::string name, proptype;
   int32_t len, idx;
   while ( !_reader.eof() ) {
+    printf("\n\nStarting on next property\n");
+    _reader.dump("/tmp/prop.dump").debug(32, "prop starting");
     _reader(name)(proptype);
+    printf("+Read '%s'/'%s'\n", name.c_str(), proptype.c_str());
 
     // "None" means the end of it
     if ( name == "None" ) break;
 
-    _reader(len)(idx).skip(1);
+    _reader(len)(idx);
+
+    if ( noskips.find(proptype) == noskips.end() ) {
+      printf(" + skip(1) for %s\n", proptype.c_str());
+      _reader.skip(1);
+    } else {
+      printf(" + no skip for %s\n", proptype.c_str());
+    }
+
+    if ( len == 0 ) {
+      _reader.dump("/tmp/prop-len0.dump");
+      len = 1;
+    }
 
     // first special-case objdefs
     if ( proptype == "ObjectProperty" ) {
@@ -83,7 +99,8 @@ void Saveable::loadProperties(Reader& _reader) {
       EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
     }
 
-    //printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
+    printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
+    
     try {
       Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
       it->second.handler(std::ref(propreader), idx);
