@@ -23,4 +23,3 @@ void FGEntity::deserialize(Reader &_reader) {
     (c_placedinlevel)
     ;
 }
-

@@ -40,7 +40,7 @@ Reader::Reader(Reader& _parent, uint64_t _len, std::string _file, int _line, std
   c_parent_line = _parent.c_line;
   c_parent_comment = _parent.c_comment;
   c_parent_id = _parent.c_id;
-#ifdef SFT_DEBUG
+#ifdef SFT_DEBUG_READER
   char buff[128];
   int blen = snprintf(buff, 127, "/tmp/reader-%u.dump", c_id);
   dump(std::string(buff, blen));
@@ -58,7 +58,7 @@ Reader::Reader(Reader& _parent, const std::string _mark, uint64_t _len, std::str
   c_parent_line = _parent.c_line;
   c_parent_comment = _parent.c_comment;
   c_parent_id = _parent.c_id;
-#ifdef SFT_DEBUG
+#ifdef SFT_DEBUG_READER
   char buff[128];
   int blen = snprintf(buff, 127, "/tmp/reader-%i.dump", c_id);
   dump(std::string(buff, blen));
@@ -98,7 +98,9 @@ Reader& Reader::debug(uint64_t _lookahead, std::string _label) {
 	      c_id,
 	      c_pos, c_pos,
 	      c_len, c_len);
-
+  printf(" Defined at %s:%i - %s\n",
+	 c_file.c_str(), c_line, c_comment.c_str());
+  
   for (uint64_t i=0; i<_lookahead && c_pos+i<c_len; ++i ) {
     if ( i ) {
       if ( i%16 == 0 ) printf("\n");
@@ -226,6 +228,11 @@ char* Reader::pass(const std::string& _mark, uint64_t _len) {
   }
   c_pos = it->second;
   return pass(_len);
+}
+
+void Reader::store(std::string &_str) {
+  _str = std::string(c_buffer, c_len);
+  c_pos = c_len;
 }
 
 Reader& Reader::dump(const std::string _file) {

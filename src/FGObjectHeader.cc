@@ -1,11 +1,22 @@
 
 #include "FGObjectHeader.hh"
 
-#include "stdio.h"
+#include <stdio.h>
+
+#include <utility>
 
 #include "Trace.hh"
 #include "misc.hh"
 #include "Exception.hh"
+
+
+FGObjectHeader::compdef::compdef(std::string _ns, std::string _compname)
+  : ns(std::move(_ns)), compname(std::move(_compname)) {
+}
+
+FGObjectHeader::compdef::compdef(compdef&& other)
+  : ns(std::move(other.ns)), compname(std::move(other.compname)) {
+}
 
 void FGObjectHeader::instdata::clear() {
   str1 = "";
@@ -110,6 +121,25 @@ void FGObjectHeader::deserialize(Reader& _reader) {
   }
 }
 
+void FGObjectHeader::deserializeCompDefs(Reader& _reader) {
+  std::string a,b;
+  int32_t n;
+
+  _reader(c_basecomp.ns)(c_basecomp.compname)(n);
+
+  for (int32_t i=0; i<n; ++i) {
+    _reader(a)(b);
+    c_compdefs.emplace_back(a, b);
+  }
+}
+
+void FGObjectHeader::deserializeProperties(Reader &_reader) {
+  deserializeCompDefs(_reader);
+  //printf("%s", str_compbase().c_str());
+
+  loadProperties(_reader);
+}
+
 std::string FGObjectHeader::str() const {
   return strprintf("Type: %s\n", c_objtype==0?"Component":"Entity") +
     strprintf("Name: %s\n", c_name.c_str()) +
@@ -118,3 +148,14 @@ std::string FGObjectHeader::str() const {
     strprintf("FGObjType: %s\n", c_fgobjtype.c_str()) +
     strprintf("Instanceid: %i\n", c_instanceid);
 }
+
+std::string FGObjectHeader::str_compbase() const {
+  std::string rv;
+
+  rv = strprintf("Base: %s\n", c_basecomp.compname.c_str());
+
+  for ( auto &it: c_compdefs ) rv += strprintf(" - %s\n", it.compname.c_str());
+
+  return rv;
+}
+

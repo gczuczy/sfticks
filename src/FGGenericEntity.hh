@@ -10,8 +10,13 @@ public:
   FGGenericEntity(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGGenericEntity();
 
+  virtual void deserializeProperties(Reader &_reader);
+
 private:
   virtual void deserialize(Reader &_reader);
+
+private:
+  std::string c_properties;
 };
 
 #endif

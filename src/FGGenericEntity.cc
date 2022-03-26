@@ -11,3 +11,7 @@ FGGenericEntity::~FGGenericEntity() {
 void FGGenericEntity::deserialize(Reader &_reader) {
 }
 
+void FGGenericEntity::deserializeProperties(Reader &_reader) {
+  _reader.store(c_properties);
+}
+

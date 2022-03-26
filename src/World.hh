@@ -23,6 +23,7 @@ public:
     virtual ~Header();
 
     virtual void deserialize(Reader &_reader);
+    virtual void deserializeProperties(Reader &_reader) {};
   public:
     inline int32_t headerVersion() const {return c_header_version;};
     inline int32_t saveVersion() const {return c_save_version;};
@@ -37,7 +38,7 @@ public:
     inline std::string modMetadata() const {return c_mod_metadata;};
     inline int32_t modFlags() const {return c_mod_flags;};
 
-    std::string str() const;
+    virtual std::string str() const;
 
   private:
     int32_t c_header_version;
@@ -60,6 +61,8 @@ public:
 
 public:
   virtual void deserialize(Reader &_reader);
+  virtual void deserializeProperties(Reader &_reader) {};
+  virtual std::string str() const;
 
 private:
   Header c_headers;

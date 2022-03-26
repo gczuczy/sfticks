@@ -12,3 +12,6 @@ FGGenericComponent::~FGGenericComponent() {
 void FGGenericComponent::deserialize(Reader &_reader) {
 }
 
+void FGGenericComponent::deserializeProperties(Reader &_reader) {
+  _reader.store(c_properties);
+}

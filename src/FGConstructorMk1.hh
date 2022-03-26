@@ -10,8 +10,12 @@ public:
   FGConstructorMk1(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConstructorMk1();
 
+  //virtual void deserializeProperties(Reader& _reader);
+  inline float &mCurrentManufacturingProgress() {return c_mCurrentManufacturingProgress;};
+
 private:
   //virtual void deserialize(Reader &_reader);
+  float c_mCurrentManufacturingProgress;
 };
 
 #endif

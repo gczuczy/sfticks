@@ -38,6 +38,7 @@ public:
   Reader& fetch(std::string& _val);
   char* pass(uint64_t _len);
   char* pass(const std::string& _mark, uint64_t _len);
+  void store(std::string &_str);
 
   inline Reader& mark(const std::string _mark) {c_marks[_mark] = c_pos; return *this;};
   Reader& dump(const std::string _file);
@@ -51,7 +52,6 @@ public:
   inline Reader& operator()(Vector3& _v) {return fetch(_v);};
   inline Reader& operator()(Vector4& _v) {return fetch(_v);};
   inline Reader& operator()(std::string& _v) {return fetch(_v);};
-
 
 private:
   void lencheck(int64_t _l);

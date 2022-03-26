@@ -63,6 +63,8 @@ enum class FGEntityType : int32_t {
 };
 
 class FGEntity: public FGObjectHeader {
+  // constructors/destructors
+private:
   FGEntity()=delete;
 public:
   FGEntity(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);

@@ -4,23 +4,34 @@
 
 #include "Saveable.hh"
 
+#include <list>
 
 class FGObjectHeader: public Saveable {
 private:
-struct instdata {
-  std::string str1; // namespace
-  std::string str2; // :PersistentLevel
-  std::string objtype;
-  int32_t instid;
-  // component data
-  std::string compname;
-  int32_t compinstid;
-  void clear();
-  void print();
-};
+  struct compdef {
+    compdef() = default;
+    compdef(std::string _ns, std::string _compname);
+    compdef(const compdef&) = default;
+    compdef(compdef&& other);
+    compdef& operator=(const compdef& other)=default;
+    std::string ns;
+    std::string compname;
+  };
+  struct instdata {
+    std::string str1; // namespace
+    std::string str2; // :PersistentLevel
+    std::string objtype;
+    int32_t instid;
+    // component data
+    std::string compname;
+    int32_t compinstid;
+    void clear();
+    void print();
+  };
 public:
   FGObjectHeader()=delete;
   FGObjectHeader(Reader& _reader);
+  FGObjectHeader(const FGObjectHeader&)=default;
   virtual ~FGObjectHeader();
 
   inline bool isComponent() const {return c_objtype==0;};
@@ -31,7 +42,10 @@ public:
   inline int32_t instanceid() const {return c_instanceid;};
   inline std::string FGObjectType() const {return c_fgobjtype;};
 
-  std::string str() const;
+  virtual void deserializeProperties(Reader &_reader);
+  virtual std::string str() const;
+  // debug functions
+  std::string str_compbase() const;
 
 private:
   static bool parse_inststr(const std::string& _str, bool _entity, FGObjectHeader::instdata& _data);
@@ -39,11 +53,17 @@ private:
   virtual void deserialize(Reader& _reader);
 
 protected:
+  void deserializeCompDefs(Reader& _reader);
+
+protected:
   int32_t c_objtype;
   std::string c_name, c_proptype, c_instance;
   int32_t c_instanceid, c_component_instanceid;
   std::string c_fgobjtype;
   std::string c_component_name;
+
+  compdef c_basecomp;
+  std::list<compdef> c_compdefs;
 };
 
 #endif
