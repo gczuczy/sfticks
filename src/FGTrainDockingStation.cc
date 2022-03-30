@@ -21,7 +21,7 @@ FGTrainDockingStation::FGTrainDockingStation(Reader& _reader, FGObjectHeader& _f
   defineProperty(std::make_shared<BoolProperty>("mIsInLoadMode", c_mIsInLoadMode));
   defineProperty(std::make_shared<BoolProperty>("mHasDockedActor", c_mHasDockedActor));
   defineProperty(std::make_shared<BoolProperty>("mIsLoadUnloading", c_mIsLoadUnloading));
-  //defineProperty(std::make_shared<EnumProperty<>>("mSavedDockingStatus", c_mSavedDockingStatus));
+  defineProperty(std::make_shared<EnumProperty<ETrainPlatformDockingStatus>>("mSavedDockingStatus", c_mSavedDockingStatus));
   //defineProperty(std::make_shared<Property>("", c_));
 }
 
