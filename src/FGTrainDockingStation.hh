@@ -3,6 +3,7 @@
 #define SFT_FGTRAINDOCKINGSTATION_H
 
 #include "FGStorageUnit.hh"
+#include "ObjectReference.hh"
 
 class FGTrainDockingStation: public FGStorageUnit {
 public:
@@ -26,6 +27,7 @@ private:
   float c_mTimeSinceLastLoadTransferUpdate, c_mTimeSinceLastUnloadTransferUpdate,
     c_mSmoothedLoadRate, c_mSmoothedUnloadRate;
   bool c_mIsOrientationReversed, c_mIsInLoadMode, c_mHasDockedActor, c_mIsLoadUnloading;
+  ObjectReference c_mInventory, c_mStationDockingMaster, c_mDockedRailroadVehicle, c_mRailroadTrack;
   std::string c_mSavedDockingStatus; // ETrainPlatformDockingStatus
 };
 

@@ -3,6 +3,7 @@
 #define SFT_FGIOUNIT_H
 
 #include "FGBuilding.hh"
+#include "ObjectReference.hh"
 
 /*
   This is a base class for Input/Output units.
@@ -16,13 +17,17 @@ public:
   virtual ~FGIOUnit();
 
   inline float& mCurrentManufacturingProgress() {return c_mCurrentManufacturingProgress;};
-
-private:
-  void defPropLoaders();
+  inline ObjectReference& mInputInventory() {return c_mInputInventory;};
+  inline ObjectReference& mOutputInventory() {return c_mOutputInventory;};
+  inline ObjectReference& mCurrentRecipe() {return c_mCurrentRecipe;};
+  inline ObjectReference& mInventoryPotential() {return c_mInventoryPotential;};
+  inline float& mPendingPotential() {return c_mPendingPotential;};
+  inline float& mCurrentPotential() {return c_mCurrentPotential;};
 
 private:
   //virtual void deserialize(Reader &_reader);
-  float c_mCurrentManufacturingProgress;
+  float c_mCurrentManufacturingProgress, c_mPendingPotential, c_mCurrentPotential;
+  ObjectReference c_mInputInventory, c_mCurrentRecipe, c_mOutputInventory, c_mInventoryPotential;
 };
 
 typedef std::shared_ptr<FGIOUnit> FGIOUnitSP;

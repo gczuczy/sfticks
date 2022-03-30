@@ -3,6 +3,7 @@
 #define SFT_FGGENERATORUNIT_H
 
 #include "FGIOUnit.hh"
+#include "ObjectReference.hh"
 
 /*
   This is a base class for Input/Output units.
@@ -19,12 +20,10 @@ public:
   inline bool& mHasFuelCached() {return c_mHasFuelCached;};
 
 private:
-  void defPropLoaders();
-
-private:
   //virtual void deserialize(Reader &_reader);
   float c_mCurrentFuelAmount;
   bool c_mHasFuelCached;
+  ObjectReference c_mFuelInventory, c_mCurrentFuelClass;
 };
 
 typedef std::shared_ptr<FGGeneratorUnit> FGGeneratorUnitSP;

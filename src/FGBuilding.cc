@@ -4,6 +4,10 @@
 #include "Exception.hh"
 #include "misc.hh"
 
+#include "FloatProperty.hh"
+#include "ObjectProperty.hh"
+#include "BoolProperty.hh"
+
 FGBuilding::FactoryCustomizationData::FactoryCustomizationData(Reader &_reader) {
   //_reader.dump("/tmp/struct-fcd.dump").debug(32, "struct-fcd");
   std::string strtype;
@@ -39,35 +43,18 @@ FGBuilding::FactoryCustomizationData::FactoryCustomizationData(Reader &_reader) 
 
 
 FGBuilding::FGBuilding(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh)
-  : FGEntity(_et, _reader, _fgoh), c_mTimeSinceStartStopProducing(0), c_mIsProducing(false),
-    c_mDidFirstTimeUse(false), c_mBuildTimeStamp(0) {
-  defPropLoaders();
+  : FGEntity(_et, _reader, _fgoh), c_mTimeSinceStartStopProducing(0), c_mBuildTimeStamp(0), c_mDidFirstTimeUse(false),
+    c_mIsProducing(false) {
+  c_mCustomizationData = std::make_shared<GenericStruct>("FactoryCustomizationData", "mCustomizationData");
+
+  defineProperty(std::make_shared<FloatProperty>("mTimeSinceStartStopProducing", c_mTimeSinceStartStopProducing));
+  defineProperty(std::make_shared<ObjectProperty>("mPowerInfo", c_mPowerInfo));
+  defineProperty(std::make_shared<ObjectProperty>("mBuiltWithRecipe", c_mBuiltWithRecipe));
+  defineProperty(c_mCustomizationData);
+  defineProperty(std::make_shared<FloatProperty>("mBuildTimeStamp", c_mBuildTimeStamp));
+  defineProperty(std::make_shared<BoolProperty>("mIsProducing", c_mIsProducing));
+  defineProperty(std::make_shared<BoolProperty>("mDidFirstTimeUse", c_mDidFirstTimeUse));
 }
 
 FGBuilding::~FGBuilding() {
 }
-
-void FGBuilding::defPropLoaders() {
-  setObjDefDecls({"mBuiltWithRecipe", "mPowerInfo"});
-  defineProperty("mCustomizationData", "StructProperty",
-		 [&](Reader& _r, int32_t)->void{
-		   c_mCustomizationData = FactoryCustomizationData(_r);
-		 });
-  defineProperty("mTimeSinceStartStopProducing", "FloatProperty",
-		 [&](Reader& _r, int32_t)->void{_r(c_mTimeSinceStartStopProducing);});
-  defineProperty("mIsProducing", "BoolProperty",
-		 [&](Reader& _r, int32_t)->void{
-		   int8_t b;
-		   _r(b);
-		   c_mIsProducing = b == 1;
-		 });
-  defineProperty("mDidFirstTimeUse", "BoolProperty",
-		 [&](Reader& _r, int32_t)->void{
-		   int8_t b;
-		   _r(b);
-		   c_mDidFirstTimeUse = b == 1;
-		 });
-  defineProperty("mBuildTimeStamp", "FloatProperty",
-		 [&](Reader& _r, int32_t)->void{_r(c_mBuildTimeStamp);});
-}
-

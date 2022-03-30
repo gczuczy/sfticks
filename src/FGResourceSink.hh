@@ -3,6 +3,7 @@
 #define SFT_FGRESOURCESINK_H
 
 #include "FGIOUnit.hh"
+#include "ObjectReference.hh"
 
 class FGResourceSink: public FGIOUnit {
 public:
@@ -11,10 +12,12 @@ public:
   virtual ~FGResourceSink();
 
   inline float& mProducingTimer() {return c_mProducingTimer;};
+  inline ObjectReference& mCouponInventory() {return c_mCouponInventory;};
 
 private:
   //virtual void deserialize(Reader &_reader);
   float c_mProducingTimer;
+  ObjectReference c_mCouponInventory;
 };
 
 #endif

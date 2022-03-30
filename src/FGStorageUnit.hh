@@ -3,6 +3,7 @@
 #define SFT_FGSTORAGEUNIT_H
 
 #include "FGBuilding.hh"
+#include "ObjectReference.hh"
 
 /*
   This is a base class for Input/Output units.
@@ -20,6 +21,7 @@ public:
 private:
   int32_t c_capacity;
   //virtual void deserialize(Reader &_reader);
+  ObjectReference c_mStorageInventory;
 };
 
 typedef std::shared_ptr<FGStorageUnit> FGStorageUnitSP;

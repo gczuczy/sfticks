@@ -26,26 +26,47 @@ Saveable::prophdef::prophdef(prophdef&& other)
   : propname(std::move(other.propname)), proptype(std::move(other.proptype)), handler(other.handler) {
 }
 
-Saveable::Saveable() {
+Saveable::pdkey::pdkey(const std::string& _name, const int32_t _index): name(_name), index(_index) {
 }
 
-Saveable::Saveable(const std::set<std::string>& _objdefdecls): c_objdef_decls(std::move(_objdefdecls)) {
+bool Saveable::pdkey::operator<(const pdkey& other) const {
+  if ( name == other.name ) return index < other.index;
+  return name < other.name;
+}
+
+bool Saveable::pdkey::operator==(const pdkey& other) const {
+  if ( name == other.name ) return index == other.index;
+  return name == other.name;
+}
+
+Saveable::Saveable() {
 }
 
 Saveable::~Saveable() {
 }
 
+#if 0
 void Saveable::defineProperty(const std::string& _propname, const std::string& _proptype, prophfn_t _handler) {
   auto it = c_propdefs.find(_propname);
   if ( it != c_propdefs.end() ) EXCEPTION(strprintf("Property '%s'(/%s) already defined",
 						    _propname.c_str(), _proptype.c_str()));
   c_propdefs.insert({_propname, prophdef(_propname, _proptype, _handler)});
 }
+#endif
+void Saveable::defineProperty(PropertyInterfaceSP _prop) {
+  pdkey key(_prop->name(), _prop->index());
+
+  if ( c_propdefs.find(key) != c_propdefs.end() ) {
+    EXCEPTION(strprintf("Key %s.%i already defined", _prop->name().c_str(), _prop->index()));
+  }
+
+  c_propdefs.emplace(std::make_pair(key, std::move(_prop)));
+}
 
 void Saveable::loadProperties(Reader& _reader) {
-  std::set<std::string> noskips{"StructProperty", "EnumProperty", "ArrayProperty"};
   std::string name, proptype;
   int32_t len, idx;
+
   while ( !_reader.eof() ) {
     //printf("\n\nStarting on next property\n");
     //_reader.dump("/tmp/prop.dump").debug(32, "prop starting");
@@ -57,68 +78,17 @@ void Saveable::loadProperties(Reader& _reader) {
 
     _reader(len)(idx);
 
-    if ( noskips.find(proptype) == noskips.end() ) {
-      //printf(" + skip(1) for %s\n", proptype.c_str());
-      _reader.skip(1);
-    } else {
-      //printf(" + no skip for %s\n", proptype.c_str());
-    }
-
-    if ( len == 0 ) {
-      //_reader.dump("/tmp/prop-len0.dump");
-      len = 1;
-    }
-
-    // first special-case objdefs
-    if ( proptype == "ObjectProperty" ) {
-      auto oit = c_objdef_decls.find(name);
-      if ( oit != c_objdef_decls.end() ) {
-	// so it's both and ObjectProperty, and it's
-	// also defined to use this mechanics
-	Reader objreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-	c_objdefs.emplace(name, objreader);
-	// this specialization is handled, proceed
-	continue;
-      }
-    }
-
-    auto it = c_propdefs.find(name);
-
+    pdkey key(name, idx);
+    auto it = c_propdefs.find(key);
     if ( it == c_propdefs.end() ) {
-      printf("!! UNHANDLED\n name: '%s'\n proptype: '%s'\n len: %i\n idx: %i\n",
-	     name.c_str(), proptype.c_str(), len, idx);
+      _reader.dump("/tmp/prop-notfound.dump").debug(128, "notfound");
+      printf("Saveable::loadProperties() key not found: %s:%s.%i\n",
+	     proptype.c_str(), name.c_str(), idx);
       printf("%s", str().c_str());
-      Reader uh(_reader, len);
-      uh.dump("/tmp/unhandled-prop.dump");
-      EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
+      EXCEPTION(strprintf("Saveable::loadProperties() key not found: %s:%s.%i\n",
+			  proptype.c_str(), name.c_str(), idx));
     }
-
-    if ( it->second.proptype != proptype ) {
-      printf("!! Proptype mismatch\n name: '%s'\n proptype(def/read): '%s'/'%s'\n len: %i\n idx: %i\n",
-	     name.c_str(), it->second.proptype.c_str(), proptype.c_str(), len, idx);
-      EXCEPTION(strprintf("Unhandled property %s", name.c_str()));
-    }
-
-    //printf("Calling handler for %s len:%i idx:%i\n", name.c_str(), len, idx);
-
-    try {
-      if ( proptype == "StructProperty" ) {
-	it->second.handler(std::ref(_reader), idx);
-      } else if ( proptype == "EnumProperty" ) {
-	std::string enumtype;
-	_reader(enumtype).skip(1);
-	//printf("enumtype: %s\n", enumtype.c_str());
-	Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-	it->second.handler(std::ref(propreader), idx);
-      } else {
-	Reader propreader(_reader, len, __FILE__, __LINE__, __PRETTY_FUNCTION__);
-	it->second.handler(std::ref(propreader), idx);
-      }
-    }
-    catch (std::exception &e) {
-      printf("Exception while calling handler: %s\n", e.what());
-      throw e;
-    }
+    it->second->deserialize(_reader, len);
   }
 }
 

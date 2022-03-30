@@ -10,6 +10,8 @@
 #include <set>
 #include <map>
 
+#include "PropertyInterface.hh"
+
 class Saveable {
 protected:
   struct objdef {
@@ -36,13 +38,13 @@ private:
   };
 public:
   Saveable();
-  Saveable(const std::set<std::string>& _objdefdecls);
   virtual ~Saveable()=0;
 
 protected:
-  void defineProperty(const std::string& _propname, const std::string& _proptype, prophfn_t _handler);
+  //void defineProperty(const std::string& _propname, const std::string& _proptype, prophfn_t _handler);
+  //inline void setObjDefDecls(std::set<std::string> _odd) {c_objdef_decls.merge(_odd);};
+  void defineProperty(PropertyInterfaceSP _prop);
   void loadProperties(Reader& _reader);
-  inline void setObjDefDecls(std::set<std::string> _odd) {c_objdef_decls.merge(_odd);};
 
 public:
   virtual void deserialize(Reader& _reader)=0;
@@ -50,9 +52,17 @@ public:
   virtual std::string str() const=0;
 
 private:
-  std::map<std::string, prophdef> c_propdefs;
-  std::set<std::string> c_objdef_decls;
-  std::map<std::string, objdef> c_objdefs;
+  struct pdkey {
+    pdkey(const std::string& _name, const int32_t _index);
+    bool operator<(const pdkey& other) const;
+    bool operator==(const pdkey& other) const;
+    std::string name;
+    int32_t index;
+  };
+  std::map<pdkey, PropertyInterfaceSP> c_propdefs;
+  //std::map<std::string, prophdef> c_propdefs;
+  //std::set<std::string> c_objdef_decls;
+  //std::map<std::string, objdef> c_objdefs;
 };
 
 typedef std::shared_ptr<Saveable> SaveableSP;

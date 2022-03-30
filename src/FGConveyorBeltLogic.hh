@@ -3,6 +3,7 @@
 #define SFT_FGCONVEYORBELTLOGIC_H
 
 #include "FGBuilding.hh"
+#include "ObjectReference.hh"
 
 // this is an abstraction class for mergers/splitters and alike
 
@@ -17,6 +18,7 @@ public:
 
 private:
   //virtual void deserialize(Reader &_reader);
+  ObjectReference c_mBufferInventory;
 };
 
 typedef std::shared_ptr<FGConveyorBeltLogic> FGConveyorBeltLogicSP;
