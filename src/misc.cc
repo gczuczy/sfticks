@@ -8,11 +8,11 @@
 #include <system_error>
 
 std::string strprintf(const char* fmt...) {
-  char buffer[128];
+  char buffer[2048];
 
   va_list ap;
   va_start(ap,fmt);
-  int len = vsnprintf(buffer, 127, fmt, ap);
+  int len = vsnprintf(buffer, 2047, fmt, ap);
   va_end(ap);
   return std::string(buffer, len);
 }
