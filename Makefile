@@ -16,7 +16,8 @@ OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o W
 	FGHadronCollider.o FGManufacturerMk1.o FGOilRefinery.o FGPackager.o FGSmelterMk1.o FGGeneratorCoal.o FGGeneratorFuel.o \
 	FGGeneratorNuclear.o FGResourceSink.o FGSpaceElevator.o FGStorageUnit.o FGDroneStation.o FGStorageContainerMk1.o \
 	FGStorageContainerMk2.o FGTrainDockingStation.o FGGeneratorUnit.o PropertyInterface.o FloatProperty.o ObjectReference.o \
-	ObjectProperty.o BoolProperty.o StructProperty.o GenericStruct.o IntProperty.o EnumProperty.o
+	ObjectProperty.o BoolProperty.o StructProperty.o GenericStruct.o IntProperty.o EnumProperty.o GenericArrayProperty.o \
+	FGConveyorLift.o
 
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks

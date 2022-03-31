@@ -2,9 +2,9 @@
 #ifndef SFT_FGCONVEYORLIFTMK5_H
 #define SFT_FGCONVEYORLIFTMK5_H
 
-#include "FGConveyorBelt.hh"
+#include "FGConveyorLift.hh"
 
-class FGConveyorLiftMk5: public FGConveyorBelt {
+class FGConveyorLiftMk5: public FGConveyorLift {
 public:
   FGConveyorLiftMk5()=delete;
   FGConveyorLiftMk5(Reader& _reader, FGObjectHeader& _fgoh);

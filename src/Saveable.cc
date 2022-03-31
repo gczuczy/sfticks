@@ -82,13 +82,21 @@ void Saveable::loadProperties(Reader& _reader) {
     auto it = c_propdefs.find(key);
     if ( it == c_propdefs.end() ) {
       _reader.dump("/tmp/prop-notfound.dump").debug(128, "notfound");
-      printf("Saveable::loadProperties() key not found: %s:%s.%i\n",
-	     proptype.c_str(), name.c_str(), idx);
+      printf("Saveable::loadProperties() key not found: %s:%s.%i %i\n",
+	     proptype.c_str(), name.c_str(), idx, len);
       printf("%s", str().c_str());
-      EXCEPTION(strprintf("Saveable::loadProperties() key not found: %s:%s.%i\n",
-			  proptype.c_str(), name.c_str(), idx));
+      EXCEPTION(strprintf("Saveable::loadProperties() key not found: %s:%s.%i %i\n",
+			  proptype.c_str(), name.c_str(), idx, len));
     }
+#if 0
+    printf(" Loading property (%s) %s.%i\n", it->second->savePropertyTypeStr().c_str(),
+	   it->second->name().c_str(), it->second->index());
+#endif
     it->second->deserialize(_reader, len);
   }
+  // sometimes there's some trailing null data, get rid of that
+  // so our reader doesn't throw
+  int64_t remnants = _reader.len() - _reader.pos();
+  if ( remnants ) _reader.skip(remnants);
 }
 

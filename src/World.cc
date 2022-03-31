@@ -327,7 +327,7 @@ void World::deserialize(Reader &_reader) {
   int32_t propsize;
   for ( int32_t i=0; i<c_world_object_property_count; ++i) {
     _reader(propsize);
-    Reader propreader(_reader, propsize);
+    Reader propreader(_reader, propsize, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     try {
       objects[i]->deserializeProperties(propreader);
     } catch (Exception &e) {
