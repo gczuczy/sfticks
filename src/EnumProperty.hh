@@ -1,6 +1,6 @@
 
-#ifndef SFT_ENIMPROPERTY_HH
-#define SFT_ENIMPROPERTY_HH
+#ifndef SFT_ENUMPROPERTY_HH
+#define SFT_ENUMPROPERTY_HH
 
 #include "PropertyInterface.hh"
 #include "Exception.hh"

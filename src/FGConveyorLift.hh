@@ -3,6 +3,9 @@
 #define SFT_FGCONVEYORLIFT_H
 
 #include "FGConveyorBelt.hh"
+#include "ObjectReference.hh"
+
+#include <vector>
 
 class FGConveyorLift: public FGConveyorBelt {
 public:
@@ -11,6 +14,7 @@ public:
   virtual ~FGConveyorLift();
 
 private:
+  std::vector<ObjectReference> c_mSnappedPassthroughs;
   //virtual void deserialize(Reader &_reader);
 };
 

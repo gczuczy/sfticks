@@ -7,6 +7,8 @@
 
 class ObjectProperty: public PropertyInterface {
 public:
+  typedef ObjectReference value_type;
+public:
   ObjectProperty() = delete;
   ObjectProperty(const std::string& _name, ObjectReference& _value, int32_t _index=0);
   virtual ~ObjectProperty()=default;
