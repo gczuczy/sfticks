@@ -292,6 +292,7 @@ void World::deserialize(Reader &_reader) {
       } else {
 	auto obj = std::make_shared<FGGenericComponent>(_reader, header);
 	c_components[header.instance()] = obj;
+	objects[i] = obj;
       }
     } else {
 #ifdef SFT_DEBUG
@@ -330,13 +331,20 @@ void World::deserialize(Reader &_reader) {
     Reader propreader(_reader, propsize, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     try {
       objects[i]->deserializeProperties(propreader);
-    } catch (Exception &e) {
+    }
+    catch (Exception &e) {
       printf("World::deserializeProperties(%i/%i) Exception: %s\n",
 	     i, c_world_object_property_count, e.what());
       printf("%s\n", objects[i]->str().c_str());
       return;
     }
+    catch (std::exception &e) {
+      printf("Generic exception: %s\n", e.what());
+      return;
+    }
   }
+
+  printf("Finished deserializing properties\n");
 
 #if 0
   // now dump the fgobjtypes

@@ -4,7 +4,6 @@
 
 #include "PropertyInterface.hh"
 #include "Exception.hh"
-#include "StructProperty.hh"
 #include "Trace.hh"
 
 #include <vector>
@@ -25,7 +24,7 @@ public:
     //TRACE;
     _reader(c_valuetypestr).skip(1);
 
-    _reader.debug(32,"array-outer").dump("/tmp/array-outer.dump");
+    //_reader.debug(32,"array-outer").dump("/tmp/array-outer.dump");
     Reader data(_reader, _size, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     deserializeData(data);
   };
@@ -35,7 +34,7 @@ public:
     int32_t count;
     _reader(count);
     T::deserializeNestedHeaders(_reader, c_nestedheaders);
-    _reader.debug(16, "array-data").dump("/tmp/array-data.dump");
+    //_reader.debug(16, "array-data").dump("/tmp/array-data.dump");
 
     for (auto i=0; i<count; ++i) {
       c_value.emplace_back(V());

@@ -40,7 +40,7 @@ public:
     std::string strtype;
     _reader(strtype);
     //printf("StructProperty size: %i\n type: '%s'\n", _size, strtype.c_str());
-    _reader.debug(16, "StructProperty");
+    //_reader.debug(16, "StructProperty");
     typecheck(strtype);
 
     Reader data(_reader, _size);
