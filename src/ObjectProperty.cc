@@ -15,3 +15,5 @@ void ObjectProperty::deserializeData(Reader& _reader) {
   _reader(c_value.pathName())(c_value.levelName());
 }
 
+void ObjectProperty::deserializeNestedHeaders(Reader& _reader, ObjectProperty::NestedHeader& _nh) {
+}

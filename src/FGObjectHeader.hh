@@ -3,6 +3,7 @@
 #define SFT_FGOBJECTHEADER_H
 
 #include "Saveable.hh"
+#include "ObjectReference.hh"
 
 #include <list>
 
@@ -53,8 +54,8 @@ protected:
   std::string c_fgobjtype;
   std::string c_component_name;
 
-  objdef c_basecomp;
-  std::list<objdef> c_compdefs;
+  ObjectReference c_basecomp;
+  std::list<ObjectReference> c_compdefs;
 };
 
 #endif

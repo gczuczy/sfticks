@@ -5,6 +5,7 @@
 FGConveyorAttachmentSplitter::FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh)
   : FGConveyorBeltLogic(FGEntityType::ConveyorAttachmentSplitter, _reader, _fgoh), c_mCurrentOutputIndex(0) {
   defineProperty(std::make_shared<IntProperty>("mCurrentOutputIndex", c_mCurrentOutputIndex));
+  defineProperty(std::make_shared<IntProperty>("mLastOutputIndex", c_mLastOutputIndex));
 }
 
 FGConveyorAttachmentSplitter::~FGConveyorAttachmentSplitter() {

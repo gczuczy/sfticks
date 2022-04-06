@@ -4,10 +4,10 @@
 
 #include "PropertyInterface.hh"
 #include "Exception.hh"
+#include "StructProperty.hh"
+#include "Trace.hh"
 
 #include <vector>
-
-// constraint for making it a derivation of propertyinterface
 
 template<class T, typename V = typename T::value_type>
 class ArrayProperty: public PropertyInterface {
@@ -22,15 +22,20 @@ public:
   virtual ~ArrayProperty()=default;
 
   virtual void deserialize(Reader& _reader, int32_t _size) {
+    //TRACE;
     _reader(c_valuetypestr).skip(1);
 
+    _reader.debug(32,"array-outer").dump("/tmp/array-outer.dump");
     Reader data(_reader, _size, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     deserializeData(data);
   };
 
   virtual void deserializeData(Reader& _reader) {
+    //TRACE;
     int32_t count;
     _reader(count);
+    T::deserializeNestedHeaders(_reader, c_nestedheaders);
+    _reader.debug(16, "array-data").dump("/tmp/array-data.dump");
 
     for (auto i=0; i<count; ++i) {
       c_value.emplace_back(V());
@@ -44,6 +49,8 @@ private:
   std::string c_valuetypestr;
   std::vector<std::shared_ptr<T> > c_propdefs;
   std::vector<V>& c_value;
+  typename T::NestedHeader c_nestedheaders;
 };
+
 
 #endif

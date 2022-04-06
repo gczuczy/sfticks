@@ -3,7 +3,7 @@
 #include "Exception.hh"
 
 GenericStruct::GenericStruct(const std::string& _strtype, const std::string& _name, int32_t _index)
-  : StructProperty(_strtype, _name, _index) {
+  : StructProperty(_strtype, _name, c_data, _index) {
 }
 
 void GenericStruct::deserialize(Reader& _reader, int32_t _size) {
@@ -19,6 +19,6 @@ void GenericStruct::deserialize(Reader& _reader, int32_t _size) {
 }
 
 void GenericStruct::deserializeData(Reader& _reader) {
-  _reader.store(c_value);
+  _reader.store(c_data);
 }
 

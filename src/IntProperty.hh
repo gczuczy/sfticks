@@ -6,6 +6,7 @@
 
 class IntProperty: public PropertyInterface {
 public:
+  typedef int32_t value_type;
   IntProperty() = delete;
   IntProperty(const std::string& _name, int32_t& _value, int32_t _index=0);
   virtual ~IntProperty()=default;

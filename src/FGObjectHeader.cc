@@ -117,7 +117,9 @@ void FGObjectHeader::deserializeCompDefs(Reader& _reader) {
   std::string a,b;
   int32_t n;
 
-  _reader(c_basecomp.ns)(c_basecomp.compname)(n);
+  _reader(a)(b)(n);
+  c_basecomp.levelName() = a;
+  c_basecomp.pathName() = b;
 
   for (int32_t i=0; i<n; ++i) {
     _reader(a)(b);
@@ -126,6 +128,7 @@ void FGObjectHeader::deserializeCompDefs(Reader& _reader) {
 }
 
 void FGObjectHeader::deserializeProperties(Reader &_reader) {
+  //TRACE;
   deserializeCompDefs(_reader);
   //printf("%s", str_compbase().c_str());
 
@@ -133,20 +136,18 @@ void FGObjectHeader::deserializeProperties(Reader &_reader) {
 }
 
 std::string FGObjectHeader::str() const {
-  return strprintf("Type: %s\n", c_objtype==0?"Component":"Entity") +
-    strprintf("Name: %s\n", c_name.c_str()) +
-    strprintf("Proptype: %s\n", c_proptype.c_str()) +
-    strprintf("Instance: %s\n", c_instance.c_str()) +
-    strprintf("FGObjType: %s\n", c_fgobjtype.c_str()) +
-    strprintf("Instanceid: %i\n", c_instanceid);
+  return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\n",
+		   c_objtype==0?"Component":"Entity",
+		   c_name.c_str(), c_proptype.c_str(), c_instance.c_str(),
+		   c_fgobjtype.c_str(), c_instanceid);
 }
 
 std::string FGObjectHeader::str_compbase() const {
   std::string rv;
 
-  rv = strprintf("Base: %s\n", c_basecomp.compname.c_str());
+  rv = strprintf("Base: %s\n", c_basecomp.pathName().c_str());
 
-  for ( auto &it: c_compdefs ) rv += strprintf(" - %s\n", it.compname.c_str());
+  for ( auto& it: c_compdefs ) rv += strprintf(" - %s\n", it.pathName().c_str());
 
   return rv;
 }

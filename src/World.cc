@@ -333,6 +333,7 @@ void World::deserialize(Reader &_reader) {
     } catch (Exception &e) {
       printf("World::deserializeProperties(%i/%i) Exception: %s\n",
 	     i, c_world_object_property_count, e.what());
+      printf("%s\n", objects[i]->str().c_str());
       return;
     }
   }

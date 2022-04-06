@@ -5,8 +5,12 @@
 #include "PropertyInterface.hh"
 #include "ObjectReference.hh"
 
+#include <memory>
+
 class ObjectProperty: public PropertyInterface {
 public:
+  struct NestedHeader {
+  };
   typedef ObjectReference value_type;
 public:
   ObjectProperty() = delete;
@@ -15,6 +19,8 @@ public:
 
   virtual void deserialize(Reader& _reader, int32_t _size);
   virtual void deserializeData(Reader& _reader);
+
+  static void deserializeNestedHeaders(Reader& _reader, NestedHeader& _nh);
 
 private:
   ObjectReference& c_value;
