@@ -2,12 +2,12 @@
 #ifndef SFT_FGCONVEYATTACHMENTSPLITTERSMART_H
 #define SFT_FGCONVEYATTACHMENTSPLITTERSMART_H
 
-#include "FGConveyorBeltLogic.hh"
+#include "FGConveyorAttachmentSplitter.hh"
 #include "SortRule.hh"
 
 #include <vector>
 
-class FGConveyorAttachmentSplitterSmart: public FGConveyorBeltLogic {
+class FGConveyorAttachmentSplitterSmart: public FGConveyorAttachmentSplitter {
 public:
   FGConveyorAttachmentSplitterSmart()=delete;
   FGConveyorAttachmentSplitterSmart(Reader& _reader, FGObjectHeader& _fgoh);

@@ -10,9 +10,15 @@ public:
   FGConveyorAttachmentSplitter()=delete;
   FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConveyorAttachmentSplitter();
+protected:
+  FGConveyorAttachmentSplitter(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
 
+public:
   inline int32_t& mCurrentOutputIndex() {return c_mCurrentOutputIndex;};
   inline int32_t& mLastOutputIndex() {return c_mLastOutputIndex;};
+
+private:
+  void defProps();
 
 private:
   //virtual void deserialize(Reader &_reader);
