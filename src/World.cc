@@ -99,17 +99,16 @@ World::World(Header& _header): c_headers(_header) {
   printf("Brave New world:\n%s", c_headers.str().c_str());
   // entity definitions
   // component definitions
-#if 0
-  c_entcomps.emplace("Build_TrainDockingStation_C",
-		     std::set<std::string>({"Inventory"}));
-  c_entcomps.emplace("Build_ConveyorBeltMk2_C",
-		     std::set<std::string>({"ConveyorAny0", "ConveyorAny1"}));
-#endif
   defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk1_C", {"Input0", "Output1"});
   defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk2_C", {"Input0", "Input1", "Output1", "Output2"});
   defineComponent<FGBuilding::InOutPort>("Build_TrainDockingStation_C", {"Input0", "Input1", "Output0", "Output1"});
   defineComponent<FGStorageUnit::StorageInventory>("Build_StorageContainerMk1_C", {"StorageInventory"});
   defineComponent<FGStorageUnit::StorageInventory>("Build_StorageContainerMk2_C", {"StorageInventory"});
+  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk1_C", {"ConveyorAny0", "ConveyorAny1"});
+  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk2_C", {"ConveyorAny0", "ConveyorAny1"});
+  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk3_C", {"ConveyorAny0", "ConveyorAny1"});
+  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk4_C", {"ConveyorAny0", "ConveyorAny1"});
+  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk5_C", {"ConveyorAny0", "ConveyorAny1"});
 }
 
 World::~World() {

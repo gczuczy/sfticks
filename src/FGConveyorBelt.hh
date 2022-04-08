@@ -3,8 +3,20 @@
 #define SFT_FGCONVEYORBELT_H
 
 #include "FGBuilding.hh"
+#include "FGComponent.hh"
 
 class FGConveyorBelt: public FGBuilding {
+public:
+  // Component classes
+  class ConveyorAny: public FGComponent {
+  public:
+    ConveyorAny() = delete;
+    ConveyorAny(Reader& _reader, FGObjectHeader& _fgoh);
+    virtual ~ConveyorAny()=default;
+    static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
+
+  private:
+  };
 public:
   FGConveyorBelt()=delete;
   FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, int32_t _throughput);
