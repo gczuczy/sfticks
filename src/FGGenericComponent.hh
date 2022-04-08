@@ -12,6 +12,9 @@ public:
 
   virtual void deserializeProperties(Reader &_reader);
 
+  // debug functions
+  void dump(const std::string _file);
+
 private:
   virtual void deserialize(Reader &_reader);
 

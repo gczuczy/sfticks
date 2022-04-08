@@ -7,6 +7,17 @@
 #include "FloatProperty.hh"
 #include "ObjectProperty.hh"
 #include "BoolProperty.hh"
+#include "IntProperty.hh"
+
+FGBuilding::InOutPort::InOutPort(Reader& _reader, FGObjectHeader& _fgoh)
+  : FGComponent(FGComponentType::InOutPort, _reader, _fgoh) {
+  defineProperty(std::make_shared<ObjectProperty>("mConnectedComponent", c_mConnectedComponent));
+  defineProperty(std::make_shared<ObjectProperty>("mConnectionInventory", c_mConnectionInventory));
+}
+
+FGComponentSP FGBuilding::InOutPort::instantiate(Reader& _reader, FGObjectHeader& _fgoh) {
+  return std::make_shared<FGBuilding::InOutPort>(_reader, _fgoh);
+}
 
 FGBuilding::FactoryCustomizationData::FactoryCustomizationData(Reader &_reader) {
   //_reader.dump("/tmp/struct-fcd.dump").debug(32, "struct-fcd");

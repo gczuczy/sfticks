@@ -97,8 +97,21 @@ std::string World::Header::str() const {
 
 World::World(Header& _header): c_headers(_header) {
 #ifdef SFT_DEBUG
-  printf("New world:\n%s", c_headers.str().c_str());
+  printf("Brave New world:\n%s", c_headers.str().c_str());
 #endif
+#if 0
+  c_entcomps.emplace("Build_StorageContainerMk1_C",
+		     std::set<std::string>({"Input0", "Output1", "StorageInventory"}));
+  c_entcomps.emplace("Build_StorageContainerMk2_C",
+		     std::set<std::string>({"Input0", "Input1", "Output1", "Output2", "StorageInventory"}));
+  c_entcomps.emplace("Build_TrainDockingStation_C",
+		     std::set<std::string>({"Input0", "Input1", "Output0", "Output1", "Inventory"}));
+  c_entcomps.emplace("Build_ConveyorBeltMk2_C",
+		     std::set<std::string>({"ConveyorAny0", "ConveyorAny1"}));
+#endif
+  defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk1_C", {"Input0", "Output1"});
+  defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk2_C", {"Input0", "Input1", "Output1", "Output2"});
+  defineComponent<FGBuilding::InOutPort>("Build_TrainDockingStation_C", {"Input0", "Input1", "Output0", "Output1"});
 }
 
 World::~World() {
@@ -288,12 +301,15 @@ void World::deserialize(Reader &_reader) {
 	//EXCEPTION(strprintf("Unhandled objectype: %s", header.FGObjectType().c_str()));
       }
     } else if ( header.isComponent() ) {
-      if ( false ) {
+      component_callback cb;
+      FGComponentSP obj;
+      if ( (cb = getComponentHandler(header.FGObjectType(), header.componentName())) ) {
+	obj = cb(std::ref(_reader), std::ref(header));
       } else {
-	auto obj = std::make_shared<FGGenericComponent>(_reader, header);
-	c_components[header.instance()] = obj;
-	objects[i] = obj;
+	obj = std::make_shared<FGGenericComponent>(_reader, header);
       }
+      c_components[header.instance()] = obj;
+      objects[i] = obj;
     } else {
 #ifdef SFT_DEBUG
       t.debug();
@@ -345,6 +361,24 @@ void World::deserialize(Reader &_reader) {
   }
 
   printf("Finished deserializing properties\n");
+  for (auto it: c_iounits) {
+#if 0
+    if ( c_entcomps.find(it.second->FGObjectType()) != c_entcomps.end() ) {
+      //printf("%s", it.second->str_compbase().c_str());
+      continue;
+    }
+#endif
+    printf("Entity: %s\n", it.first.c_str());
+    for (auto cit: it.second->components()) {
+      printf("%s\n", cit.second->instance().c_str());
+      printf(" FGobjecttype: %s\n", cit.second->FGObjectType().c_str());
+      printf(" compName: %s\n", cit.second->componentName().c_str());
+
+      auto gcomp = std::static_pointer_cast<FGGenericComponent>(cit.second);
+      gcomp->dump(strprintf("/tmp/%s.dump", cit.second->instance().c_str()));
+    }
+    return;
+  }
 
 #if 0
   // now dump the fgobjtypes
@@ -367,5 +401,15 @@ void World::deserialize(Reader &_reader) {
 
 std::string World::str() const {
   return strprintf("World %s\n", c_headers.sessionName().c_str());
+}
+
+World::component_callback World::getComponentHandler(const std::string& _entity, const std::string& _compname) {
+  auto it = c_compdefs.find(_entity);
+  if ( it == c_compdefs.end() ) return component_callback();
+
+  auto cit = it->second.find(_compname);
+  if ( cit == it->second.end() ) return component_callback();
+
+  return cit->second;
 }
 

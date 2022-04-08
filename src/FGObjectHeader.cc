@@ -105,6 +105,7 @@ void FGObjectHeader::deserialize(Reader& _reader) {
   if ( !parse_inststr(c_instance, isEntity(), data) ) {
     EXCEPTION(strprintf("Unable to parse '%s'", c_instance.c_str()));
   }
+
   c_fgobjtype = data.objtype;
   c_instanceid = data.instid;
   if ( isComponent() ) {
@@ -136,10 +137,16 @@ void FGObjectHeader::deserializeProperties(Reader &_reader) {
 }
 
 std::string FGObjectHeader::str() const {
-  return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\n",
+  if ( isEntity() )
+    return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\n",
+		     c_objtype==0?"Component":"Entity",
+		     c_name.c_str(), c_proptype.c_str(), c_instance.c_str(),
+		     c_fgobjtype.c_str(), c_instanceid);
+  return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\nCompName: %s\nCompInstId: %i\n",
 		   c_objtype==0?"Component":"Entity",
 		   c_name.c_str(), c_proptype.c_str(), c_instance.c_str(),
-		   c_fgobjtype.c_str(), c_instanceid);
+		   c_fgobjtype.c_str(), c_instanceid,
+		   c_component_name.c_str(), c_component_instanceid);
 }
 
 std::string FGObjectHeader::str_compbase() const {

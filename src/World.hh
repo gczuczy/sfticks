@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <string>
 #include <map>
+#include <set>
 #include <memory>
 
 #include "Saveable.hh"
@@ -54,19 +55,34 @@ public:
     std::string c_mod_metadata;
     int32_t c_mod_flags;
   };
+private:
+  typedef std::function<FGComponentSP(Reader&, FGObjectHeader&)> component_callback;
+
 public:
   World()=delete;
   World(Header& _header);
   virtual ~World();
 
-public:
   virtual void deserialize(Reader &_reader);
   virtual void deserializeProperties(Reader &_reader) {};
   virtual std::string str() const;
 
 private:
+  template<class T>
+  void defineComponent(const std::string _entity, const std::set<std::string> _compnames) {
+    for (auto it: _compnames)
+      c_compdefs[_entity][it] = T::instantiate;
+  };
+  component_callback getComponentHandler(const std::string& _entity, const std::string& _compname);
+
+private:
   Header c_headers;
   int32_t c_world_object_count, c_world_object_property_count, c_world_collected_object_count;
+
+  // component decoding guidelines
+  //std::map<std::string, std::set<std::string> > c_entcomps;
+  // fgentitytype->componentname->instantiator
+  std::map<std::string, std::map<std::string, component_callback> > c_compdefs;
 
   // complete maps for direct lookups
   // this includes all objects

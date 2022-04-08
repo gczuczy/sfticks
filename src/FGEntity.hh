@@ -72,6 +72,7 @@ public:
 
   FGEntity& associate(FGComponentSP _component);
   inline FGEntityType entityType() const {return c_entity_type;};
+  inline const std::map<std::string, FGComponentSP> components() const { return c_components;};
 
 private:
   virtual void deserialize(Reader &_reader);

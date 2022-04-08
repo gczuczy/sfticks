@@ -33,6 +33,8 @@ public:
   inline std::string instance() const {return c_instance;};
   inline int32_t instanceid() const {return c_instanceid;};
   inline std::string FGObjectType() const {return c_fgobjtype;};
+  inline std::string componentName() const {return c_component_name;};
+  inline int32_t componentInstanceid() const {return c_component_instanceid;};
 
   virtual void deserializeProperties(Reader &_reader);
   virtual std::string str() const;
