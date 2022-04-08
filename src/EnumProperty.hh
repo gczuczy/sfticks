@@ -11,6 +11,11 @@ enum class ETrainPlatformDockingStatus: int8_t {
   ETDS_WaitingToStart=0,
 };
 
+enum class EFactoryConnectionDirection: int8_t {
+  FCD_OUTPUT=0,
+  FCD_INPUT,
+};
+
 template<typename T>
 class EnumProperty: public PropertyInterface {
 public:
@@ -49,6 +54,11 @@ private:
 
 template<>
 std::map<ETrainPlatformDockingStatus, std::string> EnumProperty<ETrainPlatformDockingStatus>::c_strmap;
+
+template<>
+std::map<EFactoryConnectionDirection, std::string> EnumProperty<EFactoryConnectionDirection>::c_strmap;
+
+
 #if 0
 extern template
 EnumProperty<ETrainPlatformDockingStatus>::EnumProperty(const std::string& _name, ETrainPlatformDockingStatus& _value, int32_t _index=0);

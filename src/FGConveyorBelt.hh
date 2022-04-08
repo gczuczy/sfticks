@@ -4,6 +4,8 @@
 
 #include "FGBuilding.hh"
 #include "FGComponent.hh"
+#include "EnumProperty.hh"
+#include "ObjectReference.hh"
 
 class FGConveyorBelt: public FGBuilding {
 public:
@@ -15,7 +17,12 @@ public:
     virtual ~ConveyorAny()=default;
     static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
 
+    inline EFactoryConnectionDirection mDirection() const {return c_mDirection;};
+    inline ObjectReference mConnectedComponent() const {return c_mConnectedComponent;};
+
   private:
+    EFactoryConnectionDirection c_mDirection;
+    ObjectReference c_mConnectedComponent;
   };
 public:
   FGConveyorBelt()=delete;

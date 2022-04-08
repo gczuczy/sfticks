@@ -1,10 +1,12 @@
 
 #include "FGConveyorBelt.hh"
 #include "GenericArrayProperty.hh"
+#include "ObjectProperty.hh"
 
 FGConveyorBelt::ConveyorAny::ConveyorAny(Reader& _reader, FGObjectHeader& _fgoh)
   : FGComponent(FGComponentType::ConveyorAny, _reader, _fgoh) {
-  //defineProperty(std::make_shared<ArrayProperty<StructProperty<InventoryStack> > >("mInventoryStacks", c_mInventoryStacks));
+  defineProperty(std::make_shared<EnumProperty<EFactoryConnectionDirection> >("mDirection", c_mDirection));
+  defineProperty(std::make_shared<ObjectProperty>("mConnectedComponent", c_mConnectedComponent));
 }
 
 FGComponentSP FGConveyorBelt::ConveyorAny::instantiate(Reader& _reader, FGObjectHeader& _fgoh) {
