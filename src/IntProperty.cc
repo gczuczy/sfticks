@@ -15,3 +15,5 @@ void IntProperty::deserializeData(Reader& _reader) {
   _reader(c_value);
 }
 
+void IntProperty::deserializeNestedHeaders(Reader& _reader, IntProperty::NestedHeader& _nh) {
+}

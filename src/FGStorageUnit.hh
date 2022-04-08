@@ -24,9 +24,10 @@ public:
     virtual ~StorageInventory()=default;
     static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
 
-
   private:
     std::vector<InventoryStack> c_mInventoryStacks;
+    std::vector<int32_t> c_mArbitrarySlotSizes;
+    std::vector<ObjectReference> c_mAllowedItemDescriptors;
   };
 public:
   FGStorageUnit()=delete;
