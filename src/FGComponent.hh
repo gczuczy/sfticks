@@ -14,6 +14,7 @@
 enum class FGComponentType: int32_t {
   Generic=-1,
   InOutPort=0,
+  StorageInventory,
 };
 
 class FGComponent: public FGObjectHeader {
