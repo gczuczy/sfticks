@@ -244,6 +244,7 @@ namespace FG {
     }
     printf("Finished deserializing properties\n");
 
+    // Component debugging
 #if 0
     std::set<std::string> ignored{"/Script/FactoryGame.FGPowerInfoComponent",
       "/Script/FactoryGame.FGFactoryLegsComponent",
@@ -269,6 +270,7 @@ namespace FG {
     }
 #endif
 
+    // get the object types present
 #if 0
     // now dump the fgobjtypes
     std::set<std::string> fgobjtypes;
@@ -285,7 +287,9 @@ namespace FG {
       of.close();
     }
 #endif
-  
+    // for now we ignore the rest of the data, because we don't need it for the project
+    // if needed, parsing the rest can be implemented.
+    _reader.setThrow(false);
   }
 
   std::string World::str() const {

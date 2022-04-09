@@ -29,12 +29,12 @@ namespace SFT {
   bool Reader::c_in_exception(false);
   uint32_t Reader::c_id_idx(0);
 
-  Reader::Reader(): c_buffer(0), c_len(0), c_pos(0), c_hasparent(false) {
+  Reader::Reader(): c_buffer(0), c_len(0), c_pos(0), c_hasparent(false), c_nothrow(false) {
     c_id = ++c_id_idx;
   }
 
   Reader::Reader(Reader& _parent, uint64_t _len, std::string _file, int _line, std::string _comment)
-    : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
+    : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true), c_nothrow(false) {
     c_id = ++c_id_idx;
     c_buffer = _parent.pass(_len);
     c_len = _len;
@@ -51,7 +51,7 @@ namespace SFT {
 
   Reader::Reader(Reader& _parent, const std::string _mark, uint64_t _len, std::string _file, int _line,
 		 std::string _comment)
-    : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true) {
+    : c_pos(0), c_file(_file), c_line(_line), c_comment(_comment), c_hasparent(true), c_nothrow(false) {
     c_id = ++c_id_idx;
     c_pos = _parent.offset(_mark);
     c_buffer = _parent.pass(_mark, _len);
@@ -67,12 +67,13 @@ namespace SFT {
 #endif
   }
 
-  Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_pos(0), c_hasparent(false) {
+  Reader::Reader(char *_buffer, uint64_t _len): c_buffer(_buffer), c_len(_len), c_pos(0), c_hasparent(false),
+						c_nothrow(false) {
     c_id = ++c_id_idx;
   }
 
   Reader::~Reader() noexcept(false) {
-    if ( c_in_exception ) return;
+    if ( c_in_exception || c_nothrow ) return;
     if ( c_pos < c_len ) {
       printf(" ! Unused content in reader(%u) from %s:%i - %s\n",
 	     c_id, c_file.c_str(), c_line, c_comment.c_str());

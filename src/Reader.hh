@@ -46,6 +46,8 @@ namespace SFT {
     inline Reader& mark(const std::string _mark) {c_marks[_mark] = c_pos; return *this;};
     Reader& dump(const std::string _file);
 
+    inline void setThrow(bool _throw) {c_nothrow=!_throw;};
+
     // quickhand ops
     inline Reader& operator()(int8_t& _v, bool _try=false) {return fetch(_v, _try);};
     inline Reader& operator()(int32_t& _v, bool _try=false) {return fetch(_v, _try);};
@@ -73,6 +75,7 @@ namespace SFT {
     uint64_t c_pos;
     std::map<std::string, uint64_t> c_marks;
     bool c_hasparent;
+    bool c_nothrow;
   };
 
   class ChunkReader: public Reader {
