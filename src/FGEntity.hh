@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <string>
 #include <map>
+#include <functional>
+#include <memory>
 
 #include "vectors.hh"
 #include "FGComponent.hh"
@@ -65,6 +67,8 @@ namespace FG {
   };
 
   class Entity: public ObjectHeader {
+  protected:
+    typedef std::function<void(ComponentSP&)> compreg_func;
     // constructors/destructors
   private:
     Entity()=delete;
@@ -79,8 +83,18 @@ namespace FG {
   private:
     virtual void deserialize(Reader &_reader);
 
+  protected:
+    template<class T>
+    void registerComponent(const std::string& _name, std::shared_ptr<T>& _var) {
+      c_compregs[_name] = [&](ComponentSP& _comp)->void {
+	_var = std::reinterpret_pointer_cast<T>(_comp);
+      };
+    };
+
   private:
     EntityType c_entity_type;
+    // component name, callback to place it
+    std::map<std::string, compreg_func> c_compregs;
 
   protected:
     int32_t c_needtransform;

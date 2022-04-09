@@ -14,7 +14,14 @@ namespace FG {
 
     static std::string objtypename;
 
+    inline int32_t mWasteLeftFromCurrentFuel() const {return c_mWasteLeftFromCurrentFuel;};
+    inline float mCurrentSupplementalAmount() const {return c_mCurrentSupplementalAmount;};
+    inline bool mHasSupplementalCached() const {return c_mHasSupplementalCached;};
+
   private:
+    int32_t c_mWasteLeftFromCurrentFuel;
+    float c_mCurrentSupplementalAmount;
+    bool c_mHasSupplementalCached;
     //virtual void deserialize(Reader &_reader);
   };
 

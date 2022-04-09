@@ -102,6 +102,12 @@ namespace FG {
       c_entitydefs[T::objtypename] = std::bind(&World::instantiateEntity<T>, this, _1, _2);
     }
 
+  public:
+    inline std::map<std::string, ConveyorBeltSP>& belts() {return c_belts;};
+    inline std::map<std::string, ConveyorBeltLogicSP>& beltLogics() {return c_belt_logics;};
+    inline std::map<std::string, IOUnitSP>& iounits() {return c_iounits;};
+    inline std::map<std::string, StorageUnitSP>& storageUnits() {return c_storage_units;};
+
   private:
     Header c_headers;
     int32_t c_world_object_count, c_world_object_property_count, c_world_collected_object_count;

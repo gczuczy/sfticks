@@ -30,6 +30,20 @@ namespace FG {
     : PropertyInterface(SavePropertyType::EnumProperty, _name, _index), c_enumtypestr("EFactoryConnectionDirection"), c_value(_value) {
   }
 
+  /*
+   * EItemTransferringStage
+   */
+
+  template<>
+  std::map<EItemTransferringStage, std::string> EnumProperty<EItemTransferringStage>::c_strmap = {
+    {EItemTransferringStage::ITS_LOAD, "EItemTransferringStage::ITS_LOAD"},
+    {EItemTransferringStage::ITS_UNLOAD, "EItemTransferringStage::ITS_UNLOAD"}
+  };
+
+  template<>
+  EnumProperty<EItemTransferringStage>::EnumProperty(const std::string& _name, EItemTransferringStage& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::EnumProperty, _name, _index), c_enumtypestr("EItemTransferringStage"), c_value(_value) {
+  }
 
 #if 0
   template<T>

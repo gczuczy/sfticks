@@ -4,6 +4,7 @@
 
 #include "FGBuilding.hh"
 #include "SplinePointData.hh"
+#include "FGFactoryConnectionComponent.hh"
 
 #include <vector>
 
@@ -17,10 +18,13 @@ namespace FG {
 
     inline int32_t throughput() const {return c_throughput;};
     inline std::vector<SplinePointData>& mSplineData() {return c_mSplineData;};
+    inline FactoryConnectionComponentSP ConveyorAny0() {return c_ConveyorAny0;};
+    inline FactoryConnectionComponentSP ConveyorAny1() {return c_ConveyorAny1;};
 
   private:
     int32_t c_throughput; // items per minute
     std::vector<SplinePointData> c_mSplineData;
+    FactoryConnectionComponentSP c_ConveyorAny0, c_ConveyorAny1;
   };
 
   typedef std::shared_ptr<ConveyorBelt> ConveyorBeltSP;

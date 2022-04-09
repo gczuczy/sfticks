@@ -52,16 +52,56 @@ int main(int argc, char *argv[]) {
 
   // parse the file
   try {
-    SFT::Timer tl("Loader");
     SFT::Loader *l = new SFT::Loader(filename);
+    SFT::Timer tl("World deserialization");
 
     world = l->parse();
   }
   catch (SFT::Exception &e) {
     printf("Caught exception: %s\n", e.what());
+    return -1;
   }
   catch (std::exception &e) {
     printf("Caught exception: %s\n", e.what());
+    return -2;
   }
+
+  // we have a Brave New World, let's examine it
+  printf("Checking belts\n");
+  {
+    for (auto it: world->iounits()) {
+      printf(" ++ Entity:\n%s", it.second->str().c_str());
+      for (auto cit: it.second->components()) {
+	printf(" + Component:\n%s", cit.second->str().c_str());
+      }
+#if 1
+      // IOUnits
+      printf("Inputs:\n");
+      for (auto cit: it.second->inputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      printf("Outputs:\n");
+      for (auto cit: it.second->outputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      printf("InputInventory: %s\n",
+	     it.second->InputInventory()?it.second->InputInventory()->instance().c_str():"failed");
+      printf("OutputInventory: %s\n",
+	     it.second->OutputInventory()?it.second->OutputInventory()->instance().c_str():"failed");
+      printf("InventoryPotential: %s\n",
+	     it.second->InventoryPotential()?it.second->InventoryPotential()->instance().c_str():"failed");
+#endif
+#if 0
+      // beltlogics
+      printf("Inputs:\n");
+      for (auto cit: it.second->inputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      printf("Outputs:\n");
+      for (auto cit: it.second->outputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      printf("StorageInventory: %s\n", it.second->StorageInventory()?it.second->StorageInventory()->instance().c_str():"failed");
+#endif
+#if 0
+      // Belts
+      //printf(" - ConveyorAny0: %s\n", it.second->ConveyorAny0()? it.second->ConveyorAny0()->instance().c_str():"no");
+      //printf(" - ConveyorAny1: %s\n", it.second->ConveyorAny1()? it.second->ConveyorAny1()->instance().c_str():"no");
+#endif
+    }
+  }
+  
   return 0;
 }

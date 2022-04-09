@@ -52,6 +52,8 @@ namespace FG {
   template<>
   std::map<EFactoryConnectionDirection, std::string> EnumProperty<EFactoryConnectionDirection>::c_strmap;
 
+  template<>
+  std::map<EItemTransferringStage, std::string> EnumProperty<EItemTransferringStage>::c_strmap;
 
 #if 0
   extern template

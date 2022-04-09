@@ -4,14 +4,19 @@
 
 namespace FG {
 
-enum class ETrainPlatformDockingStatus: int8_t {
-  ETDS_WaitingToStart=0,
-};
+  enum class ETrainPlatformDockingStatus: int8_t {
+    ETDS_WaitingToStart=0,
+  };
 
-enum class EFactoryConnectionDirection: int8_t {
-  FCD_OUTPUT=0,
-  FCD_INPUT,
-};
+  enum class EFactoryConnectionDirection: int8_t {
+    FCD_OUTPUT=0,
+    FCD_INPUT,
+  };
+
+  enum class EItemTransferringStage: int8_t {
+    ITS_LOAD=0,
+    ITS_UNLOAD,
+  };
 
 }
 

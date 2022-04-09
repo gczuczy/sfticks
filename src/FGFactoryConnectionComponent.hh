@@ -32,6 +32,7 @@ namespace FG {
     int32_t c_mInventoryAccessIndex;
     EFactoryConnectionDirection c_mDirection;
   };
+  typedef std::shared_ptr<FactoryConnectionComponent> FactoryConnectionComponentSP;
 
 }
 

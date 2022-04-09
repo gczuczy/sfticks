@@ -27,6 +27,7 @@ namespace FG {
     bool c_mCanBeRearrange;
     int32_t c_mAdjustedSizeDiff;
   };
+  typedef std::shared_ptr<InventoryComponent> InventoryComponentSP;
 
 }
 
