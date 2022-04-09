@@ -201,6 +201,12 @@ namespace SFT {
     return *this;
   }
 
+  Reader& Reader::fetch(FG::Quat& _val, bool _try) {
+    float x,y,z,w;
+    fetch(x).fetch(y).fetch(z).fetch(w);
+    _val = FG::Quat(x, y, z, 2);
+    return *this;
+  }
 
   Reader& Reader::fetch(std::string& _val, bool _try) {
     int32_t len;

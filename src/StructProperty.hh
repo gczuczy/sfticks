@@ -12,6 +12,8 @@
 #include "SortRule.hh"
 #include "InventoryStack.hh"
 #include "SplinePointData.hh"
+#include "FactoryCustomizationData.hh"
+#include "Transform.hh"
 
 #include <stdio.h>
 #include <functional>
@@ -100,6 +102,15 @@ namespace FG {
 
   template<>
   StructProperty<Vector3>::StructProperty(const std::string& _name, Vector3& _value, int32_t _index);
+
+  template<>
+  StructProperty<Quat>::StructProperty(const std::string& _name, Quat& _value, int32_t _index);
+
+  template<>
+  StructProperty<FactoryCustomizationData>::StructProperty(const std::string& _name, FactoryCustomizationData& _value, int32_t _index);
+
+  template<>
+  StructProperty<Transform>::StructProperty(const std::string& _name, Transform& _value, int32_t _index);
 
 }
 

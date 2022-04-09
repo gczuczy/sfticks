@@ -72,7 +72,7 @@ namespace FG {
   }
 
   void World::Header::deserialize(Reader &_reader) {
-    TRACE;
+    //TRACE;
     _reader
       .fetch(c_header_version)
       .fetch(c_save_version)

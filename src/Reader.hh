@@ -38,6 +38,7 @@ namespace SFT {
     Reader& fetch(FG::Vector2& _val, bool _try=false);
     Reader& fetch(FG::Vector3& _val, bool _try=false);
     Reader& fetch(FG::Vector4& _val, bool _try=false);
+    Reader& fetch(FG::Quat& _val, bool _try=false);
     Reader& fetch(std::string& _val, bool _try=false);
     char* pass(uint64_t _len);
     char* pass(const std::string& _mark, uint64_t _len);
@@ -56,6 +57,7 @@ namespace SFT {
     inline Reader& operator()(FG::Vector2& _v, bool _try=false) {return fetch(_v, _try);};
     inline Reader& operator()(FG::Vector3& _v, bool _try=false) {return fetch(_v, _try);};
     inline Reader& operator()(FG::Vector4& _v, bool _try=false) {return fetch(_v, _try);};
+    inline Reader& operator()(FG::Quat& _v, bool _try=false) {return fetch(_v, _try);};
     inline Reader& operator()(std::string& _v, bool _try=false) {return fetch(_v, _try);};
 
   private:

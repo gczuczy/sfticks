@@ -43,4 +43,17 @@ namespace FG {
     return std::string(buffer, len);
   }
 
+  Quat::Quat(): c_x(0), c_y(0), c_z(0), c_w(0) {
+  }
+
+  Quat::Quat(float _x, float _y, float _z, float _w): c_x(_x), c_y(_y), c_z(_z), c_w(_w) {
+  }
+
+  std::string Quat::str() const {
+    char buffer[128];
+    int len;
+    len = snprintf(buffer, 128, "Quat(%.3f, %.3f, %.3f, %.3f)", c_x, c_y, c_z, c_w);
+    return std::string(buffer, len);
+  }
+
 }

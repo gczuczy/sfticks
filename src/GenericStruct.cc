@@ -16,6 +16,7 @@ namespace FG {
     typecheck(strtype);
 
     Reader data(_reader, _size);
+    //return;
     //data.dump("/tmp/struct-generic-data.dump");
     deserializeData(data);
   }

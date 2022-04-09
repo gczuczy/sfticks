@@ -4,6 +4,7 @@
 
 #include "FGConveyorBelt.hh"
 #include "ObjectReference.hh"
+#include "Transform.hh"
 
 #include <vector>
 
@@ -20,6 +21,7 @@ namespace FG {
   private:
     std::vector<ObjectReference> c_mSnappedPassthroughs;
     bool c_mIsReversed;
+    Transform c_mTopTransform;
     //virtual void deserialize(Reader &_reader);
   };
 

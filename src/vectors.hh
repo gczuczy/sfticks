@@ -51,6 +51,21 @@ namespace FG {
     float c_x, c_y, c_z, c_w;
   };
 
+  class Quat {
+  public:
+    Quat();
+    Quat(float _x, float _y, float _z, float _w);
+
+    inline float x() const {return c_x;};
+    inline float y() const {return c_y;};
+    inline float z() const {return c_z;};
+    inline float w() const {return c_w;};
+
+    std::string str() const;
+  private:
+    float c_x, c_y, c_z, c_w;
+  };
+
 }
 
 #endif

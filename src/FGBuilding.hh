@@ -4,21 +4,11 @@
 
 #include "FGEntity.hh"
 #include "ObjectReference.hh"
-#include "GenericStruct.hh"
+#include "FactoryCustomizationData.hh"
 
 namespace FG {
 
   class Building: public Entity {
-  protected:
-    struct FactoryCustomizationData {
-      FactoryCustomizationData() = default;
-      FactoryCustomizationData(const FactoryCustomizationData&) = default;
-      //FactoryCustomizationData(FactoryCustomizationData&&) = default;
-      FactoryCustomizationData(Reader &);
-      //    FactoryCustomizationData& operator=(const FactoryCustomizationData&) = default;
-      std::string SwatchDesc_ns;
-      std::string SwatchDesc;
-    };
   public:
     Building()=delete;
     Building(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
@@ -36,7 +26,7 @@ namespace FG {
 
     ObjectReference c_mPowerInfo, c_mBuiltWithRecipe;
     float c_mTimeSinceStartStopProducing, c_mBuildTimeStamp;
-    GenericStructSP c_mCustomizationData;
+    FactoryCustomizationData c_mCustomizationData;
     bool c_mIsProducing, c_mDidFirstTimeUse;
   };
 

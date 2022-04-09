@@ -59,4 +59,24 @@ namespace FG {
     };
   }
 
+  template<>
+  StructProperty<Quat>::StructProperty(const std::string& _name, Quat& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::StructProperty, _name, _index), c_strtype("Quat"), c_value(_value) {
+    c_parser = [&](Reader& _r)->void {
+      _r(c_value);
+    };
+  }
+
+  template<>
+  StructProperty<FactoryCustomizationData>::StructProperty(const std::string& _name, FactoryCustomizationData& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::StructProperty, _name, _index), c_strtype("FactoryCustomizationData"), c_value(_value) {
+    defineProperty(std::make_shared<ObjectProperty>("SwatchDesc", c_value.SwatchDesc));
+  }
+
+  template<>
+  StructProperty<Transform>::StructProperty(const std::string& _name, Transform& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::StructProperty, _name, _index), c_strtype("Transform"), c_value(_value) {
+    defineProperty(std::make_shared<StructProperty<Quat> >("Rotation", c_value.Rotation));
+    defineProperty(std::make_shared<StructProperty<Vector3> >("Translation", c_value.Translation));
+  }
 }
