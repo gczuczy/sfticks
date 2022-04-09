@@ -15,7 +15,6 @@ public:
   virtual ~FGInventoryComponent()=default;
   static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
 
-
 public:
   static std::string pathname;
 

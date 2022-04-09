@@ -21,6 +21,8 @@ public:
   inline int32_t& mLastOutputIndex() {return c_mLastOutputIndex;};
   // TODO: add lookup call for mItemToLastOutputMap
 
+  static std::string objtypename;
+
 private:
   void defProps();
 

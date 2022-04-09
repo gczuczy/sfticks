@@ -13,6 +13,8 @@ public:
   inline float& mCurrentSupplementalAmount() {return c_mCurrentSupplementalAmount;};
   inline bool& mHasSupplementalCached() {return c_mHasSupplementalCached;};
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
   float c_mCurrentSupplementalAmount;

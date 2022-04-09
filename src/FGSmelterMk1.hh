@@ -10,6 +10,8 @@ public:
   FGSmelterMk1(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGSmelterMk1();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

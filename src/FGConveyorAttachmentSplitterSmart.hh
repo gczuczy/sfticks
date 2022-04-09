@@ -15,6 +15,8 @@ public:
 
   inline std::vector<SplitterSortRule>& mSortRules() {return c_mSortRules;};
 
+  static std::string objtypename;
+
 private:
   //std::vector<> c_mSortRules;
   //virtual void deserialize(Reader &_reader);

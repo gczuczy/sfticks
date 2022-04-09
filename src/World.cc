@@ -104,9 +104,46 @@ std::string World::Header::str() const {
 World::World(Header& _header): c_headers(_header) {
   printf("Brave New world:\n%s", c_headers.str().c_str());
   // entity definitions
+  // belts & logics
+  registerEntityType<FGConveyorBeltMk1>();
+  registerEntityType<FGConveyorBeltMk2>();
+  registerEntityType<FGConveyorBeltMk3>();
+  registerEntityType<FGConveyorBeltMk4>();
+  registerEntityType<FGConveyorBeltMk5>();
+  registerEntityType<FGConveyorLiftMk1>();
+  registerEntityType<FGConveyorLiftMk2>();
+  registerEntityType<FGConveyorLiftMk3>();
+  registerEntityType<FGConveyorLiftMk4>();
+  registerEntityType<FGConveyorLiftMk5>();
+  registerEntityType<FGConveyorAttachmentMerger>();
+  registerEntityType<FGConveyorAttachmentSplitter>();
+  registerEntityType<FGConveyorAttachmentSplitterSmart>();
+  // manufacturing units
+  registerEntityType<FGAssemblerMk1>();
+  registerEntityType<FGConstructorMk1>();
+  registerEntityType<FGManufacturerMk1>();
+  registerEntityType<FGBlender>();
+  registerEntityType<FGHadronCollider>();
+  registerEntityType<FGFoundryMk1>();
+  registerEntityType<FGOilRefinery>();
+  registerEntityType<FGPackager>();
+  registerEntityType<FGSmelterMk1>();
+  // generators
+  registerEntityType<FGGeneratorCoal>();
+  registerEntityType<FGGeneratorFuel>();
+  registerEntityType<FGGeneratorNuclear>();
+  // sinks
+  registerEntityType<FGSpaceElevator>();
+  registerEntityType<FGResourceSink>();
+  // logistics units
+  registerEntityType<FGDroneStation>();
+  registerEntityType<FGTrainDockingStation>();
+  // stroage
+  registerEntityType<FGStorageContainerMk1>();
+  registerEntityType<FGStorageContainerMk2>();
   // component definitions
-  defineComponent<FGFactoryConnectionComponent>();
-  defineComponent<FGInventoryComponent>();
+  registerComponentType<FGFactoryConnectionComponent>();
+  registerComponentType<FGInventoryComponent>();
 }
 
 World::~World() {
@@ -130,164 +167,12 @@ void World::deserialize(Reader &_reader) {
 
     //printf("Read object header(%i/%i):\n%s", i, c_world_object_count, header.str().c_str());
 
+    std::map<std::string, entity_callback>::iterator eit;
     if ( header.isEntity() ) {
       //printf("Entity: %s\n", header.FGObjectType().c_str());
       //printf("%s", header.str().c_str());
-      if ( header.FGObjectType() == "Build_ConveyorBeltMk1_C" ) {
-	auto obj = std::make_shared<FGConveyorBeltMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk2_C" ) {
-	auto obj = std::make_shared<FGConveyorBeltMk2>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk3_C" ) {
-	auto obj = std::make_shared<FGConveyorBeltMk3>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk4_C" ) {
-	auto obj = std::make_shared<FGConveyorBeltMk4>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorBeltMk5_C" ) {
-	auto obj = std::make_shared<FGConveyorBeltMk5>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk1_C" ) {
-	auto obj = std::make_shared<FGConveyorLiftMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk2_C" ) {
-	auto obj = std::make_shared<FGConveyorLiftMk2>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk3_C" ) {
-	auto obj = std::make_shared<FGConveyorLiftMk3>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk4_C" ) {
-	auto obj = std::make_shared<FGConveyorLiftMk4>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorLiftMk5_C" ) {
-	auto obj = std::make_shared<FGConveyorLiftMk5>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belts[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentMerger_C" ) {
-	auto obj = std::make_shared<FGConveyorAttachmentMerger>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belt_logics[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentSplitter_C" ) {
-	auto obj = std::make_shared<FGConveyorAttachmentSplitter>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belt_logics[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConveyorAttachmentSplitterSmart_C" ) {
-	auto obj = std::make_shared<FGConveyorAttachmentSplitterSmart>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_belt_logics[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_AssemblerMk1_C" ) {
-	auto obj = std::make_shared<FGAssemblerMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_Blender_C" ) {
-	auto obj = std::make_shared<FGBlender>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ConstructorMk1_C" ) {
-	auto obj = std::make_shared<FGConstructorMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_FoundryMk1_C" ) {
-	auto obj = std::make_shared<FGFoundryMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_HadronCollider_C" ) {
-	auto obj = std::make_shared<FGHadronCollider>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ManufacturerMk1_C" ) {
-	auto obj = std::make_shared<FGManufacturerMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_OilRefinery_C" ) {
-	auto obj = std::make_shared<FGOilRefinery>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_Packager_C" ) {
-	auto obj = std::make_shared<FGPackager>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_SmelterMk1_C" ) {
-	auto obj = std::make_shared<FGSmelterMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_GeneratorCoal_C" ) {
-	auto obj = std::make_shared<FGGeneratorCoal>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_GeneratorFuel_C" ) {
-	auto obj = std::make_shared<FGGeneratorFuel>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_GeneratorNuclear_C" ) {
-	auto obj = std::make_shared<FGGeneratorNuclear>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_ResourceSink_C" ) {
-	auto obj = std::make_shared<FGResourceSink>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_SpaceElevator_C" ) {
-	auto obj = std::make_shared<FGSpaceElevator>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_iounits[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_DroneStation_C" ) {
-	auto obj = std::make_shared<FGDroneStation>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_storage_units[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_StorageContainerMk1_C" ) {
-	auto obj = std::make_shared<FGStorageContainerMk1>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_storage_units[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_StorageContainerMk2_C" ) {
-	auto obj = std::make_shared<FGStorageContainerMk2>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_storage_units[header.instance()] = obj;
-	objects[i] = obj;
-      } else if ( header.FGObjectType() == "Build_TrainDockingStation_C" ) {
-	auto obj = std::make_shared<FGTrainDockingStation>(_reader, header);
-	c_entities[header.instance()] = obj;
-	c_storage_units[header.instance()] = obj;
-	objects[i] = obj;
+      if ( (eit = c_entitydefs.find(header.FGObjectType())) != c_entitydefs.end() ) {
+	objects[i] = eit->second(std::ref(_reader), std::ref(header));
       } else {
 	auto obj = std::make_shared<FGGenericEntity>(_reader, header);
 	c_entities[header.instance()] = obj;

@@ -10,12 +10,10 @@ public:
   FGGeneratorFuel(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGGeneratorFuel();
 
-  inline float& mPendingPotential() {return c_mPendingPotential;};
-  inline float& mCurrentPotential() {return c_mCurrentPotential;};
+  static std::string objtypename;
 
 private:
   //virtual void deserialize(Reader &_reader);
-  float c_mPendingPotential, c_mCurrentPotential;
 };
 
 #endif

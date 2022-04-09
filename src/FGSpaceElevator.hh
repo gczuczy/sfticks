@@ -10,6 +10,8 @@ public:
   FGSpaceElevator(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGSpaceElevator();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

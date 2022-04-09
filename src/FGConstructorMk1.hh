@@ -11,7 +11,8 @@ public:
   FGConstructorMk1(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConstructorMk1();
 
-  //virtual void deserializeProperties(Reader& _reader);
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

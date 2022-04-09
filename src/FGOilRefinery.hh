@@ -10,6 +10,8 @@ public:
   FGOilRefinery(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGOilRefinery();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

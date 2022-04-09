@@ -10,6 +10,8 @@ public:
   FGAssemblerMk1(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGAssemblerMk1();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

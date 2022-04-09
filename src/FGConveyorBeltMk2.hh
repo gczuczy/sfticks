@@ -10,6 +10,8 @@ public:
   FGConveyorBeltMk2(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGConveyorBeltMk2();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

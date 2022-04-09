@@ -10,6 +10,8 @@ public:
   FGBlender(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGBlender();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

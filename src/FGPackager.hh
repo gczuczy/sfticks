@@ -10,6 +10,8 @@ public:
   FGPackager(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGPackager();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

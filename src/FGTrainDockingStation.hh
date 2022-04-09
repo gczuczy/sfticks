@@ -22,6 +22,8 @@ public:
   inline bool& mIsLoadUnloading() {return c_mIsLoadUnloading;};
   inline ETrainPlatformDockingStatus mSavedDockingStatus() {return c_mSavedDockingStatus;};
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 

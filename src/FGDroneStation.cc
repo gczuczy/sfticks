@@ -2,6 +2,8 @@
 #include "FGDroneStation.hh"
 #include "ObjectProperty.hh"
 
+std::string FGDroneStation::objtypename("Build_DroneStation_C");
+
 FGDroneStation::FGDroneStation(Reader& _reader, FGObjectHeader& _fgoh)
   : FGStorageUnit(FGEntityType::DroneStation, _reader, _fgoh, 18){
   defineProperty(std::make_shared<ObjectProperty>("mInputInventory", c_mInputInventory));

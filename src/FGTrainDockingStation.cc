@@ -4,6 +4,7 @@
 #include "FloatProperty.hh"
 #include "BoolProperty.hh"
 
+std::string FGTrainDockingStation::objtypename("Build_TrainDockingStation_C");
 
 FGTrainDockingStation::FGTrainDockingStation(Reader& _reader, FGObjectHeader& _fgoh)
   : FGStorageUnit(FGEntityType::TrainDockingStation, _reader, _fgoh, 48), c_mTimeSinceLastLoadTransferUpdate(0),

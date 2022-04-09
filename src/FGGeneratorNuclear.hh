@@ -10,6 +10,8 @@ public:
   FGGeneratorNuclear(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGGeneratorNuclear();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

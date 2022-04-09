@@ -7,6 +7,8 @@
 #include <map>
 #include <set>
 #include <memory>
+#include <functional>
+#include <type_traits>
 
 #include "Saveable.hh"
 #include "FGEntity.hh"
@@ -57,6 +59,7 @@ public:
   };
 private:
   typedef std::function<FGComponentSP(Reader&, FGObjectHeader&)> component_callback;
+  typedef std::function<FGEntitySP(Reader&, FGObjectHeader&)> entity_callback;
 
 public:
   World()=delete;
@@ -69,8 +72,32 @@ public:
 
 private:
   template<class T>
-  void defineComponent() {
+  void registerComponentType() {
     c_compdefs[T::pathname] = T::instantiate;
+  }
+  template<class T>
+  FGEntitySP instantiateEntity(Reader& _reader, FGObjectHeader& _fgoh) {
+    auto obj = std::make_shared<T>(_reader, _fgoh);
+
+    c_entities[_fgoh.instance()] = obj;
+    if ( std::is_base_of<FGConveyorBelt, T>::value )
+      c_belts[_fgoh.instance()] = std::dynamic_pointer_cast<FGConveyorBelt>(obj);
+
+    if ( std::is_base_of<FGConveyorBeltLogic, T>::value )
+      c_belt_logics[_fgoh.instance()] = std::dynamic_pointer_cast<FGConveyorBeltLogic>(obj);
+
+    if ( std::is_base_of<FGIOUnit, T>::value )
+      c_iounits[_fgoh.instance()] = std::dynamic_pointer_cast<FGIOUnit>(obj);
+
+    if ( std::is_base_of<FGStorageUnit, T>::value )
+      c_storage_units[_fgoh.instance()] = std::dynamic_pointer_cast<FGStorageUnit>(obj);
+
+    return obj;
+  };
+  template<class T>
+  void registerEntityType() {
+    using namespace std::placeholders;
+    c_entitydefs[T::objtypename] = std::bind(&World::instantiateEntity<T>, this, _1, _2);
   }
 
 private:
@@ -79,6 +106,7 @@ private:
 
   // component defintions
   std::map<std::string, component_callback> c_compdefs;
+  std::map<std::string, entity_callback> c_entitydefs;
 
   // complete maps for direct lookups
   // this includes all objects

@@ -5,6 +5,8 @@
 #include "MapProperty.hh"
 #include "ObjectProperty.hh"
 
+std::string FGConveyorAttachmentSplitter::objtypename("Build_ConveyorAttachmentSplitter_C");
+
 FGConveyorAttachmentSplitter::FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh)
   : FGConveyorBeltLogic(FGEntityType::ConveyorAttachmentSplitter, _reader, _fgoh), c_mCurrentOutputIndex(0),
     c_mLastOutputIndex(0) {

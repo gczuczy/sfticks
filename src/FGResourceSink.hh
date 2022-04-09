@@ -14,6 +14,8 @@ public:
   inline float& mProducingTimer() {return c_mProducingTimer;};
   inline ObjectReference& mCouponInventory() {return c_mCouponInventory;};
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
   float c_mProducingTimer;

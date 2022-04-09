@@ -15,6 +15,8 @@ public:
   ObjectReference mOutputInventory() const {return c_mOutputInventory;};
   ObjectReference mBatteryInventory() const {return c_mOutputInventory;};
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 

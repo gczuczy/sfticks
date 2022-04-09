@@ -90,5 +90,6 @@ protected:
 
   std::map<std::string, FGComponentSP> c_components;
 };
+typedef std::shared_ptr<FGEntity> FGEntitySP;
 
 #endif

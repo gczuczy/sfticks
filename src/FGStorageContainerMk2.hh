@@ -10,6 +10,8 @@ public:
   FGStorageContainerMk2(Reader& _reader, FGObjectHeader& _fgoh);
   virtual ~FGStorageContainerMk2();
 
+  static std::string objtypename;
+
 private:
   //virtual void deserialize(Reader &_reader);
 };

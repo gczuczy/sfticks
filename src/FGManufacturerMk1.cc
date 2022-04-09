@@ -1,15 +1,10 @@
 
 #include "FGManufacturerMk1.hh"
 
+std::string FGManufacturerMk1::objtypename("Build_ManufacturerMk1_C");
+
 FGManufacturerMk1::FGManufacturerMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::ManufacturerMk1, _reader, _fgoh), c_mPendingPotential(0),
-    c_mCurrentPotential(0) {
-#if 0
-  defineProperty("mPendingPotential", "FloatProperty",
-		 [&](Reader& _r, int32_t)->void{_r(c_mPendingPotential);});
-  defineProperty("mCurrentPotential", "FloatProperty",
-		 [&](Reader& _r, int32_t)->void{_r(c_mCurrentPotential);});
-#endif
+  : FGIOUnit(FGEntityType::ManufacturerMk1, _reader, _fgoh) {
 }
 
 FGManufacturerMk1::~FGManufacturerMk1() {
