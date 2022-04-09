@@ -5,21 +5,25 @@
 #include "FGIOUnit.hh"
 #include "ObjectReference.hh"
 
-class FGResourceSink: public FGIOUnit {
-public:
-  FGResourceSink()=delete;
-  FGResourceSink(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGResourceSink();
+namespace FG {
 
-  inline float& mProducingTimer() {return c_mProducingTimer;};
-  inline ObjectReference& mCouponInventory() {return c_mCouponInventory;};
+  class ResourceSink: public IOUnit {
+  public:
+    ResourceSink()=delete;
+    ResourceSink(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ResourceSink();
 
-  static std::string objtypename;
+    inline float& mProducingTimer() {return c_mProducingTimer;};
+    inline ObjectReference& mCouponInventory() {return c_mCouponInventory;};
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  float c_mProducingTimer;
-  ObjectReference c_mCouponInventory;
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+    float c_mProducingTimer;
+    ObjectReference c_mCouponInventory;
+  };
+
+}
 
 #endif

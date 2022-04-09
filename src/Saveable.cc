@@ -6,9 +6,12 @@
 #include "Exception.hh"
 #include "misc.hh"
 
-Saveable::Saveable() {
-}
+namespace FG {
 
-Saveable::~Saveable() {
-}
+  Saveable::Saveable() {
+  }
 
+  Saveable::~Saveable() {
+  }
+
+}

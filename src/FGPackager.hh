@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGPackager: public FGIOUnit {
-public:
-  FGPackager()=delete;
-  FGPackager(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGPackager();
+namespace FG {
 
-  static std::string objtypename;
+  class Packager: public IOUnit {
+  public:
+    Packager()=delete;
+    Packager(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~Packager();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

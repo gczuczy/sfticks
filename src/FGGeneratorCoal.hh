@@ -4,21 +4,25 @@
 
 #include "FGGeneratorUnit.hh"
 
-class FGGeneratorCoal: public FGGeneratorUnit {
-public:
-  FGGeneratorCoal()=delete;
-  FGGeneratorCoal(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGeneratorCoal();
+namespace FG {
 
-  inline float& mCurrentSupplementalAmount() {return c_mCurrentSupplementalAmount;};
-  inline bool& mHasSupplementalCached() {return c_mHasSupplementalCached;};
+  class GeneratorCoal: public GeneratorUnit {
+  public:
+    GeneratorCoal()=delete;
+    GeneratorCoal(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GeneratorCoal();
 
-  static std::string objtypename;
+    inline float& mCurrentSupplementalAmount() {return c_mCurrentSupplementalAmount;};
+    inline bool& mHasSupplementalCached() {return c_mHasSupplementalCached;};
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  float c_mCurrentSupplementalAmount;
-  bool c_mHasSupplementalCached;
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+    float c_mCurrentSupplementalAmount;
+    bool c_mHasSupplementalCached;
+  };
+
+}
 
 #endif

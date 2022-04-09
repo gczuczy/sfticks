@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGManufacturerMk1: public FGIOUnit {
-public:
-  FGManufacturerMk1()=delete;
-  FGManufacturerMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGManufacturerMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class ManufacturerMk1: public IOUnit {
+  public:
+    ManufacturerMk1()=delete;
+    ManufacturerMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ManufacturerMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

@@ -1,19 +1,23 @@
 
 #include "IntProperty.hh"
 
-IntProperty::IntProperty(const std::string& _name, int32_t& _value, int32_t _index)
-  : PropertyInterface(SavePropertyType::IntProperty, _name, _index), c_value(_value) {
-}
+namespace FG {
 
-void IntProperty::deserialize(Reader& _reader, int32_t _size) {
-  _reader.skip(1);
-  Reader data(_reader, _size);
-  deserializeData(data);
-}
+  IntProperty::IntProperty(const std::string& _name, int32_t& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::IntProperty, _name, _index), c_value(_value) {
+  }
 
-void IntProperty::deserializeData(Reader& _reader) {
-  _reader(c_value);
-}
+  void IntProperty::deserialize(Reader& _reader, int32_t _size) {
+    _reader.skip(1);
+    Reader data(_reader, _size);
+    deserializeData(data);
+  }
 
-void IntProperty::deserializeNestedHeaders(Reader& _reader, IntProperty::NestedHeader& _nh) {
+  void IntProperty::deserializeData(Reader& _reader) {
+    _reader(c_value);
+  }
+
+  void IntProperty::deserializeNestedHeaders(Reader& _reader, IntProperty::NestedHeader& _nh) {
+  }
+
 }

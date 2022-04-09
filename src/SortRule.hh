@@ -7,10 +7,15 @@
 
 #include "ObjectReference.hh"
 
-struct SplitterSortRule {
-  SplitterSortRule()=default;
-  ~SplitterSortRule()=default;
-  ObjectReference ItemClass;
-  int32_t OutputIndex;
-};
+namespace FG {
+
+  struct SplitterSortRule {
+    SplitterSortRule()=default;
+    ~SplitterSortRule()=default;
+    ObjectReference ItemClass;
+    int32_t OutputIndex;
+  };
+
+}
+
 #endif

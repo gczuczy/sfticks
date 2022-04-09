@@ -1,12 +1,15 @@
 
 #include "FGBlender.hh"
 
-std::string FGBlender::objtypename("Build_Blender_C");
+namespace FG {
 
-FGBlender::FGBlender(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::Blender, _reader, _fgoh){
+  std::string Blender::objtypename("Build_Blender_C");
+
+  Blender::Blender(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::Blender, _reader, _fgoh){
+  }
+
+  Blender::~Blender() {
+  }
+
 }
-
-FGBlender::~FGBlender() {
-}
-

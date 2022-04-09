@@ -7,20 +7,24 @@
 
 #include <vector>
 
-class FGConveyorAttachmentSplitterSmart: public FGConveyorAttachmentSplitter {
-public:
-  FGConveyorAttachmentSplitterSmart()=delete;
-  FGConveyorAttachmentSplitterSmart(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConveyorAttachmentSplitterSmart();
+namespace FG {
 
-  inline std::vector<SplitterSortRule>& mSortRules() {return c_mSortRules;};
+  class ConveyorAttachmentSplitterSmart: public ConveyorAttachmentSplitter {
+  public:
+    ConveyorAttachmentSplitterSmart()=delete;
+    ConveyorAttachmentSplitterSmart(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConveyorAttachmentSplitterSmart();
 
-  static std::string objtypename;
+    inline std::vector<SplitterSortRule>& mSortRules() {return c_mSortRules;};
 
-private:
-  //std::vector<> c_mSortRules;
-  //virtual void deserialize(Reader &_reader);
-  std::vector<SplitterSortRule> c_mSortRules;
-};
+    static std::string objtypename;
+
+  private:
+    //std::vector<> c_mSortRules;
+    //virtual void deserialize(Reader &_reader);
+    std::vector<SplitterSortRule> c_mSortRules;
+  };
+
+}
 
 #endif

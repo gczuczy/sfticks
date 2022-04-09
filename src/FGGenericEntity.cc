@@ -1,17 +1,20 @@
 
 #include "FGGenericEntity.hh"
 
-FGGenericEntity::FGGenericEntity(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGEntity(FGEntityType::GenericEntity, _reader, _fgoh){
-}
+namespace FG {
 
-FGGenericEntity::~FGGenericEntity() {
-}
+  GenericEntity::GenericEntity(Reader& _reader, ObjectHeader& _fgoh)
+    : Entity(EntityType::GenericEntity, _reader, _fgoh){
+  }
 
-void FGGenericEntity::deserialize(Reader &_reader) {
-}
+  GenericEntity::~GenericEntity() {
+  }
 
-void FGGenericEntity::deserializeProperties(Reader &_reader) {
-  _reader.store(c_properties);
-}
+  void GenericEntity::deserialize(Reader &_reader) {
+  }
 
+  void GenericEntity::deserializeProperties(Reader &_reader) {
+    _reader.store(c_properties);
+  }
+
+}

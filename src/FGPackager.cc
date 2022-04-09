@@ -1,12 +1,15 @@
 
 #include "FGPackager.hh"
 
-std::string FGPackager::objtypename("Build_Packager_C");
+namespace FG {
 
-FGPackager::FGPackager(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::Packager, _reader, _fgoh){
+  std::string Packager::objtypename("Build_Packager_C");
+
+  Packager::Packager(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::Packager, _reader, _fgoh){
+  }
+
+  Packager::~Packager() {
+  }
+
 }
-
-FGPackager::~FGPackager() {
-}
-

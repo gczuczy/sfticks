@@ -10,18 +10,22 @@
 
 #include "SaveProperties.hh"
 
-class Saveable: public SaveProperties {
-protected:
-public:
-  Saveable();
-  virtual ~Saveable()=0;
+namespace FG {
 
-public:
-  virtual void deserialize(Reader& _reader)=0;
-  virtual void deserializeProperties(Reader& _reader)=0;
-  virtual std::string str() const=0;
-};
+  class Saveable: public SaveProperties {
+  protected:
+  public:
+    Saveable();
+    virtual ~Saveable()=0;
 
-typedef std::shared_ptr<Saveable> SaveableSP;
+  public:
+    virtual void deserialize(Reader& _reader)=0;
+    virtual void deserializeProperties(Reader& _reader)=0;
+    virtual std::string str() const=0;
+  };
+
+  typedef std::shared_ptr<Saveable> SaveableSP;
+
+}
 
 #endif

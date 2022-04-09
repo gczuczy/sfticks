@@ -1,12 +1,15 @@
 
 #include "FGFoundryMk1.hh"
 
-std::string FGFoundryMk1::objtypename("Build_FoundryMk1_C");
+namespace FG {
 
-FGFoundryMk1::FGFoundryMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::FoundryMk1, _reader, _fgoh){
+  std::string FoundryMk1::objtypename("Build_FoundryMk1_C");
+
+  FoundryMk1::FoundryMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::FoundryMk1, _reader, _fgoh){
+  }
+
+  FoundryMk1::~FoundryMk1() {
+  }
+
 }
-
-FGFoundryMk1::~FGFoundryMk1() {
-}
-

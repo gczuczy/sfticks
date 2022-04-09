@@ -4,20 +4,24 @@
 
 #include "FGConveyorBeltLogic.hh"
 
-class FGConveyorAttachmentMerger: public FGConveyorBeltLogic {
-public:
-  FGConveyorAttachmentMerger()=delete;
-  FGConveyorAttachmentMerger(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConveyorAttachmentMerger();
+namespace FG {
 
-  inline int32_t& mCurrentInputIndex() {return c_mCurrentInputIndex;};
-  inline int32_t& mCurrentInventoryIndex() {return c_mCurrentInventoryIndex;};
+  class ConveyorAttachmentMerger: public ConveyorBeltLogic {
+  public:
+    ConveyorAttachmentMerger()=delete;
+    ConveyorAttachmentMerger(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConveyorAttachmentMerger();
 
-  static std::string objtypename;
+    inline int32_t& mCurrentInputIndex() {return c_mCurrentInputIndex;};
+    inline int32_t& mCurrentInventoryIndex() {return c_mCurrentInventoryIndex;};
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  int32_t c_mCurrentInputIndex, c_mCurrentInventoryIndex;
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+    int32_t c_mCurrentInputIndex, c_mCurrentInventoryIndex;
+  };
+
+}
 
 #endif

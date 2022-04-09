@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGHadronCollider: public FGIOUnit {
-public:
-  FGHadronCollider()=delete;
-  FGHadronCollider(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGHadronCollider();
+namespace FG {
 
-  static std::string objtypename;
+  class HadronCollider: public IOUnit {
+  public:
+    HadronCollider()=delete;
+    HadronCollider(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~HadronCollider();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

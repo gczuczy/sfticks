@@ -65,10 +65,10 @@ int main(int argc, char* argv[]) {
   uint64_t datalen;
 
   try{
-    Timer t("Data loading");
+    SFT::Timer t("Data loading");
     data = load(filename, datalen);
   }
-  catch (Exception &e) {
+  catch (SFT::Exception &e) {
     printf("Exception while loading data: %s\n", e.what());
     return 1;
   }
@@ -80,23 +80,23 @@ int main(int argc, char* argv[]) {
 
   try {
     {
-      Timer t("Complete compression, level=0");
+      SFT::Timer t("Complete compression, level=0");
       compress(data, datalen, 0, zchunksize);
     }
     {
-      Timer t("Complete compression, level=1");
+      SFT::Timer t("Complete compression, level=1");
       compress(data, datalen, 1, zchunksize);
     }
     {
-      Timer t("Chunked compression, level=0");
+      SFT::Timer t("Chunked compression, level=0");
       compress_chunked(data, datalen, 0, zchunksize, chunksize);
     }
     {
-      Timer t("Chunked compression, level=1");
+      SFT::Timer t("Chunked compression, level=1");
       compress_chunked(data, datalen, 1, zchunksize, chunksize);
     }
   }
-  catch (Exception &e) {
+  catch (SFT::Exception &e) {
     printf("Exception while compressing data: %s\n", e.what());
     free(data);
     return 1;
@@ -121,7 +121,7 @@ void compress(char* _data, uint64_t _datalen, int _level, int _zchunksize) {
 
   if ( (ret = deflateInit(&strm, _level))!= Z_OK ) {
     free(buffer);
-    throw Exception("deflateInit failed");
+    throw SFT::Exception("deflateInit failed");
   }
 
   do {
@@ -137,7 +137,7 @@ void compress(char* _data, uint64_t _datalen, int _level, int _zchunksize) {
       if ( ret == Z_STREAM_ERROR ) {
 	free(buffer);
 	deflateEnd(&strm);
-	throw Exception("Z_STREAM_ERROR");
+	throw SFT::Exception("Z_STREAM_ERROR");
       }
 
       
@@ -169,12 +169,12 @@ char* load(std::string& _file, uint64_t &_len) {
   int fd;
 
   if ( (fd = open(_file.c_str(), O_RDONLY)) == -1 )
-    throw Exception("Open error");
+    throw SFT::Exception("Open error");
 
   struct stat st;
   if ( fstat(fd, &st)<0 ) {
     close(fd);
-    throw Exception("Unable to stat file");
+    throw SFT::Exception("Unable to stat file");
   }
   _len = st.st_size;
   printf("Data size: %lu bytes\n", _len);
@@ -184,7 +184,7 @@ char* load(std::string& _file, uint64_t &_len) {
 
   if ( (r=read(fd, (void*)buff, _len))<0 ) {
     close(fd);
-    throw Exception("Read error");
+    throw SFT::Exception("Read error");
   }
   
   printf("read: %i\n", r);

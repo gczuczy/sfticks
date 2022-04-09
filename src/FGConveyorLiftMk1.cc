@@ -1,12 +1,15 @@
 
 #include "FGConveyorLiftMk1.hh"
 
-std::string FGConveyorLiftMk1::objtypename("Build_ConveyorLiftMk1_C");
+namespace FG {
 
-FGConveyorLiftMk1::FGConveyorLiftMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGConveyorLift(FGEntityType::ConveyorLiftMk1, _reader, _fgoh, 60){
+  std::string ConveyorLiftMk1::objtypename("Build_ConveyorLiftMk1_C");
+
+  ConveyorLiftMk1::ConveyorLiftMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : ConveyorLift(EntityType::ConveyorLiftMk1, _reader, _fgoh, 60){
+  }
+
+  ConveyorLiftMk1::~ConveyorLiftMk1() {
+  }
+
 }
-
-FGConveyorLiftMk1::~FGConveyorLiftMk1() {
-}
-

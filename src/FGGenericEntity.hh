@@ -4,19 +4,23 @@
 
 #include "FGEntity.hh"
 
-class FGGenericEntity: public FGEntity {
-public:
-  FGGenericEntity()=delete;
-  FGGenericEntity(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGenericEntity();
+namespace FG {
 
-  virtual void deserializeProperties(Reader &_reader);
+  class GenericEntity: public Entity {
+  public:
+    GenericEntity()=delete;
+    GenericEntity(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GenericEntity();
 
-private:
-  virtual void deserialize(Reader &_reader);
+    virtual void deserializeProperties(Reader &_reader);
 
-private:
-  std::string c_properties;
-};
+  private:
+    virtual void deserialize(Reader &_reader);
+
+  private:
+    std::string c_properties;
+  };
+
+}
 
 #endif

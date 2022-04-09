@@ -5,22 +5,26 @@
 #include "FGBuilding.hh"
 #include "ObjectReference.hh"
 
-// this is an abstraction class for mergers/splitters and alike
+namespace FG {
 
-// this will need some generic interface for querying the
-// inputs and outputs
-class FGConveyorBeltLogic: public FGBuilding {
-public:
-  FGConveyorBeltLogic()=delete;
-  FGConveyorBeltLogic(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConveyorBeltLogic();
+  // this is an abstraction class for mergers/splitters and alike
+
+  // this will need some generic interface for querying the
+  // inputs and outputs
+  class ConveyorBeltLogic: public Building {
+  public:
+    ConveyorBeltLogic()=delete;
+    ConveyorBeltLogic(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConveyorBeltLogic();
 
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  ObjectReference c_mBufferInventory;
-};
+  private:
+    //virtual void deserialize(Reader &_reader);
+    ObjectReference c_mBufferInventory;
+  };
 
-typedef std::shared_ptr<FGConveyorBeltLogic> FGConveyorBeltLogicSP;
+  typedef std::shared_ptr<ConveyorBeltLogic> ConveyorBeltLogicSP;
+
+}
 
 #endif

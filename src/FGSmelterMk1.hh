@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGSmelterMk1: public FGIOUnit {
-public:
-  FGSmelterMk1()=delete;
-  FGSmelterMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGSmelterMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class SmelterMk1: public IOUnit {
+  public:
+    SmelterMk1()=delete;
+    SmelterMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~SmelterMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

@@ -1,12 +1,15 @@
 
 #include "FGSmelterMk1.hh"
 
-std::string FGSmelterMk1::objtypename("Build_SmelterMk1_C");
+namespace FG {
 
-FGSmelterMk1::FGSmelterMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::SmelterMk1, _reader, _fgoh){
+  std::string SmelterMk1::objtypename("Build_SmelterMk1_C");
+
+  SmelterMk1::SmelterMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::SmelterMk1, _reader, _fgoh){
+  }
+
+  SmelterMk1::~SmelterMk1() {
+  }
+
 }
-
-FGSmelterMk1::~FGSmelterMk1() {
-}
-

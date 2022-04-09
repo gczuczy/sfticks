@@ -2,11 +2,14 @@
 #include "FGConveyorBeltLogic.hh"
 #include "ObjectProperty.hh"
 
-FGConveyorBeltLogic::FGConveyorBeltLogic(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh)
-  : FGBuilding(_et, _reader, _fgoh) {
-  defineProperty(std::make_shared<ObjectProperty>("mBufferInventory", c_mBufferInventory));
-}
+namespace FG {
 
-FGConveyorBeltLogic::~FGConveyorBeltLogic() {
-}
+  ConveyorBeltLogic::ConveyorBeltLogic(EntityType _et, Reader& _reader, ObjectHeader& _fgoh)
+    : Building(_et, _reader, _fgoh) {
+    defineProperty(std::make_shared<ObjectProperty>("mBufferInventory", c_mBufferInventory));
+  }
 
+  ConveyorBeltLogic::~ConveyorBeltLogic() {
+  }
+
+}

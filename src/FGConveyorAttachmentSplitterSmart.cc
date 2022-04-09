@@ -3,13 +3,16 @@
 #include "ArrayProperty.hh"
 #include "StructProperty.hh"
 
-std::string FGConveyorAttachmentSplitterSmart::objtypename("Build_ConveyorAttachmentSplitterSmart_C");
+namespace FG {
 
-FGConveyorAttachmentSplitterSmart::FGConveyorAttachmentSplitterSmart(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGConveyorAttachmentSplitter(FGEntityType::ConveyorAttachmentSplitterSmart, _reader, _fgoh) {
-  defineProperty(std::make_shared<ArrayProperty<StructProperty<SplitterSortRule> > >("mSortRules", c_mSortRules));
+  std::string ConveyorAttachmentSplitterSmart::objtypename("Build_ConveyorAttachmentSplitterSmart_C");
+
+  ConveyorAttachmentSplitterSmart::ConveyorAttachmentSplitterSmart(Reader& _reader, ObjectHeader& _fgoh)
+    : ConveyorAttachmentSplitter(EntityType::ConveyorAttachmentSplitterSmart, _reader, _fgoh) {
+    defineProperty(std::make_shared<ArrayProperty<StructProperty<SplitterSortRule> > >("mSortRules", c_mSortRules));
+  }
+
+  ConveyorAttachmentSplitterSmart::~ConveyorAttachmentSplitterSmart() {
+  }
+
 }
-
-FGConveyorAttachmentSplitterSmart::~FGConveyorAttachmentSplitterSmart() {
-}
-

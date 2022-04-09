@@ -4,17 +4,21 @@
 
 #include "PropertyInterface.hh"
 
-class FloatProperty: public PropertyInterface {
-public:
-  FloatProperty() = delete;
-  FloatProperty(const std::string& _name, float& _value, int32_t _index=0);
-  virtual ~FloatProperty()=default;
+namespace FG {
 
-  virtual void deserialize(Reader& _reader, int32_t _size);
-  virtual void deserializeData(Reader& _reader);
+  class FloatProperty: public PropertyInterface {
+  public:
+    FloatProperty() = delete;
+    FloatProperty(const std::string& _name, float& _value, int32_t _index=0);
+    virtual ~FloatProperty()=default;
 
-private:
-  float& c_value;
-};
+    virtual void deserialize(Reader& _reader, int32_t _size);
+    virtual void deserializeData(Reader& _reader);
+
+  private:
+    float& c_value;
+  };
+
+}
 
 #endif

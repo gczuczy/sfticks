@@ -8,22 +8,26 @@
 
 #include <vector>
 
-class FGInventoryComponent: public FGComponent {
-public:
-  FGInventoryComponent() = delete;
-  FGInventoryComponent(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGInventoryComponent()=default;
-  static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
+namespace FG {
 
-public:
-  static std::string pathname;
+  class InventoryComponent: public Component {
+  public:
+    InventoryComponent() = delete;
+    InventoryComponent(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~InventoryComponent()=default;
+    static ComponentSP instantiate(Reader& _reader, ObjectHeader& _fgoh);
 
-private:
-  std::vector<InventoryStack> c_mInventoryStacks;
-  std::vector<int32_t> c_mArbitrarySlotSizes;
-  std::vector<ObjectReference> c_mAllowedItemDescriptors;
-  bool c_mCanBeRearrange;
-  int32_t c_mAdjustedSizeDiff;
-};
+  public:
+    static std::string pathname;
+
+  private:
+    std::vector<InventoryStack> c_mInventoryStacks;
+    std::vector<int32_t> c_mArbitrarySlotSizes;
+    std::vector<ObjectReference> c_mAllowedItemDescriptors;
+    bool c_mCanBeRearrange;
+    int32_t c_mAdjustedSizeDiff;
+  };
+
+}
 
 #endif

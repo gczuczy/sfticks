@@ -1,12 +1,15 @@
 
 #include "FGGeneratorNuclear.hh"
 
-std::string FGGeneratorNuclear::objtypename("Build_GeneratorNuclear_C");
+namespace FG {
 
-FGGeneratorNuclear::FGGeneratorNuclear(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGGeneratorUnit(FGEntityType::GeneratorNuclear, _reader, _fgoh){
+  std::string GeneratorNuclear::objtypename("Build_GeneratorNuclear_C");
+
+  GeneratorNuclear::GeneratorNuclear(Reader& _reader, ObjectHeader& _fgoh)
+    : GeneratorUnit(EntityType::GeneratorNuclear, _reader, _fgoh){
+  }
+
+  GeneratorNuclear::~GeneratorNuclear() {
+  }
+
 }
-
-FGGeneratorNuclear::~FGGeneratorNuclear() {
-}
-

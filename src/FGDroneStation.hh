@@ -5,22 +5,26 @@
 #include "FGStorageUnit.hh"
 #include "ObjectReference.hh"
 
-class FGDroneStation: public FGStorageUnit {
-public:
-  FGDroneStation()=delete;
-  FGDroneStation(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGDroneStation();
+namespace FG {
 
-  ObjectReference mInputInventory() const {return c_mInputInventory;};
-  ObjectReference mOutputInventory() const {return c_mOutputInventory;};
-  ObjectReference mBatteryInventory() const {return c_mOutputInventory;};
+  class DroneStation: public StorageUnit {
+  public:
+    DroneStation()=delete;
+    DroneStation(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~DroneStation();
 
-  static std::string objtypename;
+    ObjectReference mInputInventory() const {return c_mInputInventory;};
+    ObjectReference mOutputInventory() const {return c_mOutputInventory;};
+    ObjectReference mBatteryInventory() const {return c_mOutputInventory;};
 
-private:
-  //virtual void deserialize(Reader &_reader);
+    static std::string objtypename;
 
-  ObjectReference c_mInputInventory, c_mOutputInventory, c_mBatteryInventory, c_mInfo, c_mInventoryPotential;
-};
+  private:
+    //virtual void deserialize(Reader &_reader);
+
+    ObjectReference c_mInputInventory, c_mOutputInventory, c_mBatteryInventory, c_mInfo, c_mInventoryPotential;
+  };
+
+}
 
 #endif

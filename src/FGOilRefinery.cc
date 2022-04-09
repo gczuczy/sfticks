@@ -2,11 +2,15 @@
 #include "FGOilRefinery.hh"
 #include "FloatProperty.hh"
 
-std::string FGOilRefinery::objtypename("Build_OilRefinery_C");
+namespace FG {
 
-FGOilRefinery::FGOilRefinery(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::OilRefinery, _reader, _fgoh) {
-}
+  std::string OilRefinery::objtypename("Build_OilRefinery_C");
 
-FGOilRefinery::~FGOilRefinery() {
+  OilRefinery::OilRefinery(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::OilRefinery, _reader, _fgoh) {
+  }
+
+  OilRefinery::~OilRefinery() {
+  }
+
 }

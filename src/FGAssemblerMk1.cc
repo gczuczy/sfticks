@@ -1,12 +1,15 @@
 
 #include "FGAssemblerMk1.hh"
 
-std::string FGAssemblerMk1::objtypename("Build_AssemblerMk1_C");
+namespace FG {
 
-FGAssemblerMk1::FGAssemblerMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::AssemblerMk1, _reader, _fgoh){
+  std::string AssemblerMk1::objtypename("Build_AssemblerMk1_C");
+
+  AssemblerMk1::AssemblerMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::AssemblerMk1, _reader, _fgoh){
+  }
+
+  AssemblerMk1::~AssemblerMk1() {
+  }
+
 }
-
-FGAssemblerMk1::~FGAssemblerMk1() {
-}
-

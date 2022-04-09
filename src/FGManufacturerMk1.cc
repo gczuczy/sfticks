@@ -1,12 +1,15 @@
 
 #include "FGManufacturerMk1.hh"
 
-std::string FGManufacturerMk1::objtypename("Build_ManufacturerMk1_C");
+namespace FG {
 
-FGManufacturerMk1::FGManufacturerMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::ManufacturerMk1, _reader, _fgoh) {
+  std::string ManufacturerMk1::objtypename("Build_ManufacturerMk1_C");
+
+  ManufacturerMk1::ManufacturerMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::ManufacturerMk1, _reader, _fgoh) {
+  }
+
+  ManufacturerMk1::~ManufacturerMk1() {
+  }
+
 }
-
-FGManufacturerMk1::~FGManufacturerMk1() {
-}
-

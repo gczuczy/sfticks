@@ -8,28 +8,32 @@
 
 #include <map>
 
-class FGConveyorAttachmentSplitter: public FGConveyorBeltLogic {
-public:
-  FGConveyorAttachmentSplitter()=delete;
-  FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConveyorAttachmentSplitter();
-protected:
-  FGConveyorAttachmentSplitter(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
+namespace FG {
 
-public:
-  inline int32_t& mCurrentOutputIndex() {return c_mCurrentOutputIndex;};
-  inline int32_t& mLastOutputIndex() {return c_mLastOutputIndex;};
-  // TODO: add lookup call for mItemToLastOutputMap
+  class ConveyorAttachmentSplitter: public ConveyorBeltLogic {
+  public:
+    ConveyorAttachmentSplitter()=delete;
+    ConveyorAttachmentSplitter(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConveyorAttachmentSplitter();
+  protected:
+    ConveyorAttachmentSplitter(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
 
-  static std::string objtypename;
+  public:
+    inline int32_t& mCurrentOutputIndex() {return c_mCurrentOutputIndex;};
+    inline int32_t& mLastOutputIndex() {return c_mLastOutputIndex;};
+    // TODO: add lookup call for mItemToLastOutputMap
 
-private:
-  void defProps();
+    static std::string objtypename;
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  int32_t c_mCurrentOutputIndex, c_mLastOutputIndex;
-  std::map<ObjectReference, int8_t> c_mItemToLastOutputMap;
-};
+  private:
+    void defProps();
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+    int32_t c_mCurrentOutputIndex, c_mLastOutputIndex;
+    std::map<ObjectReference, int8_t> c_mItemToLastOutputMap;
+  };
+
+}
 
 #endif

@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGOilRefinery: public FGIOUnit {
-public:
-  FGOilRefinery()=delete;
-  FGOilRefinery(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGOilRefinery();
+namespace FG {
 
-  static std::string objtypename;
+  class OilRefinery: public IOUnit {
+  public:
+    OilRefinery()=delete;
+    OilRefinery(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~OilRefinery();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

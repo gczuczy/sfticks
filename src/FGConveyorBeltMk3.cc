@@ -1,12 +1,15 @@
 
 #include "FGConveyorBeltMk3.hh"
 
-std::string FGConveyorBeltMk3::objtypename("Build_ConveyorBeltMk3_C");
+namespace FG {
 
-FGConveyorBeltMk3::FGConveyorBeltMk3(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGConveyorBelt(FGEntityType::ConveyorBeltMk3, _reader, _fgoh, 270){
+  std::string ConveyorBeltMk3::objtypename("Build_ConveyorBeltMk3_C");
+
+  ConveyorBeltMk3::ConveyorBeltMk3(Reader& _reader, ObjectHeader& _fgoh)
+    : ConveyorBelt(EntityType::ConveyorBeltMk3, _reader, _fgoh, 270){
+  }
+
+  ConveyorBeltMk3::~ConveyorBeltMk3() {
+  }
+
 }
-
-FGConveyorBeltMk3::~FGConveyorBeltMk3() {
-}
-

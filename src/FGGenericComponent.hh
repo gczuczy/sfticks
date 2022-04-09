@@ -4,22 +4,26 @@
 
 #include "FGComponent.hh"
 
-class FGGenericComponent: public FGComponent {
-public:
-  FGGenericComponent()=delete;
-  FGGenericComponent(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGenericComponent();
+namespace FG {
 
-  virtual void deserializeProperties(Reader &_reader);
+  class GenericComponent: public Component {
+  public:
+    GenericComponent()=delete;
+    GenericComponent(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GenericComponent();
 
-  // debug functions
-  void dump(const std::string _file);
+    virtual void deserializeProperties(Reader &_reader);
 
-private:
-  virtual void deserialize(Reader &_reader);
+    // debug functions
+    void dump(const std::string _file);
 
-private:
-  std::string c_properties;
-};
+  private:
+    virtual void deserialize(Reader &_reader);
+
+  private:
+    std::string c_properties;
+  };
+
+}
 
 #endif

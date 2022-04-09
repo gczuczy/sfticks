@@ -5,11 +5,15 @@
 
 #include <cassert>
 
-std::string FGConstructorMk1::objtypename("Build_ConstructorMk1_C");
+namespace FG {
 
-FGConstructorMk1::FGConstructorMk1(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::ConstructorMk1, _reader, _fgoh) {
-}
+  std::string ConstructorMk1::objtypename("Build_ConstructorMk1_C");
 
-FGConstructorMk1::~FGConstructorMk1() {
+  ConstructorMk1::ConstructorMk1(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::ConstructorMk1, _reader, _fgoh) {
+  }
+
+  ConstructorMk1::~ConstructorMk1() {
+  }
+
 }

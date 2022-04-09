@@ -4,16 +4,20 @@
 
 #include "FGGeneratorUnit.hh"
 
-class FGGeneratorNuclear: public FGGeneratorUnit {
-public:
-  FGGeneratorNuclear()=delete;
-  FGGeneratorNuclear(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGeneratorNuclear();
+namespace FG {
 
-  static std::string objtypename;
+  class GeneratorNuclear: public GeneratorUnit {
+  public:
+    GeneratorNuclear()=delete;
+    GeneratorNuclear(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GeneratorNuclear();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

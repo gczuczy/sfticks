@@ -5,24 +5,28 @@
 #include "MapProperty.hh"
 #include "ObjectProperty.hh"
 
-std::string FGConveyorAttachmentSplitter::objtypename("Build_ConveyorAttachmentSplitter_C");
+namespace FG {
 
-FGConveyorAttachmentSplitter::FGConveyorAttachmentSplitter(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGConveyorBeltLogic(FGEntityType::ConveyorAttachmentSplitter, _reader, _fgoh), c_mCurrentOutputIndex(0),
-    c_mLastOutputIndex(0) {
-  defProps();
-}
+  std::string ConveyorAttachmentSplitter::objtypename("Build_ConveyorAttachmentSplitter_C");
 
-FGConveyorAttachmentSplitter::FGConveyorAttachmentSplitter(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh)
-  : FGConveyorBeltLogic(_et, _reader, _fgoh), c_mCurrentOutputIndex(0), c_mLastOutputIndex(0) {
-  defProps();
-}
+  ConveyorAttachmentSplitter::ConveyorAttachmentSplitter(Reader& _reader, ObjectHeader& _fgoh)
+    : ConveyorBeltLogic(EntityType::ConveyorAttachmentSplitter, _reader, _fgoh), c_mCurrentOutputIndex(0),
+      c_mLastOutputIndex(0) {
+    defProps();
+  }
 
-FGConveyorAttachmentSplitter::~FGConveyorAttachmentSplitter() {
-}
+  ConveyorAttachmentSplitter::ConveyorAttachmentSplitter(EntityType _et, Reader& _reader, ObjectHeader& _fgoh)
+    : ConveyorBeltLogic(_et, _reader, _fgoh), c_mCurrentOutputIndex(0), c_mLastOutputIndex(0) {
+    defProps();
+  }
 
-void FGConveyorAttachmentSplitter::defProps() {
-  defineProperty(std::make_shared<IntProperty>("mCurrentOutputIndex", c_mCurrentOutputIndex));
-  defineProperty(std::make_shared<IntProperty>("mLastOutputIndex", c_mLastOutputIndex));
-  defineProperty(std::make_shared<MapProperty<ObjectProperty, ByteProperty> >("mItemToLastOutputMap", c_mItemToLastOutputMap));
+  ConveyorAttachmentSplitter::~ConveyorAttachmentSplitter() {
+  }
+
+  void ConveyorAttachmentSplitter::defProps() {
+    defineProperty(std::make_shared<IntProperty>("mCurrentOutputIndex", c_mCurrentOutputIndex));
+    defineProperty(std::make_shared<IntProperty>("mLastOutputIndex", c_mLastOutputIndex));
+    defineProperty(std::make_shared<MapProperty<ObjectProperty, ByteProperty> >("mItemToLastOutputMap", c_mItemToLastOutputMap));
+  }
+
 }

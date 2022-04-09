@@ -3,12 +3,14 @@
 #include "GenericArrayProperty.hh"
 //#include "ObjectProperty.hh"
 
-FGConveyorBelt::FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, int32_t _throughput)
-  : FGBuilding(_et, _reader, _fgoh), c_throughput(_throughput) {
-  defineProperty(std::make_shared<GenericArrayProperty>("mSplineData"));
+namespace FG {
+
+  ConveyorBelt::ConveyorBelt(EntityType _et, Reader& _reader, ObjectHeader& _fgoh, int32_t _throughput)
+    : Building(_et, _reader, _fgoh), c_throughput(_throughput) {
+    defineProperty(std::make_shared<GenericArrayProperty>("mSplineData"));
+  }
+
+  ConveyorBelt::~ConveyorBelt() {
+  }
+
 }
-
-FGConveyorBelt::~FGConveyorBelt() {
-}
-
-

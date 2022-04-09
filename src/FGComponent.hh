@@ -11,33 +11,37 @@
 #include "vectors.hh"
 #include "misc.hh"
 
-enum class FGComponentType: int32_t {
-  Generic=-1,
-  FactoryConnection=0,
-  Inventory,
-};
+namespace FG {
 
-class FGComponent: public FGObjectHeader {
-  FGComponent()=delete;
-public:
-  FGComponent(FGComponentType _comptype, Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGComponent();
+  enum class ComponentType: int32_t {
+    Generic=-1,
+    FactoryConnection=0,
+    Inventory,
+  };
 
-  inline FGComponentType componentType() const {return c_comptype;};
-  inline std::string parentEntityName() const {return c_parent_entity_name;};
-  inline std::string instanceName() const {return strprintf("%s_%i", c_component_name.c_str(), c_component_instanceid);};
+  class Component: public ObjectHeader {
+    Component()=delete;
+  public:
+    Component(ComponentType _comptype, Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~Component();
 
-  virtual void deserializeProperties(Reader &_reader);
-private:
-  virtual void deserialize(Reader &_reader);
+    inline ComponentType componentType() const {return c_comptype;};
+    inline std::string parentEntityName() const {return c_parent_entity_name;};
+    inline std::string instanceName() const {return strprintf("%s_%i", c_component_name.c_str(), c_component_instanceid);};
 
-protected:
-  std::string c_parent_entity_name;
+    virtual void deserializeProperties(Reader &_reader);
+  private:
+    virtual void deserialize(Reader &_reader);
 
-private:
-  FGComponentType c_comptype;
-};
+  protected:
+    std::string c_parent_entity_name;
 
-typedef std::shared_ptr<FGComponent> FGComponentSP;
+  private:
+    ComponentType c_comptype;
+  };
+
+  typedef std::shared_ptr<Component> ComponentSP;
+
+}
 
 #endif

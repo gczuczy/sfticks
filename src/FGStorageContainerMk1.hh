@@ -4,16 +4,20 @@
 
 #include "FGStorageUnit.hh"
 
-class FGStorageContainerMk1: public FGStorageUnit {
-public:
-  FGStorageContainerMk1()=delete;
-  FGStorageContainerMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGStorageContainerMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class StorageContainerMk1: public StorageUnit {
+  public:
+    StorageContainerMk1()=delete;
+    StorageContainerMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~StorageContainerMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

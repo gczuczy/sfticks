@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGFoundryMk1: public FGIOUnit {
-public:
-  FGFoundryMk1()=delete;
-  FGFoundryMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGFoundryMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class FoundryMk1: public IOUnit {
+  public:
+    FoundryMk1()=delete;
+    FoundryMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~FoundryMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

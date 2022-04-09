@@ -4,17 +4,21 @@
 
 #include "FGIOUnit.hh"
 
-class FGConstructorMk1: public FGIOUnit {
-private:
-public:
-  FGConstructorMk1()=delete;
-  FGConstructorMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConstructorMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class ConstructorMk1: public IOUnit {
+  private:
+  public:
+    ConstructorMk1()=delete;
+    ConstructorMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConstructorMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

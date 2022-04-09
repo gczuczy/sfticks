@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGAssemblerMk1: public FGIOUnit {
-public:
-  FGAssemblerMk1()=delete;
-  FGAssemblerMk1(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGAssemblerMk1();
+namespace FG {
 
-  static std::string objtypename;
+  class AssemblerMk1: public IOUnit {
+  public:
+    AssemblerMk1()=delete;
+    AssemblerMk1(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~AssemblerMk1();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

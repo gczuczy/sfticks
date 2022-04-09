@@ -4,16 +4,20 @@
 
 #include "FGConveyorBelt.hh"
 
-class FGConveyorBeltMk4: public FGConveyorBelt {
-public:
-  FGConveyorBeltMk4()=delete;
-  FGConveyorBeltMk4(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGConveyorBeltMk4();
+namespace FG {
 
-  static std::string objtypename;
+  class ConveyorBeltMk4: public ConveyorBelt {
+  public:
+    ConveyorBeltMk4()=delete;
+    ConveyorBeltMk4(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~ConveyorBeltMk4();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

@@ -4,16 +4,20 @@
 
 #include "FGGeneratorUnit.hh"
 
-class FGGeneratorFuel: public FGGeneratorUnit {
-public:
-  FGGeneratorFuel()=delete;
-  FGGeneratorFuel(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGeneratorFuel();
+namespace FG {
 
-  static std::string objtypename;
+  class GeneratorFuel: public GeneratorUnit {
+  public:
+    GeneratorFuel()=delete;
+    GeneratorFuel(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GeneratorFuel();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

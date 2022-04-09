@@ -4,19 +4,23 @@
 
 #include "FGBuilding.hh"
 
-class FGConveyorBelt: public FGBuilding {
-public:
-  FGConveyorBelt()=delete;
-  FGConveyorBelt(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, int32_t _throughput);
-  virtual ~FGConveyorBelt();
+namespace FG {
 
-  inline int32_t throughput() const {return c_throughput;};
+  class ConveyorBelt: public Building {
+  public:
+    ConveyorBelt()=delete;
+    ConveyorBelt(EntityType _et, Reader& _reader, ObjectHeader& _fgoh, int32_t _throughput);
+    virtual ~ConveyorBelt();
 
-private:
-  int32_t c_throughput; // items per minute
-  //virtual void deserialize(Reader &_reader);
-};
+    inline int32_t throughput() const {return c_throughput;};
 
-typedef std::shared_ptr<FGConveyorBelt> FGConveyorBeltSP;
+  private:
+    int32_t c_throughput; // items per minute
+    //virtual void deserialize(Reader &_reader);
+  };
+
+  typedef std::shared_ptr<ConveyorBelt> ConveyorBeltSP;
+
+}
 
 #endif

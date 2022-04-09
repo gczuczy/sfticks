@@ -5,27 +5,31 @@
 #include "FGIOUnit.hh"
 #include "ObjectReference.hh"
 
-/*
-  This is a base class for Input/Output units.
-  An input-output unit is everything that has at least input or output, and
-  does something with it, apart from storing it.
- */
-class FGGeneratorUnit: public FGIOUnit {
-public:
-  FGGeneratorUnit()=delete;
-  FGGeneratorUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGGeneratorUnit();
+namespace FG {
 
-  inline float& mCurrentFuelAmount() {return c_mCurrentFuelAmount;};
-  inline bool& mHasFuelCached() {return c_mHasFuelCached;};
+  /*
+    This is a base class for Input/Output units.
+    An input-output unit is everything that has at least input or output, and
+    does something with it, apart from storing it.
+  */
+  class GeneratorUnit: public IOUnit {
+  public:
+    GeneratorUnit()=delete;
+    GeneratorUnit(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~GeneratorUnit();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-  float c_mCurrentFuelAmount;
-  bool c_mHasFuelCached;
-  ObjectReference c_mFuelInventory, c_mCurrentFuelClass;
-};
+    inline float& mCurrentFuelAmount() {return c_mCurrentFuelAmount;};
+    inline bool& mHasFuelCached() {return c_mHasFuelCached;};
 
-typedef std::shared_ptr<FGGeneratorUnit> FGGeneratorUnitSP;
+  private:
+    //virtual void deserialize(Reader &_reader);
+    float c_mCurrentFuelAmount;
+    bool c_mHasFuelCached;
+    ObjectReference c_mFuelInventory, c_mCurrentFuelClass;
+  };
+
+  typedef std::shared_ptr<GeneratorUnit> GeneratorUnitSP;
+
+}
 
 #endif

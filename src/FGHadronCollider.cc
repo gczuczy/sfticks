@@ -1,12 +1,15 @@
 
 #include "FGHadronCollider.hh"
 
-std::string FGHadronCollider::objtypename("Build_HadronCollider_C");
+namespace FG {
 
-FGHadronCollider::FGHadronCollider(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGIOUnit(FGEntityType::HadronCollider, _reader, _fgoh){
+  std::string HadronCollider::objtypename("Build_HadronCollider_C");
+
+  HadronCollider::HadronCollider(Reader& _reader, ObjectHeader& _fgoh)
+    : IOUnit(EntityType::HadronCollider, _reader, _fgoh){
+  }
+
+  HadronCollider::~HadronCollider() {
+  }
+
 }
-
-FGHadronCollider::~FGHadronCollider() {
-}
-

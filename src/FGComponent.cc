@@ -1,19 +1,23 @@
 
 #include "FGComponent.hh"
 
-FGComponent::FGComponent(FGComponentType _comptype, Reader& _reader, FGObjectHeader& _fgoh)
-  : FGObjectHeader(_fgoh), c_comptype(_comptype) {
-  deserialize(_reader);
-}
+namespace FG {
 
-FGComponent::~FGComponent() {
-}
+  Component::Component(ComponentType _comptype, Reader& _reader, ObjectHeader& _fgoh)
+    : ObjectHeader(_fgoh), c_comptype(_comptype) {
+    deserialize(_reader);
+  }
 
-void FGComponent::deserializeProperties(Reader &_reader) {
-  //TRACE;
-  loadProperties(_reader);
-}
+  Component::~Component() {
+  }
 
-void FGComponent::deserialize(Reader &_reader) {
-  _reader(c_parent_entity_name);
+  void Component::deserializeProperties(Reader &_reader) {
+    //TRACE;
+    loadProperties(_reader);
+  }
+
+  void Component::deserialize(Reader &_reader) {
+    _reader(c_parent_entity_name);
+  }
+
 }

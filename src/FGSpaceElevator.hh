@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGSpaceElevator: public FGIOUnit {
-public:
-  FGSpaceElevator()=delete;
-  FGSpaceElevator(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGSpaceElevator();
+namespace FG {
 
-  static std::string objtypename;
+  class SpaceElevator: public IOUnit {
+  public:
+    SpaceElevator()=delete;
+    SpaceElevator(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~SpaceElevator();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

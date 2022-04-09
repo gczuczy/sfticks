@@ -4,16 +4,20 @@
 
 #include "FGIOUnit.hh"
 
-class FGBlender: public FGIOUnit {
-public:
-  FGBlender()=delete;
-  FGBlender(Reader& _reader, FGObjectHeader& _fgoh);
-  virtual ~FGBlender();
+namespace FG {
 
-  static std::string objtypename;
+  class Blender: public IOUnit {
+  public:
+    Blender()=delete;
+    Blender(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~Blender();
 
-private:
-  //virtual void deserialize(Reader &_reader);
-};
+    static std::string objtypename;
+
+  private:
+    //virtual void deserialize(Reader &_reader);
+  };
+
+}
 
 #endif

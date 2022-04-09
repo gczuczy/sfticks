@@ -6,47 +6,51 @@
 
 #include <string>
 
-class Vector2 {
-public:
-  Vector2();
-  Vector2(float _x, float _y);
+namespace FG {
 
-  inline float x() const {return c_x;};
-  inline float y() const {return c_y;};
+  class Vector2 {
+  public:
+    Vector2();
+    Vector2(float _x, float _y);
 
-  std::string str() const;
+    inline float x() const {return c_x;};
+    inline float y() const {return c_y;};
 
-private:
-  float c_x,c_y;
-};
+    std::string str() const;
 
-class Vector3 {
-public:
-  Vector3();
-  Vector3(float _x, float _y, float _z);
+  private:
+    float c_x,c_y;
+  };
 
-  inline float x() const {return c_x;};
-  inline float y() const {return c_y;};
-  inline float z() const {return c_z;};
+  class Vector3 {
+  public:
+    Vector3();
+    Vector3(float _x, float _y, float _z);
 
-  std::string str() const;
-private:
-  float c_x, c_y, c_z;
-};
+    inline float x() const {return c_x;};
+    inline float y() const {return c_y;};
+    inline float z() const {return c_z;};
 
-class Vector4 {
-public:
-  Vector4();
-  Vector4(float _x, float _y, float _z, float _w);
+    std::string str() const;
+  private:
+    float c_x, c_y, c_z;
+  };
 
-  inline float x() const {return c_x;};
-  inline float y() const {return c_y;};
-  inline float z() const {return c_z;};
-  inline float w() const {return c_w;};
+  class Vector4 {
+  public:
+    Vector4();
+    Vector4(float _x, float _y, float _z, float _w);
 
-  std::string str() const;
-private:
-  float c_x, c_y, c_z, c_w;
-};
+    inline float x() const {return c_x;};
+    inline float y() const {return c_y;};
+    inline float z() const {return c_z;};
+    inline float w() const {return c_w;};
+
+    std::string str() const;
+  private:
+    float c_x, c_y, c_z, c_w;
+  };
+
+}
 
 #endif

@@ -4,15 +4,18 @@
 #include "FloatProperty.hh"
 #include "BoolProperty.hh"
 
-std::string FGGeneratorCoal::objtypename("Build_GeneratorCoal_C");
+namespace FG {
 
-FGGeneratorCoal::FGGeneratorCoal(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGGeneratorUnit(FGEntityType::GeneratorCoal, _reader, _fgoh), c_mCurrentSupplementalAmount(0),
-    c_mHasSupplementalCached(false) {
-  defineProperty(std::make_shared<FloatProperty>("mCurrentSupplementalAmount", c_mCurrentSupplementalAmount));
-  defineProperty(std::make_shared<BoolProperty>("mHasSupplementalCached", c_mHasSupplementalCached));
+  std::string GeneratorCoal::objtypename("Build_GeneratorCoal_C");
+
+  GeneratorCoal::GeneratorCoal(Reader& _reader, ObjectHeader& _fgoh)
+    : GeneratorUnit(EntityType::GeneratorCoal, _reader, _fgoh), c_mCurrentSupplementalAmount(0),
+      c_mHasSupplementalCached(false) {
+    defineProperty(std::make_shared<FloatProperty>("mCurrentSupplementalAmount", c_mCurrentSupplementalAmount));
+    defineProperty(std::make_shared<BoolProperty>("mHasSupplementalCached", c_mHasSupplementalCached));
+  }
+
+  GeneratorCoal::~GeneratorCoal() {
+  }
+
 }
-
-FGGeneratorCoal::~FGGeneratorCoal() {
-}
-

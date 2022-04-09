@@ -1,12 +1,15 @@
 
 #include "FGGeneratorFuel.hh"
 
-std::string FGGeneratorFuel::objtypename("Build_GeneratorFuel_C");
+namespace FG {
 
-FGGeneratorFuel::FGGeneratorFuel(Reader& _reader, FGObjectHeader& _fgoh)
-  : FGGeneratorUnit(FGEntityType::GeneratorFuel, _reader, _fgoh) {
+  std::string GeneratorFuel::objtypename("Build_GeneratorFuel_C");
+
+  GeneratorFuel::GeneratorFuel(Reader& _reader, ObjectHeader& _fgoh)
+    : GeneratorUnit(EntityType::GeneratorFuel, _reader, _fgoh) {
+  }
+
+  GeneratorFuel::~GeneratorFuel() {
+  }
+
 }
-
-FGGeneratorFuel::~FGGeneratorFuel() {
-}
-
