@@ -69,20 +69,16 @@ public:
 
 private:
   template<class T>
-  void defineComponent(const std::string _entity, const std::set<std::string> _compnames) {
-    for (auto it: _compnames)
-      c_compdefs[_entity][it] = T::instantiate;
-  };
-  component_callback getComponentHandler(const std::string& _entity, const std::string& _compname);
+  void defineComponent() {
+    c_compdefs[T::pathname] = T::instantiate;
+  }
 
 private:
   Header c_headers;
   int32_t c_world_object_count, c_world_object_property_count, c_world_collected_object_count;
 
-  // component decoding guidelines
-  //std::map<std::string, std::set<std::string> > c_entcomps;
-  // fgentitytype->componentname->instantiator
-  std::map<std::string, std::map<std::string, component_callback> > c_compdefs;
+  // component defintions
+  std::map<std::string, component_callback> c_compdefs;
 
   // complete maps for direct lookups
   // this includes all objects

@@ -5,6 +5,8 @@
 #include "Exception.hh"
 #include "FGObjectHeader.hh"
 #include "misc.hh"
+
+// Entities
 #include "FGGenericEntity.hh"
 #include "FGGenericComponent.hh"
 #include "FGConveyorBeltMk1.hh"
@@ -39,6 +41,10 @@
 #include "FGStorageContainerMk2.hh"
 #include "FGTrainDockingStation.hh"
 //#include "FG.hh"
+
+// components
+#include "FGFactoryConnectionComponent.hh"
+#include "FGInventoryComponent.hh"
 
 #include <set>
 #include <iostream>
@@ -99,16 +105,8 @@ World::World(Header& _header): c_headers(_header) {
   printf("Brave New world:\n%s", c_headers.str().c_str());
   // entity definitions
   // component definitions
-  defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk1_C", {"Input0", "Output1"});
-  defineComponent<FGBuilding::InOutPort>("Build_StorageContainerMk2_C", {"Input0", "Input1", "Output1", "Output2"});
-  defineComponent<FGBuilding::InOutPort>("Build_TrainDockingStation_C", {"Input0", "Input1", "Output0", "Output1"});
-  defineComponent<FGStorageUnit::StorageInventory>("Build_StorageContainerMk1_C", {"StorageInventory"});
-  defineComponent<FGStorageUnit::StorageInventory>("Build_StorageContainerMk2_C", {"StorageInventory"});
-  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk1_C", {"ConveyorAny0", "ConveyorAny1"});
-  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk2_C", {"ConveyorAny0", "ConveyorAny1"});
-  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk3_C", {"ConveyorAny0", "ConveyorAny1"});
-  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk4_C", {"ConveyorAny0", "ConveyorAny1"});
-  defineComponent<FGConveyorBelt::ConveyorAny>("Build_ConveyorBeltMk5_C", {"ConveyorAny0", "ConveyorAny1"});
+  defineComponent<FGFactoryConnectionComponent>();
+  defineComponent<FGInventoryComponent>();
 }
 
 World::~World() {
@@ -300,9 +298,11 @@ void World::deserialize(Reader &_reader) {
     } else if ( header.isComponent() ) {
       component_callback cb;
       FGComponentSP obj;
-      if ( (cb = getComponentHandler(header.FGObjectType(), header.componentName())) ) {
-	obj = cb(std::ref(_reader), std::ref(header));
+      auto it = c_compdefs.find(header.name());
+      if ( it != c_compdefs.end() ) {
+	obj = it->second(std::ref(_reader), std::ref(header));
       } else {
+	//printf(" + GenericComponent\n%s", header.str().c_str());
 	obj = std::make_shared<FGGenericComponent>(_reader, header);
       }
       c_components[header.instance()] = obj;
@@ -356,25 +356,23 @@ void World::deserialize(Reader &_reader) {
       return;
     }
   }
-
   printf("Finished deserializing properties\n");
-  for (auto it: c_iounits) {
-#if 0
-    if ( c_entcomps.find(it.second->FGObjectType()) != c_entcomps.end() ) {
-      //printf("%s", it.second->str_compbase().c_str());
-      continue;
-    }
-#endif
-    printf("Entity: %s\n", it.first.c_str());
+
+  for (auto it: c_belt_logics) {
+    bool found(false);
     for (auto cit: it.second->components()) {
+      if ( cit.second->componentType() != FGComponentType::Generic ) continue;
+      printf("Entity: %s\n", it.first.c_str());
       printf("%s\n", cit.second->instance().c_str());
       printf(" FGobjecttype: %s\n", cit.second->FGObjectType().c_str());
       printf(" compName: %s\n", cit.second->componentName().c_str());
+      printf("+Objstr:\n%s", cit.second->str().c_str());
 
       auto gcomp = std::static_pointer_cast<FGGenericComponent>(cit.second);
       gcomp->dump(strprintf("/tmp/%s.dump", cit.second->instance().c_str()));
+      found=true;
     }
-    return;
+    if ( found ) return;
   }
 
 #if 0
@@ -399,14 +397,3 @@ void World::deserialize(Reader &_reader) {
 std::string World::str() const {
   return strprintf("World %s\n", c_headers.sessionName().c_str());
 }
-
-World::component_callback World::getComponentHandler(const std::string& _entity, const std::string& _compname) {
-  auto it = c_compdefs.find(_entity);
-  if ( it == c_compdefs.end() ) return component_callback();
-
-  auto cit = it->second.find(_compname);
-  if ( cit == it->second.end() ) return component_callback();
-
-  return cit->second;
-}
-

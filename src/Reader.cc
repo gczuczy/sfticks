@@ -121,16 +121,19 @@ Reader& Reader::debug(uint64_t _lookahead, std::string _label) {
   return *this;
 }
 
-void Reader::lencheck(int64_t _l) {
+bool Reader::lencheck(int64_t _l, bool _throw) {
   if ( c_pos + _l > c_len ) {
     char buff[128];
     int len;
     len = snprintf(buff, 128, "Reader(%u)::lencheck pos(%li) + l(%li) > len(%li)",
 		   c_id, c_pos, _l, c_len);
+    dump("/tmp/lencheck.dump");
     std::string msg(buff, len);
     debug(32, msg);
-    EXCEPTION(msg);
+    if ( _throw ) EXCEPTION(msg);
+    else return false;
   }
+  return true;
 }
 
 uint64_t Reader::offset(const std::string& _mark) {
@@ -141,15 +144,15 @@ uint64_t Reader::offset(const std::string& _mark) {
   return c_pos - it->second;
 }
 
-Reader& Reader::fetch(int8_t& _val) {
-  lencheck(1);
+Reader& Reader::fetch(int8_t& _val, bool _try) {
+  if ( !lencheck(1, !_try) ) return *this;
   _val = *((int8_t*)(c_buffer+c_pos));
   ++c_pos;
   return *this;
 }
 
-Reader& Reader::fetch(int32_t& _val) {
-  lencheck(4);
+Reader& Reader::fetch(int32_t& _val, bool _try) {
+  if ( !lencheck(4, !_try) ) return *this;
 #ifdef __FreeBSD__
   _val = (int32_t)le32toh(*((uint32_t*)(c_buffer+c_pos)));
 #endif
@@ -157,8 +160,8 @@ Reader& Reader::fetch(int32_t& _val) {
   return *this;
 }
 
-Reader& Reader::fetch(int64_t& _val) {
-  lencheck(8);
+Reader& Reader::fetch(int64_t& _val, bool _try) {
+  if ( !lencheck(8, !_try) ) return *this;
 #ifdef __FreeBSD__
   _val = (int64_t)le64toh(*((uint64_t*)(c_buffer+c_pos)));
 #endif
@@ -166,29 +169,29 @@ Reader& Reader::fetch(int64_t& _val) {
   return *this;
 }
 
-Reader& Reader::fetch(float& _val) {
+Reader& Reader::fetch(float& _val, bool _try) {
   if ( sizeof(float) != 4 ) throw Exception("Float size is not 4");
-  lencheck(4);
+  if ( !lencheck(4, !_try) ) return *this;
   memcpy((void*)&_val, c_buffer, sizeof(float));
   c_pos += 4;
   return *this;
 }
 
-Reader& Reader::fetch(Vector2& _val) {
+Reader& Reader::fetch(Vector2& _val, bool _try) {
   float x,y;
   fetch(x).fetch(y);
   _val = Vector2(x, y);
   return *this;
 }
 
-Reader& Reader::fetch(Vector3& _val) {
+Reader& Reader::fetch(Vector3& _val, bool _try) {
   float x,y,z;
   fetch(x).fetch(y).fetch(z);
   _val = Vector3(x, y, z);
   return *this;
 }
 
-Reader& Reader::fetch(Vector4& _val) {
+Reader& Reader::fetch(Vector4& _val, bool _try) {
   float x,y,z,w;
   fetch(x).fetch(y).fetch(z).fetch(w);
   _val = Vector4(x, y, z, 2);
@@ -196,11 +199,11 @@ Reader& Reader::fetch(Vector4& _val) {
 }
 
 
-Reader& Reader::fetch(std::string& _val) {
+Reader& Reader::fetch(std::string& _val, bool _try) {
   int32_t len;
   this->fetch(len);
 
-  lencheck(len);
+  if ( !lencheck(len, !_try) ) return *this;
   if ( len > 0 ) {
     _val = std::string((const char*)(c_buffer+c_pos), len-1);
     c_pos += len;

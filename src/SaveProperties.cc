@@ -36,11 +36,16 @@ void SaveProperties::loadProperties(Reader& _reader) {
   while ( !_reader.eof() ) {
     //printf("\n\nStarting on next property\n");
     //_reader.dump("/tmp/prop.dump").debug(32, "prop starting");
-    _reader(name)(proptype);
+    _reader(name);
+
+    // None is the end of the chapter
+    if ( name == "None" ) {
+      if ( !_reader.eof() ) _reader(proptype, true);
+      break;
+    }
     //printf("+Read '%s'/'%s'\n", name.c_str(), proptype.c_str());
 
-    // "None" means the end of it
-    if ( name == "None" ) break;
+    _reader(proptype);
 
     _reader(len)(idx);
 

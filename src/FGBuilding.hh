@@ -5,26 +5,8 @@
 #include "FGEntity.hh"
 #include "ObjectReference.hh"
 #include "GenericStruct.hh"
-#include "FGComponent.hh"
 
 class FGBuilding: public FGEntity {
-public:
-  // Component classes
-  class InOutPort: public FGComponent {
-  public:
-    InOutPort() = delete;
-    InOutPort(Reader& _reader, FGObjectHeader& _fgoh);
-    virtual ~InOutPort()=default;
-    static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
-
-    inline ObjectReference& mConnectedComponent() {return c_mConnectedComponent;};
-    inline ObjectReference& mConnectionInventory() {return c_mConnectionInventory;};
-    inline int32_t mInventoryAccessIndex() const {return c_mInventoryAccessIndex;};
-
-  private:
-    ObjectReference c_mConnectedComponent, c_mConnectionInventory;
-    int32_t c_mInventoryAccessIndex;
-  };
 protected:
   struct FactoryCustomizationData {
     FactoryCustomizationData() = default;

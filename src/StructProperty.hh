@@ -52,8 +52,8 @@ public:
     deserializeData(data);
   }
   virtual void deserializeData(Reader& _reader) {
+    //TRACE;
 #if 0
-    TRACE;
     if ( typeid(T) == typeid(InventoryStack) ) {
       _reader.debug(16, "inventorystack").dump("/tmp/inventorystack.dump");
     }

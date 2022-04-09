@@ -29,14 +29,14 @@ public:
   inline uint64_t len() const {return c_len;};
   inline bool eof() const {return c_pos >= c_len;};
   inline Reader &skip(int64_t _len) {c_pos += _len; return *this;};
-  Reader& fetch(int8_t& _val);
-  Reader& fetch(int32_t& _val);
-  Reader& fetch(int64_t& _val);
-  Reader& fetch(float& _val);
-  Reader& fetch(Vector2& _val);
-  Reader& fetch(Vector3& _val);
-  Reader& fetch(Vector4& _val);
-  Reader& fetch(std::string& _val);
+  Reader& fetch(int8_t& _val, bool _try=false);
+  Reader& fetch(int32_t& _val, bool _try=false);
+  Reader& fetch(int64_t& _val, bool _try=false);
+  Reader& fetch(float& _val, bool _try=false);
+  Reader& fetch(Vector2& _val, bool _try=false);
+  Reader& fetch(Vector3& _val, bool _try=false);
+  Reader& fetch(Vector4& _val, bool _try=false);
+  Reader& fetch(std::string& _val, bool _try=false);
   char* pass(uint64_t _len);
   char* pass(const std::string& _mark, uint64_t _len);
   void store(std::string &_str);
@@ -45,17 +45,17 @@ public:
   Reader& dump(const std::string _file);
 
   // quickhand ops
-  inline Reader& operator()(int8_t& _v) {return fetch(_v);};
-  inline Reader& operator()(int32_t& _v) {return fetch(_v);};
-  inline Reader& operator()(int64_t& _v) {return fetch(_v);};
-  inline Reader& operator()(float& _v) {return fetch(_v);};
-  inline Reader& operator()(Vector2& _v) {return fetch(_v);};
-  inline Reader& operator()(Vector3& _v) {return fetch(_v);};
-  inline Reader& operator()(Vector4& _v) {return fetch(_v);};
-  inline Reader& operator()(std::string& _v) {return fetch(_v);};
+  inline Reader& operator()(int8_t& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(int32_t& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(int64_t& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(float& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(Vector2& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(Vector3& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(Vector4& _v, bool _try=false) {return fetch(_v, _try);};
+  inline Reader& operator()(std::string& _v, bool _try=false) {return fetch(_v, _try);};
 
 private:
-  void lencheck(int64_t _l);
+  bool lencheck(int64_t _l, bool _throw=true);
   uint64_t offset(const std::string& _mark);
   inline uint64_t offset(uint64_t _pos) const {return c_pos - _pos;};
   static bool c_in_exception;

@@ -4,10 +4,6 @@
 
 #include "FGBuilding.hh"
 #include "ObjectReference.hh"
-#include "FGComponent.hh"
-#include "InventoryStack.hh"
-
-#include <vector>
 
 /*
   This is a base class for Input/Output units.
@@ -15,20 +11,6 @@
   does something with it, apart from storing it.
  */
 class FGStorageUnit: public FGBuilding {
-public:
-  // Component classes
-  class StorageInventory: public FGComponent {
-  public:
-    StorageInventory() = delete;
-    StorageInventory(Reader& _reader, FGObjectHeader& _fgoh);
-    virtual ~StorageInventory()=default;
-    static FGComponentSP instantiate(Reader& _reader, FGObjectHeader& _fgoh);
-
-  private:
-    std::vector<InventoryStack> c_mInventoryStacks;
-    std::vector<int32_t> c_mArbitrarySlotSizes;
-    std::vector<ObjectReference> c_mAllowedItemDescriptors;
-  };
 public:
   FGStorageUnit()=delete;
   FGStorageUnit(FGEntityType _et, Reader& _reader, FGObjectHeader& _fgoh, int32_t _capacity);

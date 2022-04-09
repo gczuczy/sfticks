@@ -4,17 +4,9 @@
 
 #include "PropertyInterface.hh"
 #include "Exception.hh"
+#include "FGEnums.hh"
 
 #include <map>
-
-enum class ETrainPlatformDockingStatus: int8_t {
-  ETDS_WaitingToStart=0,
-};
-
-enum class EFactoryConnectionDirection: int8_t {
-  FCD_OUTPUT=0,
-  FCD_INPUT,
-};
 
 template<typename T>
 class EnumProperty: public PropertyInterface {
