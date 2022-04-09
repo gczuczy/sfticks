@@ -21,9 +21,9 @@
 namespace SFT {
 
   Loader::Loader(const std::string &_file): c_filename(_file) {
-    TRACE;
+    //TRACE;
 
-    t.printf("Loading save file: %s\n", c_filename.c_str());
+    printf("Loading save file: %s\n", c_filename.c_str());
 
     if ( (c_fd = open(c_filename.c_str(), O_RDONLY))<0 )
       throw Exception("Unable to open file");
@@ -33,7 +33,7 @@ namespace SFT {
     if ( fstat(c_fd, &st)<0 )
       throw Exception("Unable to stat file");
     c_savesize = st.st_size;
-    t.printf("Save size: %lu bytes\n", c_savesize);
+    printf("Save size: %lu bytes\n", c_savesize);
 
     // map it into memory
     if ( (c_save = (char*)mmap(0, // addr, hint
@@ -42,7 +42,7 @@ namespace SFT {
 			       MAP_PRIVATE|MAP_PREFAULT_READ, //flags
 			       c_fd, //fd
 			       0)) == MAP_FAILED) { //size
-      t.printf("Map failed: %s\n", strerror(errno));
+      printf("Map failed: %s\n", strerror(errno));
       throw Exception("mmap failed");
     }
   }
@@ -53,7 +53,7 @@ namespace SFT {
   }
 
   std::shared_ptr<FG::World> Loader::parse() {
-    TRACE;
+    //TRACE;
     std::shared_ptr<FG::World> world;
     Reader headers(c_save, c_savesize);
     FG::World::Header world_header;

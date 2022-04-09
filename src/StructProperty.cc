@@ -43,4 +43,20 @@ namespace FG {
     };
   }
 
+  template<>
+  StructProperty<SplinePointData>::StructProperty(const std::string& _name, SplinePointData& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::StructProperty, _name, _index), c_strtype("SplinePointData"), c_value(_value) {
+    defineProperty(std::make_shared<StructProperty<Vector3> >("Location", c_value.Location));
+    defineProperty(std::make_shared<StructProperty<Vector3> >("ArriveTangent", c_value.ArriveTangent));
+    defineProperty(std::make_shared<StructProperty<Vector3> >("LeaveTangent", c_value.LeaveTangent));
+  }
+
+  template<>
+  StructProperty<Vector3>::StructProperty(const std::string& _name, Vector3& _value, int32_t _index)
+    : PropertyInterface(SavePropertyType::StructProperty, _name, _index), c_strtype("Vector"), c_value(_value) {
+    c_parser = [&](Reader& _r)->void {
+      _r(c_value);
+    };
+  }
+
 }

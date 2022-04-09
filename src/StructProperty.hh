@@ -11,6 +11,7 @@
 
 #include "SortRule.hh"
 #include "InventoryStack.hh"
+#include "SplinePointData.hh"
 
 #include <stdio.h>
 #include <functional>
@@ -93,6 +94,12 @@ namespace FG {
 
   template<>
   StructProperty<InventoryItem>::StructProperty(const std::string& _name, InventoryItem& _value, int32_t _index);
+
+  template<>
+  StructProperty<SplinePointData>::StructProperty(const std::string& _name, SplinePointData& _value, int32_t _index);
+
+  template<>
+  StructProperty<Vector3>::StructProperty(const std::string& _name, Vector3& _value, int32_t _index);
 
 }
 

@@ -3,6 +3,9 @@
 #define SFT_FGCONVEYORBELT_H
 
 #include "FGBuilding.hh"
+#include "SplinePointData.hh"
+
+#include <vector>
 
 namespace FG {
 
@@ -13,10 +16,11 @@ namespace FG {
     virtual ~ConveyorBelt();
 
     inline int32_t throughput() const {return c_throughput;};
+    inline std::vector<SplinePointData>& mSplineData() {return c_mSplineData;};
 
   private:
     int32_t c_throughput; // items per minute
-    //virtual void deserialize(Reader &_reader);
+    std::vector<SplinePointData> c_mSplineData;
   };
 
   typedef std::shared_ptr<ConveyorBelt> ConveyorBeltSP;

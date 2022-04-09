@@ -152,10 +152,10 @@ namespace FG {
   }
 
   void World::deserialize(Reader &_reader) {
-    TRACE;
+    //TRACE;
     std::vector<SaveableSP> objects;
     _reader.skip(4).fetch(c_world_object_count);
-    t.detail("world object count", c_world_object_count);
+    //t.detail("world object count", c_world_object_count);
 
     objects.resize(c_world_object_count);
 
@@ -195,31 +195,31 @@ namespace FG {
 	objects[i] = obj;
       } else {
 #ifdef SFT_DEBUG
-	t.debug();
+	//t.debug();
 	_reader.debug(32, "unknown object").dump("/tmp/world-unknown-1.dump");
 #endif
 	EXCEPTION("Unknown object type");
       }
 
     }
-    t.printf("Loaded %i world objects\n", c_world_object_count);
-    t.printf("Belts loaded: %lu\n", c_belts.size());
-    t.printf("Beltlogics loaded: %lu\n", c_belt_logics.size());
-    t.printf("IOUnits loaded: %lu\n", c_iounits.size());
-    t.printf("StorageUnits loaded: %lu\n", c_storage_units.size());
+    printf("Loaded %i world objects\n", c_world_object_count);
+    printf("Belts loaded: %lu\n", c_belts.size());
+    printf("Beltlogics loaded: %lu\n", c_belt_logics.size());
+    printf("IOUnits loaded: %lu\n", c_iounits.size());
+    printf("StorageUnits loaded: %lu\n", c_storage_units.size());
 
     // associate components with their entities
-    t.printf("Associating components with their entites\n");
+    printf("Associating components with their entites\n");
     for (auto it: c_components) {
       auto entit = c_entities.find(it.second->parentEntityName());
       if ( entit == c_entities.end() ) {
-	t.printf("Component %s has no parent %s\n", it.first.c_str(),
-		 it.second->parentEntityName().c_str());
+	printf("Component %s has no parent %s\n", it.first.c_str(),
+	       it.second->parentEntityName().c_str());
 	continue;
       }
       entit->second->associate(it.second);
     }
-    t.printf("Components associated\n");
+    printf("Components associated\n");
 
     _reader(c_world_object_property_count);
     printf("World object property count: %i\n", c_world_object_property_count);

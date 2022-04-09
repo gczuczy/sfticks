@@ -11,6 +11,8 @@ namespace FG {
     _reader(c_arraytypestr).skip(1);
     Reader data(_reader, _size, __FILE__, __LINE__, __PRETTY_FUNCTION__);
     //data(c_count);
+    //data.debug(16, "generic-array").dump("/tmp/generic-array.dump");
+    //return;
     deserializeData(data);
   }
 
