@@ -358,10 +358,17 @@ void World::deserialize(Reader &_reader) {
   }
   printf("Finished deserializing properties\n");
 
-  for (auto it: c_belt_logics) {
+#if 0
+  std::set<std::string> ignored{"/Script/FactoryGame.FGPowerInfoComponent",
+    "/Script/FactoryGame.FGFactoryLegsComponent",
+    "/Script/FactoryGame.FGPowerConnectionComponent",
+    "/Script/FactoryGame.FGPipeConnectionFactory",
+    "/Script/FactoryGame.FGTrainPlatformConnection"};
+  for (auto it: c_storage_units) {
     bool found(false);
     for (auto cit: it.second->components()) {
       if ( cit.second->componentType() != FGComponentType::Generic ) continue;
+      if ( ignored.find(cit.second->name()) != ignored.end() ) continue;
       printf("Entity: %s\n", it.first.c_str());
       printf("%s\n", cit.second->instance().c_str());
       printf(" FGobjecttype: %s\n", cit.second->FGObjectType().c_str());
@@ -374,6 +381,7 @@ void World::deserialize(Reader &_reader) {
     }
     if ( found ) return;
   }
+#endif
 
 #if 0
   // now dump the fgobjtypes
