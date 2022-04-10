@@ -16,10 +16,8 @@ namespace FG {
     defineProperty(std::make_shared<BoolProperty>("mHasSupplementalCached", c_mHasSupplementalCached));
 
     // components
-    c_inputs.resize(1);
-    c_outputs.resize(1);
-    registerComponent("Input0", c_inputs[0]);
-    registerComponent("Output0", c_outputs[0]);
+    defineInputs({"Input0"});
+    defineOutputs({"Output0"});
   }
 
   GeneratorNuclear::~GeneratorNuclear() {

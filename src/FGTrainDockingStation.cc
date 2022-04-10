@@ -26,6 +26,10 @@ namespace FG {
     defineProperty(std::make_shared<BoolProperty>("mIsLoadUnloading", c_mIsLoadUnloading));
     defineProperty(std::make_shared<EnumProperty<ETrainPlatformDockingStatus>>("mSavedDockingStatus", c_mSavedDockingStatus));
     //defineProperty(std::make_shared<Property>("", c_));
+
+    registerComponent("Inventory", c_inventory);
+    defineInputs({"Input0", "Input1"});
+    defineOutputs({"Output0", "Output1"});
   }
 
   TrainDockingStation::~TrainDockingStation() {

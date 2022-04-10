@@ -18,6 +18,9 @@ namespace FG {
     defineProperty(std::make_shared<ObjectProperty>("mStationDrone", c_mStationDrone));
     defineProperty(std::make_shared<ObjectProperty>("mDockedDrone", c_mDockedDrone));
     defineProperty(std::make_shared<EnumProperty<EItemTransferringStage> >("mItemTransferringStage", c_mItemTransferringStage));
+
+    defineInputs({"Input0", "Input1"});
+    defineOutputs({"Output0"});
   }
 
   DroneStation::~DroneStation() {

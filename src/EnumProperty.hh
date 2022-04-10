@@ -31,36 +31,13 @@ namespace FG {
     virtual void deserializeData(Reader& _reader) {
       std::string valuestr;
       _reader(valuestr);
-      for (auto& it: c_strmap) {
-	if ( it.second == valuestr ) {
-	  c_value = it.first;
-	  return;
-	}
-      }
-      EXCEPTION(std::string("Value not found: ")+valuestr);
+      c_value = EnumDict<T>::fromstr(valuestr);
     }
 
   private:
-    static std::map<T, std::string> c_strmap;
     std::string c_enumtypestr;
     T& c_value;
   };
-
-  template<>
-  std::map<ETrainPlatformDockingStatus, std::string> EnumProperty<ETrainPlatformDockingStatus>::c_strmap;
-
-  template<>
-  std::map<EFactoryConnectionDirection, std::string> EnumProperty<EFactoryConnectionDirection>::c_strmap;
-
-  template<>
-  std::map<EItemTransferringStage, std::string> EnumProperty<EItemTransferringStage>::c_strmap;
-
-#if 0
-  extern template
-  EnumProperty<ETrainPlatformDockingStatus>::EnumProperty(const std::string& _name, ETrainPlatformDockingStatus& _value, int32_t _index=0);
-  extern template
-  std::map<ETrainPlatformDockingStatus, std::string> EnumProperty<ETrainPlatformDockingStatus>::c_strmap;
-#endif
 
 }
 

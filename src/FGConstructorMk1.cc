@@ -11,10 +11,8 @@ namespace FG {
 
   ConstructorMk1::ConstructorMk1(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::ConstructorMk1, _reader, _fgoh) {
-    c_inputs.resize(1);
-    c_outputs.resize(1);
-    registerComponent("Input0", c_inputs[0]);
-    registerComponent("Output0", c_outputs[0]);
+    defineInputs({"Input0"});
+    defineOutputs({"Output0"});
   }
 
   ConstructorMk1::~ConstructorMk1() {

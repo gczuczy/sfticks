@@ -7,6 +7,7 @@
 #include "ObjectReference.hh"
 
 #include <vector>
+#include <set>
 
 namespace FG {
 
@@ -17,8 +18,11 @@ namespace FG {
     virtual ~InventoryComponent()=default;
     static ComponentSP instantiate(Reader& _reader, ObjectHeader& _fgoh);
 
+    virtual std::string vtypename();
+
   public:
-    static std::string pathname;
+    static std::set<std::string> pathname;
+    static ComponentType componenttype;
 
   private:
     std::vector<InventoryStack> c_mInventoryStacks;
@@ -29,6 +33,18 @@ namespace FG {
   };
   typedef std::shared_ptr<InventoryComponent> InventoryComponentSP;
 
+#if 0
+  class FGInventoryComponent: public InventoryComponent {
+  public:
+  public:
+    FGInventoryComponent() = delete;
+    FGInventoryComponent(Reader& _reader, ObjectHeader& _fgoh);
+    virtual ~FGInventoryComponent()=default;
+    virtual std::string vtypename();
+
+    static std::string pathname;
+  };
+#endif
 }
 
 #endif

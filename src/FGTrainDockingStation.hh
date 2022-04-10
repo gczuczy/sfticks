@@ -23,6 +23,7 @@ namespace FG {
     inline bool& mHasDockedActor() {return c_mHasDockedActor;};
     inline bool& mIsLoadUnloading() {return c_mIsLoadUnloading;};
     inline ETrainPlatformDockingStatus mSavedDockingStatus() {return c_mSavedDockingStatus;};
+    inline InventoryComponentSP Inventory() {return c_inventory;};
 
     static std::string objtypename;
 
@@ -34,6 +35,7 @@ namespace FG {
     bool c_mIsOrientationReversed, c_mIsInLoadMode, c_mHasDockedActor, c_mIsLoadUnloading;
     ObjectReference c_mInventory, c_mStationDockingMaster, c_mDockedRailroadVehicle, c_mRailroadTrack;
     ETrainPlatformDockingStatus c_mSavedDockingStatus;
+    InventoryComponentSP c_inventory;
   };
 
 }

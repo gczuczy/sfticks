@@ -13,12 +13,8 @@ namespace FG {
     defineProperty(std::make_shared<IntProperty>("mCurrentInventoryIndex", c_mCurrentInventoryIndex));
 
     //components
-    c_inputs.resize(3);
-    c_outputs.resize(1);
-    registerComponent("Input1", c_inputs[0]);
-    registerComponent("Input2", c_inputs[1]);
-    registerComponent("InPut3", c_inputs[2]);
-    registerComponent("Output1", c_outputs[0]);
+    defineInputs({"Input1", "Input2", "InPut3"});
+    defineOutputs({"Output1"});
   }
 
   ConveyorAttachmentMerger::~ConveyorAttachmentMerger() {

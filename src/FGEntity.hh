@@ -12,6 +12,10 @@
 
 #include "vectors.hh"
 #include "FGComponent.hh"
+#include "Exception.hh"
+#include "misc.hh"
+#include "FGEnums.hh"
+#include "FGGenericComponent.hh"
 
 namespace FG {
 
@@ -87,7 +91,25 @@ namespace FG {
     template<class T>
     void registerComponent(const std::string& _name, std::shared_ptr<T>& _var) {
       c_compregs[_name] = [&](ComponentSP& _comp)->void {
-	_var = std::reinterpret_pointer_cast<T>(_comp);
+	if ( T::componenttype != _comp->componentType() ) {
+#ifdef SFT_DEBUG
+	  printf(" ! Comp:\n%s", _comp->str().c_str());
+	  if ( _comp->componentType() == ComponentType::Generic ) {
+	    std::reinterpret_pointer_cast<GenericComponent>(_comp)->dump("/tmp/comp-generic.dump");
+	  }
+#endif
+	  EXCEPTION(strprintf("association: Wrong component type for %s src:%s dst:%s",
+			      _comp->instance().c_str(),
+			      EnumDict<ComponentType>::tostr(_comp->componentType()).c_str(),
+			      EnumDict<ComponentType>::tostr(T::componenttype).c_str()));
+	}
+#if 0
+	printf("_comp type: %s / %s\n%s",
+	       _comp->vtypename().c_str(),
+	       EnumDict<ComponentType>::tostr(T::componenttype).c_str(),
+	       _comp->str().c_str());
+#endif
+	_var = std::static_pointer_cast<T>(_comp);
       };
     };
 

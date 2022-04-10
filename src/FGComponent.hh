@@ -30,6 +30,7 @@ namespace FG {
     inline std::string instanceName() const {return strprintf("%s_%i", c_component_name.c_str(), c_component_instanceid);};
 
     virtual void deserializeProperties(Reader &_reader);
+    virtual std::string vtypename();
   private:
     virtual void deserialize(Reader &_reader);
 

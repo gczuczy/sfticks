@@ -9,7 +9,11 @@
 
 namespace FG {
 
-  std::string InventoryComponent::pathname("/Script/FactoryGame.InventoryComponent");
+  std::set<std::string> InventoryComponent::pathname{
+    "/Script/FactoryGame.InventoryComponent",
+      "/Script/FactoryGame.FGInventoryComponent",
+      };
+  ComponentType InventoryComponent::componenttype(ComponentType::Inventory);
 
   InventoryComponent::InventoryComponent(Reader& _reader, ObjectHeader& _fgoh)
     : Component(ComponentType::Inventory, _reader, _fgoh), c_mCanBeRearrange(false), c_mAdjustedSizeDiff(0) {
@@ -24,4 +28,19 @@ namespace FG {
     return std::make_shared<InventoryComponent>(_reader, _fgoh);
   }
 
+  std::string InventoryComponent::vtypename() {
+    return typeid(*this).name();
+  }
+
+#if 0
+  std::string FGInventoryComponent::pathname("/Script/FactoryGame.FGInventoryComponent");
+
+  FGInventoryComponent::FGInventoryComponent(Reader& _reader, ObjectHeader& _fgoh)
+    : InventoryComponent(_reader, _fgoh) {
+  }
+
+  std::string FGInventoryComponent::vtypename() {
+    return typeid(*this).name();
+  }
+#endif
 }

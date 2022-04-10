@@ -5,6 +5,8 @@
 #include "FGBuilding.hh"
 #include "ObjectReference.hh"
 
+#include "FGInventoryComponent.hh"
+
 namespace FG {
 
   /*

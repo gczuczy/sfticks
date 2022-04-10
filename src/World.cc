@@ -143,9 +143,12 @@ namespace FG {
     // stroage
     registerEntityType<StorageContainerMk1>();
     registerEntityType<StorageContainerMk2>();
+
     // component definitions
     registerComponentType<FactoryConnectionComponent>();
+    //registerComponentType<FGFactoryConnectionComponent>();
     registerComponentType<InventoryComponent>();
+    //registerComponentType<FGInventoryComponent>();
   }
 
   World::~World() {
@@ -157,7 +160,15 @@ namespace FG {
     _reader.skip(4).fetch(c_world_object_count);
     //t.detail("world object count", c_world_object_count);
 
+    _reader.setThrow(false);
     objects.resize(c_world_object_count);
+
+#if 0
+    for (auto it: c_compdefs) {
+      printf("%s\n", it.first.c_str());
+    }
+    return;
+#endif
 
     // read world objects
     int32_t objtype;
@@ -188,7 +199,6 @@ namespace FG {
 	if ( it != c_compdefs.end() ) {
 	  obj = it->second(std::ref(_reader), std::ref(header));
 	} else {
-	  //printf(" + GenericComponent\n%s", header.str().c_str());
 	  obj = std::make_shared<GenericComponent>(_reader, header);
 	}
 	c_components[header.instance()] = obj;
@@ -207,19 +217,6 @@ namespace FG {
     printf("Beltlogics loaded: %lu\n", c_belt_logics.size());
     printf("IOUnits loaded: %lu\n", c_iounits.size());
     printf("StorageUnits loaded: %lu\n", c_storage_units.size());
-
-    // associate components with their entities
-    printf("Associating components with their entites\n");
-    for (auto it: c_components) {
-      auto entit = c_entities.find(it.second->parentEntityName());
-      if ( entit == c_entities.end() ) {
-	printf("Component %s has no parent %s\n", it.first.c_str(),
-	       it.second->parentEntityName().c_str());
-	continue;
-      }
-      entit->second->associate(it.second);
-    }
-    printf("Components associated\n");
 
     _reader(c_world_object_property_count);
     printf("World object property count: %i\n", c_world_object_property_count);
@@ -243,6 +240,25 @@ namespace FG {
       }
     }
     printf("Finished deserializing properties\n");
+
+    // associate components with their entities
+    printf("Associating components with their entites\n");
+    for (auto it: c_components) {
+      auto entit = c_entities.find(it.second->parentEntityName());
+      if ( entit == c_entities.end() ) {
+	printf("Component %s has no parent %s\n", it.first.c_str(),
+	       it.second->parentEntityName().c_str());
+	continue;
+      }
+      try {
+	entit->second->associate(it.second);
+      }
+      catch (SFT::Exception& e) {
+	printf("Caught exception: %s\n", e.what());
+	return;
+      }
+    }
+    printf("Components associated\n");
 
     // Component debugging
 #if 0
@@ -289,7 +305,7 @@ namespace FG {
 #endif
     // for now we ignore the rest of the data, because we don't need it for the project
     // if needed, parsing the rest can be implemented.
-    _reader.setThrow(false);
+    return;
   }
 
   std::string World::str() const {

@@ -19,10 +19,6 @@ namespace FG {
     defineProperty(std::make_shared<FloatProperty>("mCurrentPotential", c_mCurrentPotential));
     defineProperty(std::make_shared<BoolProperty>("mIsProductionPaused", c_mIsProductionPaused));
 
-    //components
-    registerComponent("InputInventory", c_input_inventory);
-    registerComponent("OutputInventory", c_output_inventory);
-    registerComponent("InventoryPotential", c_inventory_potential);
   }
 
   IOUnit::~IOUnit() {

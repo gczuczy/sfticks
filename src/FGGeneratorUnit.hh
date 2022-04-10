@@ -20,15 +20,12 @@ namespace FG {
 
     inline float& mCurrentFuelAmount() {return c_mCurrentFuelAmount;};
     inline bool& mHasFuelCached() {return c_mHasFuelCached;};
-    inline InventoryComponentSP FuelInventory() {return c_fuel_inventory;};
 
   private:
     //virtual void deserialize(Reader &_reader);
     float c_mCurrentFuelAmount;
     bool c_mHasFuelCached;
     ObjectReference c_mFuelInventory, c_mCurrentFuelClass;
-
-    InventoryComponentSP c_fuel_inventory;
   };
 
   typedef std::shared_ptr<GeneratorUnit> GeneratorUnitSP;

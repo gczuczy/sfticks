@@ -12,9 +12,7 @@ namespace FG {
     defineProperty(std::make_shared<ObjectProperty>("mCouponInventory", c_mCouponInventory));
     defineProperty(std::make_shared<FloatProperty>("mProducingTimer", c_mProducingTimer));
 
-    c_inputs.resize(1);
-    c_outputs.resize(0);
-    registerComponent("Input0", c_inputs[0]);
+    defineInputs({"Input0"});
   }
 
   ResourceSink::~ResourceSink() {

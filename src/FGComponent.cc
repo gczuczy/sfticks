@@ -1,5 +1,8 @@
 
 #include "FGComponent.hh"
+#include "Exception.hh"
+
+#include <typeinfo>
 
 namespace FG {
 
@@ -20,4 +23,7 @@ namespace FG {
     _reader(c_parent_entity_name);
   }
 
+  std::string Component::vtypename() {
+    return typeid(*this).name();
+  }
 }

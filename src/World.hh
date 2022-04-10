@@ -75,7 +75,9 @@ namespace FG {
   private:
     template<class T>
     void registerComponentType() {
-      c_compdefs[T::pathname] = T::instantiate;
+      for (auto it: T::pathname) {
+	c_compdefs[it] = T::instantiate;
+      }
     }
     template<class T>
     EntitySP instantiateEntity(Reader& _reader, ObjectHeader& _fgoh) {

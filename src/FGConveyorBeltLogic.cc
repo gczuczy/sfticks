@@ -9,7 +9,7 @@ namespace FG {
     defineProperty(std::make_shared<ObjectProperty>("mBufferInventory", c_mBufferInventory));
 
     // components
-    registerComponent("StorageInventory", c_StorageInventory);
+    defineInventories({"StorageInventory"});
   }
 
   ConveyorBeltLogic::~ConveyorBeltLogic() {
