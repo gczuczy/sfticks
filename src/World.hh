@@ -18,6 +18,7 @@
 #include "FGIOUnit.hh"
 #include "FGMiner.hh"
 #include "FGStorageUnit.hh"
+#include "ObjectReference.hh"
 
 namespace FG {
 
@@ -129,6 +130,9 @@ namespace FG {
     // component defintions
     std::map<std::string, component_callback> c_compdefs;
     std::map<std::string, entity_callback> c_entitydefs;
+
+    // collected objects
+    std::set<ObjectReference> c_world_collected_objects;
 
     // complete maps for direct lookups
     // this includes all objects

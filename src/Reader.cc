@@ -247,15 +247,20 @@ namespace SFT {
     c_pos = c_len;
   }
 
-  Reader& Reader::dump(const std::string _file) {
+  Reader& Reader::dump(const std::string _file, uint64_t _len) {
     int fd;
+    uint dumplen = _len==0?c_len:_len;
 
-    printf("Reader(%u)::dump(%s), %li bytes\n", c_id, _file.c_str(), c_len);
+    printf("Reader(%u)::dump(%s), %u bytes\n", c_id, _file.c_str(), dumplen);
     if ( (fd = open(_file.c_str(), O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)) == -1 ) {
       throw Exception("open() failed");
     }
 
-    write(fd, c_buffer, c_len);
+    if ( _len == 0 ) {
+      write(fd, c_buffer, c_len);
+    } else {
+      write(fd, c_buffer+c_pos, _len);
+    }
 
     close(fd);
     return *this;

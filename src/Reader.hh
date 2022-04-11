@@ -45,7 +45,7 @@ namespace SFT {
     void store(std::string &_str);
 
     inline Reader& mark(const std::string _mark) {c_marks[_mark] = c_pos; return *this;};
-    Reader& dump(const std::string _file);
+    Reader& dump(const std::string _file, uint64_t _len=0);
 
     inline void setThrow(bool _throw) {c_nothrow=!_throw;};
 

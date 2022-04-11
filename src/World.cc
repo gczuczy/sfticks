@@ -170,13 +170,6 @@ namespace FG {
     _reader.setThrow(false);
     objects.resize(c_world_object_count);
 
-#if 0
-    for (auto it: c_compdefs) {
-      printf("%s\n", it.first.c_str());
-    }
-    return;
-#endif
-
     // read world objects
     int32_t objtype;
     std::string name, proptype, instance;
@@ -267,8 +260,19 @@ namespace FG {
     }
     printf("Components associated\n");
 
-    // for now we ignore the rest of the data, because we don't need it for the project
-    // if needed, parsing the rest can be implemented.
+    _reader(c_world_collected_object_count);
+    printf("World collected object count: %i\n", c_world_collected_object_count);
+    for (int32_t i=0; i<c_world_collected_object_count; ++i) {
+      std::string level,path;
+      _reader(level)(path);
+      //printf("%s / %s\n", level.c_str(), path.c_str());
+      c_world_collected_objects.insert(ObjectReference(level, path));
+    }
+
+    // the rest seems to be spawn data, which is not important to
+    // the current scope of the project
+    //_reader.dump("/tmp/remnants.dump", _reader.len()-_reader.pos());
+
     return;
   }
 
