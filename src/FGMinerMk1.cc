@@ -11,8 +11,6 @@ namespace FG {
 
   MinerMk1::MinerMk1(Reader& _reader, ObjectHeader& _fgoh)
     : Miner(EntityType::MinerMk1, _reader, _fgoh) {
-    //defineInputs({"Input0"});
-    //defineOutputs({"Output0"});
   }
 
   MinerMk1::~MinerMk1() {

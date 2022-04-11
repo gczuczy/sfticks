@@ -12,6 +12,7 @@ namespace FG {
   }
 
   Component::~Component() {
+    //printf("Component dtor\n%s", str().c_str());
   }
 
   void Component::deserializeProperties(Reader &_reader) {

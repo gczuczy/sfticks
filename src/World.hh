@@ -16,6 +16,7 @@
 #include "FGConveyorBelt.hh"
 #include "FGConveyorBeltLogic.hh"
 #include "FGIOUnit.hh"
+#include "FGMiner.hh"
 #include "FGStorageUnit.hh"
 
 namespace FG {
@@ -82,6 +83,14 @@ namespace FG {
     template<class T>
     EntitySP instantiateEntity(Reader& _reader, ObjectHeader& _fgoh) {
       auto obj = std::make_shared<T>(_reader, _fgoh);
+#if 0
+      std::set<std::string> miners{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
+      bool miner = miners.find(_fgoh.objectType()) != miners.end();
+#else
+      bool miner = false;
+#endif
+
+      if (miner) printf("\n ! MINER\n%s", _fgoh.str().c_str());
 
       c_entities[_fgoh.instance()] = obj;
       if ( std::is_base_of<ConveyorBelt, T>::value )
@@ -90,8 +99,10 @@ namespace FG {
       if ( std::is_base_of<ConveyorBeltLogic, T>::value )
 	c_belt_logics[_fgoh.instance()] = std::dynamic_pointer_cast<ConveyorBeltLogic>(obj);
 
-      if ( std::is_base_of<IOUnit, T>::value )
+      if ( std::is_base_of<IOUnit, T>::value ) {
+	if ( miner ) printf(" - Adding to IOUnits\n");
 	c_iounits[_fgoh.instance()] = std::dynamic_pointer_cast<IOUnit>(obj);
+      }
 
       if ( std::is_base_of<StorageUnit, T>::value )
 	c_storage_units[_fgoh.instance()] = std::dynamic_pointer_cast<StorageUnit>(obj);
@@ -105,6 +116,7 @@ namespace FG {
     }
 
   public:
+    inline std::map<std::string, EntitySP>& entities() {return c_entities;};
     inline std::map<std::string, ConveyorBeltSP>& belts() {return c_belts;};
     inline std::map<std::string, ConveyorBeltLogicSP>& beltLogics() {return c_belt_logics;};
     inline std::map<std::string, IOUnitSP>& iounits() {return c_iounits;};
@@ -120,7 +132,7 @@ namespace FG {
 
     // complete maps for direct lookups
     // this includes all objects
-    std::map<std::string, std::shared_ptr<Entity> > c_entities;
+    std::map<std::string, EntitySP> c_entities;
     // components
     std::map<std::string, ComponentSP > c_components;
     // belts

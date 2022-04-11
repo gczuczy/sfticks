@@ -70,27 +70,32 @@ int main(int argc, char *argv[]) {
   // we have a Brave New World, let's examine it
   printf("Checking components\n");
   {
-    for (auto it: world->belts()) {
-      printf(" ++ Entity:\n%s", it.second->str().c_str());
+    std::set<std::string> filter{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
+    for (auto it: world->iounits()) {
+      if ( filter.size() &&
+	   filter.find(it.second->objectType()) == filter.end() ) continue;
+      printf("\n\n ++ Entity:\n%s", it.second->str().c_str());
       for (auto cit: it.second->components()) {
 	printf(" + Component:\n%s", cit.second->str().c_str());
       }
+#if 0
       printf("ConveyorAny0:\n%s", it.second->ConveyorAny0()->compdetails().c_str());
       printf("ConveyorAny1:\n%s", it.second->ConveyorAny1()->compdetails().c_str());
+#endif
       printf("Inputs:\n");
       for (auto cit: it.second->inputs()) {
 	if ( cit ) {
-	  printf(" - failed\n");
-	} else {
 	  printf(" - %s\n%s", cit->instance().c_str(), cit->compdetails().c_str());
+	} else {
+	  printf(" - failed\n");
 	}
       }
       printf("Outputs:\n");
       for (auto cit: it.second->outputs()) {
 	if ( cit ) {
-	  printf(" - failed\n");
-	} else {
 	  printf(" - %s\n%s", cit->instance().c_str(), cit->compdetails().c_str());
+	} else {
+	  printf(" - failed\n");
 	}
       }
       printf("Inventories:\n");

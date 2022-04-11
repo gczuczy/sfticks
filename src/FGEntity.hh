@@ -9,6 +9,7 @@
 #include <map>
 #include <functional>
 #include <memory>
+#include <set>
 
 #include "vectors.hh"
 #include "FGComponent.hh"

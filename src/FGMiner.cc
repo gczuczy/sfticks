@@ -11,6 +11,9 @@ namespace FG {
     defineProperty(std::make_shared<FloatProperty>("mExtractStartupTimer", c_mExtractStartupTimer));
     defineProperty(std::make_shared<FloatProperty>("mCurrentExtractProgress", c_mCurrentExtractProgress));
     defineProperty(std::make_shared<ObjectProperty>("mExtractableResource", c_mExtractableResource));
+    //defineInputs({"Input0"});
+    defineOutputs({"Output0"});
+    defineInventories({"OutputInventory"});
   }
 
   Miner::~Miner() {
