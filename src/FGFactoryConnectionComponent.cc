@@ -4,6 +4,8 @@
 #include "ObjectProperty.hh"
 #include "EnumProperty.hh"
 #include "IntProperty.hh"
+#include "misc.hh"
+#include "FGEnums.hh"
 
 namespace FG {
 
@@ -32,6 +34,13 @@ namespace FG {
     return typeid(*this).name();
   }
 
+  std::string FactoryConnectionComponent::compdetails() {
+    return strprintf("ConnectedComponent: %s / %s\nConnectionInventory: %s / %s\nInventoryAccessIndex: %i\nDirection: %s\n",
+		     c_mConnectedComponent.levelName().c_str(), c_mConnectedComponent.pathName().c_str(),
+		     c_mConnectionInventory.levelName().c_str(), c_mConnectionInventory.pathName().c_str(),
+		     c_mInventoryAccessIndex,
+		     EnumDict<EFactoryConnectionDirection>::tostr(c_mDirection).c_str());
+  }
 #if 0
   std::string FGFactoryConnectionComponent::pathname("/Script/FactoryGame.FGFactoryConnectionComponent");
   FGFactoryConnectionComponent::FGFactoryConnectionComponent(Reader& _reader, ObjectHeader& _fgoh)

@@ -26,6 +26,7 @@ namespace FG {
     inline int32_t mInventoryAccessIndex() const {return c_mInventoryAccessIndex;};
     inline EFactoryConnectionDirection mDirection() const {return c_mDirection;};
     inline ObjectReference mConnectedComponent() const {return c_mConnectedComponent;};
+    virtual std::string compdetails();
 
   public:
     static std::set<std::string> pathname;

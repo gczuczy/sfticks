@@ -19,6 +19,7 @@ namespace FG {
     static ComponentSP instantiate(Reader& _reader, ObjectHeader& _fgoh);
 
     virtual std::string vtypename();
+    virtual std::string compdetails();
 
   public:
     static std::set<std::string> pathname;
@@ -28,8 +29,8 @@ namespace FG {
     std::vector<InventoryStack> c_mInventoryStacks;
     std::vector<int32_t> c_mArbitrarySlotSizes;
     std::vector<ObjectReference> c_mAllowedItemDescriptors;
-    bool c_mCanBeRearrange;
-    int32_t c_mAdjustedSizeDiff;
+    bool c_mCanBeRearrange=false;
+    int32_t c_mAdjustedSizeDiff=0;
   };
   typedef std::shared_ptr<InventoryComponent> InventoryComponentSP;
 

@@ -37,4 +37,7 @@ namespace FG {
     close(fd);
   }
 
+  std::string GenericComponent::compdetails() {
+    return "";
+  }
 }

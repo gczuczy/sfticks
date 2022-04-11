@@ -22,6 +22,9 @@
 #include "FGConveyorAttachmentMerger.hh"
 #include "FGConveyorAttachmentSplitter.hh"
 #include "FGConveyorAttachmentSplitterSmart.hh"
+#include "FGMinerMk1.hh"
+#include "FGMinerMk2.hh"
+#include "FGMinerMk3.hh"
 #include "FGAssemblerMk1.hh"
 #include "FGBlender.hh"
 #include "FGConstructorMk1.hh"
@@ -120,6 +123,10 @@ namespace FG {
     registerEntityType<ConveyorAttachmentMerger>();
     registerEntityType<ConveyorAttachmentSplitter>();
     registerEntityType<ConveyorAttachmentSplitterSmart>();
+    // miners
+    registerEntityType<MinerMk1>();
+    registerEntityType<MinerMk2>();
+    registerEntityType<MinerMk3>();
     // manufacturing units
     registerEntityType<AssemblerMk1>();
     registerEntityType<ConstructorMk1>();

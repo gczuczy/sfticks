@@ -31,6 +31,7 @@ namespace FG {
 
     virtual void deserializeProperties(Reader &_reader);
     virtual std::string vtypename();
+    virtual std::string compdetails()=0;
   private:
     virtual void deserialize(Reader &_reader);
 

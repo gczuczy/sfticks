@@ -70,21 +70,38 @@ int main(int argc, char *argv[]) {
   // we have a Brave New World, let's examine it
   printf("Checking components\n");
   {
-    for (auto it: world->storageUnits()) {
+    for (auto it: world->belts()) {
       printf(" ++ Entity:\n%s", it.second->str().c_str());
       for (auto cit: it.second->components()) {
 	printf(" + Component:\n%s", cit.second->str().c_str());
       }
-      // storage units
+      printf("ConveyorAny0:\n%s", it.second->ConveyorAny0()->compdetails().c_str());
+      printf("ConveyorAny1:\n%s", it.second->ConveyorAny1()->compdetails().c_str());
       printf("Inputs:\n");
-      for (auto cit: it.second->inputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      for (auto cit: it.second->inputs()) {
+	if ( cit ) {
+	  printf(" - failed\n");
+	} else {
+	  printf(" - %s\n%s", cit->instance().c_str(), cit->compdetails().c_str());
+	}
+      }
       printf("Outputs:\n");
-      for (auto cit: it.second->outputs()) printf(" - %s\n", cit?cit->instance().c_str():"failed");
+      for (auto cit: it.second->outputs()) {
+	if ( cit ) {
+	  printf(" - failed\n");
+	} else {
+	  printf(" - %s\n%s", cit->instance().c_str(), cit->compdetails().c_str());
+	}
+      }
       printf("Inventories:\n");
-      for (auto cit: it.second->inventories())
-	printf(" - %s:%s\n",
-	       cit.first.c_str(),
-	       cit.second?cit.second->instance().c_str():"failed");
+      for (auto cit: it.second->inventories()) {
+	printf(" - %s:", cit.first.c_str());
+	if ( cit.second ) {
+	  printf("%s\n%s", cit.second->instance().c_str(), cit.second->compdetails().c_str());
+	} else {
+	  printf("failed\n");
+	}
+      }
     }
   }
 #endif

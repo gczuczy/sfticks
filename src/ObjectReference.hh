@@ -21,8 +21,8 @@ public:
   bool operator==(const ObjectReference& b) const;
 
 private:
-  std::string c_levelname;
-  std::string c_pathname;
+  std::string c_levelname="";
+  std::string c_pathname="";
 };
 
 #endif
