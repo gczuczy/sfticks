@@ -267,49 +267,6 @@ namespace FG {
     }
     printf("Components associated\n");
 
-    // Component debugging
-#if 0
-    std::set<std::string> ignored{"/Script/FactoryGame.FGPowerInfoComponent",
-      "/Script/FactoryGame.FGFactoryLegsComponent",
-      "/Script/FactoryGame.FGPowerConnectionComponent",
-      "/Script/FactoryGame.FGPipeConnectionFactory",
-      "/Script/FactoryGame.FGTrainPlatformConnection"};
-    for (auto it: c_storage_units) {
-      bool found(false);
-      for (auto cit: it.second->components()) {
-	if ( cit.second->componentType() != ComponentType::Generic ) continue;
-	if ( ignored.find(cit.second->name()) != ignored.end() ) continue;
-	printf("Entity: %s\n", it.first.c_str());
-	printf("%s\n", cit.second->instance().c_str());
-	printf(" FGobjecttype: %s\n", cit.second->objectType().c_str());
-	printf(" compName: %s\n", cit.second->componentName().c_str());
-	printf("+Objstr:\n%s", cit.second->str().c_str());
-
-	auto gcomp = std::static_pointer_cast<GenericComponent>(cit.second);
-	gcomp->dump(strprintf("/tmp/%s.dump", cit.second->instance().c_str()));
-	found=true;
-      }
-      if ( found ) return;
-    }
-#endif
-
-    // get the object types present
-#if 0
-    // now dump the fgobjtypes
-    std::set<std::string> fgobjtypes;
-    for (auto it: c_entities) {
-      fgobjtypes.insert(it.second->objectType());
-    }
-    // and dump them
-    {
-      std::ofstream of;
-      of.open("/tmp/fgobjtypes");
-      for (auto it: fgobjtypes) {
-	of << it << std::endl;
-      }
-      of.close();
-    }
-#endif
     // for now we ignore the rest of the data, because we don't need it for the project
     // if needed, parsing the rest can be implemented.
     return;
