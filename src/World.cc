@@ -49,6 +49,8 @@
 #include "FGFactoryConnectionComponent.hh"
 #include "FGInventoryComponent.hh"
 
+#include "FGObjectLibrary.hh"
+
 #include <set>
 #include <iostream>
 #include <fstream>
@@ -108,6 +110,7 @@ namespace FG {
 
   World::World(Header& _header): c_headers(_header) {
     printf("Brave New world:\n%s", c_headers.str().c_str());
+    ObjectLibrary::getInstance()->addDictionary(c_headers.worldType(), *this);
     // entity definitions
     // belts & logics
     registerEntityType<ConveyorBeltMk1>();
@@ -159,6 +162,14 @@ namespace FG {
   }
 
   World::~World() {
+    c_world_collected_objects.clear();
+    c_storage_units.clear();
+    c_iounits.clear();
+    c_belt_logics.clear();
+    c_belts.clear();
+    c_entities.clear();
+    c_components.clear();
+    c_allobjects.clear();
   }
 
   void World::deserialize(Reader &_reader) {
@@ -190,6 +201,7 @@ namespace FG {
 	  auto obj = std::make_shared<GenericEntity>(_reader, header);
 	  c_entities[header.instance()] = obj;
 	  objects[i] = obj;
+	  c_allobjects[obj->instance()] = obj;
 	  //printf(" !!! Unhandled entity object type\nHeaders:\n%s", header.str().c_str());
 	  //EXCEPTION(strprintf("Unhandled objectype: %s", header.objectType().c_str()));
 	}
@@ -203,6 +215,7 @@ namespace FG {
 	}
 	c_components[header.instance()] = obj;
 	objects[i] = obj;
+	c_allobjects[obj->instance()] = obj;
       } else {
 #ifdef SFT_DEBUG
 	//t.debug();
@@ -272,12 +285,20 @@ namespace FG {
     // the rest seems to be spawn data, which is not important to
     // the current scope of the project
     //_reader.dump("/tmp/remnants.dump", _reader.len()-_reader.pos());
-
-    return;
   }
 
   std::string World::str() const {
     return strprintf("World %s\n", c_headers.sessionName().c_str());
   }
 
+  ObjectHeaderSP World::lookupObject(const std::string& _pathname) {
+    auto it = c_allobjects.find(_pathname);
+    if ( it != c_allobjects.end() ) return it->second;
+#if 0
+    for (auto it2: c_allobjects) {
+      printf("%s\n", it2.first.c_str());
+    }
+#endif
+    EXCEPTION(strprintf("World::lookupObject(%s): not found", _pathname.c_str()));
+  }
 }

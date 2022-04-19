@@ -19,6 +19,7 @@ namespace FG {
     Inventory,
   };
 
+  class Entity;
   class Component: public ObjectHeader {
     Component()=delete;
   public:
@@ -27,6 +28,7 @@ namespace FG {
 
     inline ComponentType componentType() const {return c_comptype;};
     inline std::string parentEntityName() const {return c_parent_entity_name;};
+    inline std::shared_ptr<Entity> parent() { resolveParent(); return c_parent;};
     inline std::string instanceName() const {return strprintf("%s_%i", c_component_name.c_str(), c_component_instanceid);};
 
     virtual void deserializeProperties(Reader &_reader);
@@ -34,12 +36,14 @@ namespace FG {
     virtual std::string compdetails()=0;
   private:
     virtual void deserialize(Reader &_reader);
+    void resolveParent();
 
   protected:
     std::string c_parent_entity_name;
 
   private:
     ComponentType c_comptype;
+    std::shared_ptr<Entity> c_parent;
   };
 
   typedef std::shared_ptr<Component> ComponentSP;

@@ -19,10 +19,11 @@
 #include "FGMiner.hh"
 #include "FGStorageUnit.hh"
 #include "ObjectReference.hh"
+#include "FGObjectDictionary.hh"
 
 namespace FG {
 
-  class World: public Saveable {
+  class World: public Saveable, public ObjectDictionary {
   public:
     class Header: public Saveable {
     public:
@@ -73,6 +74,7 @@ namespace FG {
     virtual void deserialize(Reader &_reader);
     virtual void deserializeProperties(Reader &_reader) {};
     virtual std::string str() const;
+    virtual ObjectHeaderSP lookupObject(const std::string& _pathname);
 
   private:
     template<class T>
@@ -94,6 +96,7 @@ namespace FG {
       if (miner) printf("\n ! MINER\n%s", _fgoh.str().c_str());
 
       c_entities[_fgoh.instance()] = obj;
+      c_allobjects[_fgoh.instance()] = obj;
       if ( std::is_base_of<ConveyorBelt, T>::value )
 	c_belts[_fgoh.instance()] = std::dynamic_pointer_cast<ConveyorBelt>(obj);
 
@@ -131,11 +134,13 @@ namespace FG {
     std::map<std::string, component_callback> c_compdefs;
     std::map<std::string, entity_callback> c_entitydefs;
 
-    // collected objects
     std::set<ObjectReference> c_world_collected_objects;
 
     // complete maps for direct lookups
-    // this includes all objects
+    // all objects
+    //std::map<std::string, std::map<std::string, ObjectHeaderSP> > c_allobjects;
+    std::map<std::string, ObjectHeaderSP> c_allobjects;
+    // entities
     std::map<std::string, EntitySP> c_entities;
     // components
     std::map<std::string, ComponentSP > c_components;
@@ -147,6 +152,7 @@ namespace FG {
     std::map<std::string, IOUnitSP> c_iounits;
     // storage units
     std::map<std::string, StorageUnitSP> c_storage_units;
+    // collected objects
   };
 
 }

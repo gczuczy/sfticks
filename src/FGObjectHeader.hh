@@ -6,6 +6,7 @@
 #include "ObjectReference.hh"
 
 #include <list>
+#include <memory>
 
 namespace FG {
 
@@ -40,7 +41,6 @@ namespace FG {
 
     virtual void deserializeProperties(Reader &_reader);
     virtual std::string str() const;
-    // debug functions
     std::string str_compbase() const;
 
   private:
@@ -61,6 +61,7 @@ namespace FG {
     ObjectReference c_basecomp;
     std::list<ObjectReference> c_compdefs;
   };
+  typedef std::shared_ptr<ObjectHeader> ObjectHeaderSP;
 
 }
 
