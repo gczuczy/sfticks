@@ -18,14 +18,14 @@ namespace FG {
     IOUnit(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
     virtual ~IOUnit();
 
-    inline float& mCurrentManufacturingProgress() {return c_mCurrentManufacturingProgress;};
-    inline ObjectReference& mInputInventory() {return c_mInputInventory;};
-    inline ObjectReference& mOutputInventory() {return c_mOutputInventory;};
-    inline ObjectReference& mCurrentRecipe() {return c_mCurrentRecipe;};
-    inline ObjectReference& mInventoryPotential() {return c_mInventoryPotential;};
-    inline float& mPendingPotential() {return c_mPendingPotential;};
-    inline float& mCurrentPotential() {return c_mCurrentPotential;};
-    inline bool mIsProductionPaused() {return c_mIsProductionPaused;};
+    inline float& currentManufacturingProgress() {return c_mCurrentManufacturingProgress;};
+    inline ObjectReference& inputInventory() {return c_mInputInventory;};
+    inline ObjectReference& outputInventory() {return c_mOutputInventory;};
+    inline ObjectReference& currentRecipe() {return c_mCurrentRecipe;};
+    inline ObjectReference& onventoryPotential() {return c_mInventoryPotential;};
+    inline float& pendingPotential() {return c_mPendingPotential;};
+    inline float& currentPotential() {return c_mCurrentPotential;};
+    inline bool isProductionPaused() {return c_mIsProductionPaused;};
 
 
   private:

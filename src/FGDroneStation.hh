@@ -14,12 +14,12 @@ namespace FG {
     DroneStation(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~DroneStation();
 
-    ObjectReference mInputInventory() const {return c_mInputInventory;};
-    ObjectReference mOutputInventory() const {return c_mOutputInventory;};
-    ObjectReference mBatteryInventory() const {return c_mOutputInventory;};
-    ObjectReference mStationDrone() const {return c_mStationDrone;};
-    ObjectReference mDockedDrone() const {return c_mDockedDrone;};
-    EItemTransferringStage mItemTransferringStage() const {return c_mItemTransferringStage;};
+    ObjectReference& inputInventory() {return c_mInputInventory;};
+    ObjectReference& outputInventory() {return c_mOutputInventory;};
+    ObjectReference& batteryInventory() {return c_mOutputInventory;};
+    ObjectReference& stationDrone() {return c_mStationDrone;};
+    ObjectReference& dockedDrone() {return c_mDockedDrone;};
+    EItemTransferringStage itemTransferringStage() {return c_mItemTransferringStage;};
 
     static std::string objtypename;
 

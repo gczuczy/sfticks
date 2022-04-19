@@ -21,6 +21,7 @@ namespace FG {
     virtual ~StorageUnit();
 
     inline int32_t capacity() const {return c_capacity;};
+    inline ObjectReference& storageInventory() {return c_mStorageInventory;};
 
   private:
     int32_t c_capacity;

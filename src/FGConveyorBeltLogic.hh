@@ -21,6 +21,8 @@ namespace FG {
     ConveyorBeltLogic(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
     virtual ~ConveyorBeltLogic();
 
+    inline ObjectReference& bufferInventory() {return c_mBufferInventory;};
+
   private:
     //virtual void deserialize(Reader &_reader);
     ObjectReference c_mBufferInventory;

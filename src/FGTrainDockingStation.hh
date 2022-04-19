@@ -14,16 +14,16 @@ namespace FG {
     TrainDockingStation(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~TrainDockingStation();
 
-    inline float& mTimeSinceLastLoadTransferUpdate() {return c_mTimeSinceLastLoadTransferUpdate;};
-    inline float& mTimeSinceLastUnloadTransferUpdate() {return c_mTimeSinceLastUnloadTransferUpdate;};
-    inline float& mSmoothedLoadRate() {return c_mSmoothedLoadRate;};
-    inline float& mSmoothedUnloadRate() {return c_mSmoothedUnloadRate;};
-    inline bool& mIsOrientationReversed() {return c_mIsOrientationReversed;};
-    inline bool& mIsInLoadMode() {return c_mIsInLoadMode;};
-    inline bool& mHasDockedActor() {return c_mHasDockedActor;};
-    inline bool& mIsLoadUnloading() {return c_mIsLoadUnloading;};
-    inline ETrainPlatformDockingStatus mSavedDockingStatus() {return c_mSavedDockingStatus;};
-    inline InventoryComponentSP Inventory() {return c_inventory;};
+    inline float timeSinceLastLoadTransferUpdate() {return c_mTimeSinceLastLoadTransferUpdate;};
+    inline float timeSinceLastUnloadTransferUpdate() {return c_mTimeSinceLastUnloadTransferUpdate;};
+    inline float smoothedLoadRate() {return c_mSmoothedLoadRate;};
+    inline float smoothedUnloadRate() {return c_mSmoothedUnloadRate;};
+    inline bool isOrientationReversed() {return c_mIsOrientationReversed;};
+    inline bool isInLoadMode() {return c_mIsInLoadMode;};
+    inline bool hasDockedActor() {return c_mHasDockedActor;};
+    inline bool isLoadUnloading() {return c_mIsLoadUnloading;};
+    inline ETrainPlatformDockingStatus savedDockingStatus() {return c_mSavedDockingStatus;};
+    inline InventoryComponentSP inventory() {return c_inventory;};
 
     static std::string objtypename;
 
