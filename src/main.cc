@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
-#if 1
+#if 0
   // objref resolver tests
   for (auto it: world->belts()) {
     auto any0 = it.second->ConveyorAny0();
@@ -108,13 +108,14 @@ int main(int argc, char *argv[]) {
   // we have a Brave New World, let's examine it
   printf("Checking components\n");
   {
-    std::set<std::string> filter{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
+    //std::set<std::string> filter{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
+    std::set<std::string> filter;
     for (auto it: world->iounits()) {
       if ( filter.size() &&
 	   filter.find(it.second->objectType()) == filter.end() ) continue;
       printf("\n\n ++ Entity:\n%s", it.second->str().c_str());
       for (auto cit: it.second->components()) {
-	printf(" + Component:\n%s", cit.second->str().c_str());
+	printf(" + Component:\n%s%s", cit.second->str().c_str(), cit.second->compdetails().c_str());
       }
 #if 0
       printf("ConveyorAny0:\n%s", it.second->ConveyorAny0()->compdetails().c_str());
@@ -144,6 +145,18 @@ int main(int argc, char *argv[]) {
 	} else {
 	  printf("failed\n");
 	}
+      }
+      printf("PowerInfo:\n");
+      try {
+	auto pi = it.second->powerInfo().object();
+	if ( pi ) {
+	  printf("%s", pi->str().c_str());
+	} else {
+	  printf("Lookup failed\n");
+	}
+      }
+      catch (SFT::Exception& e) {
+	printf("powerInfo lookup failed: %s\n", e.what());
       }
     }
   }

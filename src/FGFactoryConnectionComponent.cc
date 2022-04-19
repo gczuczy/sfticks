@@ -41,14 +41,4 @@ namespace FG {
 		     c_mInventoryAccessIndex,
 		     EnumDict<EFactoryConnectionDirection>::tostr(c_mDirection).c_str());
   }
-#if 0
-  std::string FGFactoryConnectionComponent::pathname("/Script/FactoryGame.FGFactoryConnectionComponent");
-  FGFactoryConnectionComponent::FGFactoryConnectionComponent(Reader& _reader, ObjectHeader& _fgoh)
-    :FactoryConnectionComponent(_reader, _fgoh) {
-  }
-
-  std::string FGFactoryConnectionComponent::vtypename() {
-    return typeid(*this).name();
-  }
-#endif
 }

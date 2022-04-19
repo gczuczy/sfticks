@@ -47,21 +47,10 @@ namespace FG {
 
     rv += strprintf("\nAllowedItemDescriptors:\n");
     for (auto it: c_mAllowedItemDescriptors)
-      rv += strprintf(" - %s / %s\n",
+      rv += strprintf(" - %s:%s\n",
 		      it.levelName().c_str(),
 		      it.pathName().c_str());
 
     return rv;
   }
-#if 0
-  std::string FGInventoryComponent::pathname("/Script/FactoryGame.FGInventoryComponent");
-
-  FGInventoryComponent::FGInventoryComponent(Reader& _reader, ObjectHeader& _fgoh)
-    : InventoryComponent(_reader, _fgoh) {
-  }
-
-  std::string FGInventoryComponent::vtypename() {
-    return typeid(*this).name();
-  }
-#endif
 }

@@ -174,7 +174,12 @@ namespace SFT {
 
   Reader& Reader::fetch(float& _val, bool _try) {
     if ( sizeof(float) != 4 ) throw Exception("Float size is not 4");
-    if ( !lencheck(4, !_try) ) return *this;
+    if ( !lencheck(4, !_try) ) {
+#if 0
+      printf("Float lencheck failed\n");
+#endif
+      return *this;
+    }
     memcpy((void*)&_val, c_buffer, sizeof(float));
     c_pos += 4;
     return *this;

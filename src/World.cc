@@ -48,6 +48,7 @@
 // components
 #include "FGFactoryConnectionComponent.hh"
 #include "FGInventoryComponent.hh"
+#include "FGPowerInfoComponent.hh"
 
 #include "FGObjectLibrary.hh"
 
@@ -156,9 +157,9 @@ namespace FG {
 
     // component definitions
     registerComponentType<FactoryConnectionComponent>();
-    //registerComponentType<FGFactoryConnectionComponent>();
     registerComponentType<InventoryComponent>();
-    //registerComponentType<FGInventoryComponent>();
+    registerComponentType<PowerInfoComponent>();
+    //registerComponentType<Component>();
   }
 
   World::~World() {

@@ -24,5 +24,6 @@ namespace FG {
     {ComponentType::Generic, "ComponentType::Generic"},
     {ComponentType::FactoryConnection, "ComponentType::FactoryConnection"},
     {ComponentType::Inventory, "ComponentType::Inventory"},
+    {ComponentType::PowerInfo, "ComponentType::PowerInfo"},
   };
 }

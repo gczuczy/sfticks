@@ -17,6 +17,7 @@ namespace FG {
     Generic=-1,
     FactoryConnection=0,
     Inventory,
+    PowerInfo
   };
 
   class Entity;

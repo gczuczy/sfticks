@@ -9,7 +9,7 @@ namespace FG {
   class FloatProperty: public PropertyInterface {
   public:
     FloatProperty() = delete;
-    FloatProperty(const std::string& _name, float& _value, int32_t _index=0);
+    FloatProperty(const std::string& _name, float& _value, int32_t _index=0, bool _debug=false);
     virtual ~FloatProperty()=default;
 
     virtual void deserialize(Reader& _reader, int32_t _size);
@@ -17,6 +17,7 @@ namespace FG {
 
   private:
     float& c_value;
+    bool c_debug=false;
   };
 
 }

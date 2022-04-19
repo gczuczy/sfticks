@@ -20,12 +20,12 @@ namespace FG {
     Building(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
     virtual ~Building();
   
-    inline float& mTimeSinceStartStopProducing() {return c_mTimeSinceStartStopProducing;};
-    inline float& mBuildTimeStamp() {return c_mBuildTimeStamp;};
-    inline ObjectReference& mPowerInfo() {return c_mPowerInfo;};
-    inline ObjectReference& mBuiltWithRecipe() {return c_mBuiltWithRecipe;};
-    inline bool& mIsProducing() {return c_mIsProducing;};
-    inline bool& mDidFirstTimeUse() {return c_mDidFirstTimeUse;};
+    inline float& timeSinceStartStopProducing() {return c_mTimeSinceStartStopProducing;};
+    inline float& buildTimeStamp() {return c_mBuildTimeStamp;};
+    inline ObjectReference& powerInfo() {return c_mPowerInfo;};
+    inline ObjectReference& builtWithRecipe() {return c_mBuiltWithRecipe;};
+    inline bool& isProducing() {return c_mIsProducing;};
+    inline bool& didFirstTimeUse() {return c_mDidFirstTimeUse;};
     inline std::vector<FactoryConnectionComponentSP>& inputs() {return c_inputs;};
     inline std::vector<FactoryConnectionComponentSP>& outputs() {return c_outputs;};
     inline std::map<std::string, InventoryComponentSP>& inventories() {return c_inventories;};

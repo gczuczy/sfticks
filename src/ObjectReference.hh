@@ -29,7 +29,7 @@ namespace FG {
 
     void resolve();
     inline void clear() {c_me = nullptr;};
-    inline std::shared_ptr<ObjectHeader>& object() {return c_obj;};
+    inline std::shared_ptr<ObjectHeader>& object() {resolve(); return c_obj;};
     template<class T>
     std::shared_ptr<T> as() {
       resolve();
