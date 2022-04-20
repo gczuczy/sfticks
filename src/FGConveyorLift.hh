@@ -16,7 +16,9 @@ namespace FG {
     ConveyorLift(EntityType _et, Reader& _reader, ObjectHeader& _fgoh, int32_t _throughput);
     virtual ~ConveyorLift();
 
-    inline bool& mIsReversed() {return c_mIsReversed;};
+    inline bool isReversed() {return c_mIsReversed;};
+    inline Transform topTransform() {return c_mTopTransform;};
+    inline std::vector<ObjectReference>& snappedPassthroughs() {return c_mSnappedPassthroughs;};
 
   private:
     std::vector<ObjectReference> c_mSnappedPassthroughs;
