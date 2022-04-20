@@ -16,7 +16,7 @@ namespace FG {
     typedef ObjectReference value_type;
   public:
     ObjectProperty() = delete;
-    ObjectProperty(const std::string& _name, ObjectReference& _value, int32_t _index=0);
+    ObjectProperty(const std::string& _name, ObjectReference& _value, int32_t _index=0, bool _debug=false);
     virtual ~ObjectProperty()=default;
 
     virtual void deserialize(Reader& _reader, int32_t _size);
@@ -26,6 +26,7 @@ namespace FG {
 
   private:
     ObjectReference& c_value;
+    bool c_debug;
   };
 
 }

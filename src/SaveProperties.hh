@@ -13,7 +13,7 @@ namespace FG {
 
   protected:
     void defineProperty(PropertyInterfaceSP _prop);
-    void loadProperties(Reader& _reader);
+    void loadProperties(Reader& _reader, bool _debug=false);
 
   private:
     struct pdkey {

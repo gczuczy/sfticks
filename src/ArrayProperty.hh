@@ -5,6 +5,7 @@
 #include "PropertyInterface.hh"
 #include "Exception.hh"
 #include "Trace.hh"
+#include "misc.hh"
 
 #include <vector>
 
@@ -14,9 +15,9 @@ namespace FG {
   class ArrayProperty: public PropertyInterface {
   public:
     ArrayProperty() = delete;
-    ArrayProperty(const std::string& _name, std::vector<V>& _value, int32_t _index=0)
+    ArrayProperty(const std::string& _name, std::vector<V>& _value, int32_t _index=0, bool _debug=false)
       : PropertyInterface(SavePropertyType::ArrayProperty, _name, _index), c_value(_value),
-	c_valuetypestr("") {
+	c_valuetypestr(""), c_debug(_debug) {
       c_value.clear();
       c_propdefs.clear();
     };
@@ -35,21 +36,39 @@ namespace FG {
       //TRACE;
       int32_t count;
       _reader(count);
-      T::deserializeNestedHeaders(_reader, c_nestedheaders);
       //_reader.debug(16, "array-data").dump("/tmp/array-data.dump");
 
-      for (auto i=0; i<count; ++i) {
-	c_value.emplace_back(V());
-	c_propdefs.push_back(std::make_shared<T>(name(), c_value[i], i));
-	c_propdefs[i]->deserializeData(_reader);
-	//pd->deserializeData(_reader);
+      static int x=0;
+      if ( c_debug ) {
+	++x;
+	printf("ArrayProperty<%s>(%s) %i items:\n", typeid(T).name(),
+	       name().c_str(), count);
+	std::string str = strprintf("/tmp/array-debug-%i.dump", x);
+	_reader.debug(4, str).dump(str);
       }
+      T::deserializeNestedHeaders(_reader, c_nestedheaders);
+      for (auto i=0; i<count; ++i) {
+#if 0
+	if ( c_debug ) {
+	  printf(" - Reading %i/%i\n", i, count);
+	  _reader.debug(4, strprintf("array-debug-%i %i/%i", x, i, count));
+	}
+#endif
+	c_value.emplace_back(V());
+	T def(name(), c_value[i], i, c_debug);
+	def.deserializeData(_reader);
+	
+	//c_propdefs.push_back(std::make_shared<T>(name(), c_value[i], 0, c_debug));
+	//c_propdefs[i]->deserializeData(_reader);
+      }
+      //if ( c_debug ) EXCEPTION("lofasz");
     }
 
   private:
     std::string c_valuetypestr;
     std::vector<std::shared_ptr<T> > c_propdefs;
     std::vector<V>& c_value;
+    bool c_debug = false;
     typename T::NestedHeader c_nestedheaders;
   };
 

@@ -71,6 +71,21 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
+#if 1
+  // belt spline checks
+  for (auto it: world->belts()) {
+    auto sdata = it.second->splineData();
+
+    printf("Belt: %s\n", it.second->instance().c_str());
+    for (int i=0; i<sdata.size(); ++i) {
+      printf(" %i:\n", i);
+      printf("  - Location: %s\n", sdata[i].Location.str().c_str());
+      printf("  - ArriveTangent: %s\n", sdata[i].ArriveTangent.str().c_str());
+      printf("  - LeaveTangent: %s\n", sdata[i].LeaveTangent.str().c_str());
+    }
+  }
+#endif
+
 #if 0
   // objref resolver tests
   for (auto it: world->belts()) {

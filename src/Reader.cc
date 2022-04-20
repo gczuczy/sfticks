@@ -158,6 +158,8 @@ namespace SFT {
     if ( !lencheck(4, !_try) ) return *this;
 #ifdef __FreeBSD__
     _val = (int32_t)le32toh(*((uint32_t*)(c_buffer+c_pos)));
+#else
+    _val = *((int32_t*)(c_buffer+c_pos));
 #endif
     c_pos += 4;
     return *this;
@@ -167,6 +169,8 @@ namespace SFT {
     if ( !lencheck(8, !_try) ) return *this;
 #ifdef __FreeBSD__
     _val = (int64_t)le64toh(*((uint64_t*)(c_buffer+c_pos)));
+#else
+    _val = *((int64_t*)(c_buffer+c_pos));
 #endif
     c_pos += 8;
     return *this;
@@ -180,36 +184,29 @@ namespace SFT {
 #endif
       return *this;
     }
-    memcpy((void*)&_val, c_buffer, sizeof(float));
+    _val = *((float*)(c_buffer+c_pos));
     c_pos += 4;
     return *this;
   }
 
   Reader& Reader::fetch(FG::Vector2& _val, bool _try) {
-    float x,y;
-    fetch(x).fetch(y);
-    _val = FG::Vector2(x, y);
+    fetch(_val.x).fetch(_val.y);
     return *this;
   }
 
   Reader& Reader::fetch(FG::Vector3& _val, bool _try) {
-    float x,y,z;
-    fetch(x).fetch(y).fetch(z);
-    _val = FG::Vector3(x, y, z);
+    fetch(_val.x).fetch(_val.y).fetch(_val.z);
+    //printf("Read vector3: %.3f %.3f %.3f\n", _val.x, _val.y, _val.z);
     return *this;
   }
 
   Reader& Reader::fetch(FG::Vector4& _val, bool _try) {
-    float x,y,z,w;
-    fetch(x).fetch(y).fetch(z).fetch(w);
-    _val = FG::Vector4(x, y, z, 2);
+    fetch(_val.x).fetch(_val.y).fetch(_val.z).fetch(_val.w);
     return *this;
   }
 
   Reader& Reader::fetch(FG::Quat& _val, bool _try) {
-    float x,y,z,w;
-    fetch(x).fetch(y).fetch(z).fetch(w);
-    _val = FG::Quat(x, y, z, 2);
+    fetch(_val.x).fetch(_val.y).fetch(_val.z).fetch(_val.w);
     return *this;
   }
 

@@ -8,62 +8,40 @@
 
 namespace FG {
 
-  class Vector2 {
+  struct Vector2 {
   public:
     Vector2();
     Vector2(float _x, float _y);
-
-    inline float x() const {return c_x;};
-    inline float y() const {return c_y;};
-
     std::string str() const;
 
-  private:
-    float c_x,c_y;
+    float x=42.69, y=42.69;
   };
 
-  class Vector3 {
+  struct Vector3 {
   public:
     Vector3();
     Vector3(float _x, float _y, float _z);
-
-    inline float x() const {return c_x;};
-    inline float y() const {return c_y;};
-    inline float z() const {return c_z;};
-
     std::string str() const;
-  private:
-    float c_x, c_y, c_z;
+
+    float x=42.69, y=42.69, z=42.69;
   };
 
-  class Vector4 {
+  struct Vector4 {
   public:
     Vector4();
     Vector4(float _x, float _y, float _z, float _w);
-
-    inline float x() const {return c_x;};
-    inline float y() const {return c_y;};
-    inline float z() const {return c_z;};
-    inline float w() const {return c_w;};
-
     std::string str() const;
-  private:
-    float c_x, c_y, c_z, c_w;
+
+    float x=42.69, y=42.69, z=42.69, w=42.69;
   };
 
-  class Quat {
+  struct Quat {
   public:
     Quat();
     Quat(float _x, float _y, float _z, float _w);
-
-    inline float x() const {return c_x;};
-    inline float y() const {return c_y;};
-    inline float z() const {return c_z;};
-    inline float w() const {return c_w;};
-
     std::string str() const;
-  private:
-    float c_x, c_y, c_z, c_w;
+
+    float x=42.69, y=42.69, z=42.69, w=42.69;
   };
 
 }

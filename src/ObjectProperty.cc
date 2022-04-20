@@ -6,8 +6,9 @@
 
 namespace FG {
 
-  ObjectProperty::ObjectProperty(const std::string& _name, ObjectReference& _value, int32_t _index)
-    : PropertyInterface(SavePropertyType::ObjectProperty, _name, _index), c_value(_value) {
+  ObjectProperty::ObjectProperty(const std::string& _name, ObjectReference& _value, int32_t _index, bool _debug)
+    : PropertyInterface(SavePropertyType::ObjectProperty, _name, _index), c_value(_value),
+      c_debug(_debug) {
   }
 
   void ObjectProperty::deserialize(Reader& _reader, int32_t _size) {

@@ -30,11 +30,14 @@ namespace FG {
     c_propdefs.emplace(std::make_pair(key, std::move(_prop)));
   }
 
-  void SaveProperties::loadProperties(Reader& _reader) {
+  void SaveProperties::loadProperties(Reader& _reader, bool _debug) {
     std::string name, proptype;
     int32_t len, idx;
     //TRACE;
 
+    if ( _debug ) {
+      _reader.debug(4, "loadProperties debug");
+    }
     while ( !_reader.eof() ) {
       //printf("\n\nStarting on next property\n");
       //_reader.dump("/tmp/prop.dump").debug(32, "prop starting");
@@ -42,7 +45,7 @@ namespace FG {
 
       // None is the end of the chapter
       if ( name == "None" ) {
-	if ( !_reader.eof() ) _reader(proptype, true);
+	if ( _reader.pos()+4 == _reader.len() ) _reader(proptype, true);
 	break;
       }
       //printf("+Read '%s'/'%s'\n", name.c_str(), proptype.c_str());
@@ -73,8 +76,10 @@ namespace FG {
     }
     // sometimes there's some trailing null data, get rid of that
     // so our reader doesn't throw
+#if 0
     int64_t remnants = _reader.len() - _reader.pos();
     if ( remnants ) _reader.skip(remnants);
+#endif
   }
 
 }

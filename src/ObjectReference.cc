@@ -4,6 +4,8 @@
 
 #include <boost/core/null_deleter.hpp>
 
+#include "misc.hh"
+
 namespace FG {
 
   ObjectReference::ObjectReference() {
@@ -56,5 +58,9 @@ namespace FG {
 			  c_levelname.c_str(),
 			  c_pathname.c_str()));
     c_obj = ObjectLibrary::getInstance()->lookup(*this);
+  }
+
+  std::string ObjectReference::str() {
+    return strprintf("ObjectReference(%s:%s)", c_levelname.c_str(), c_pathname.c_str());
   }
 }

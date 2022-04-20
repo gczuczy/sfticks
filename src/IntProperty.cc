@@ -3,8 +3,9 @@
 
 namespace FG {
 
-  IntProperty::IntProperty(const std::string& _name, int32_t& _value, int32_t _index)
-    : PropertyInterface(SavePropertyType::IntProperty, _name, _index), c_value(_value) {
+  IntProperty::IntProperty(const std::string& _name, int32_t& _value, int32_t _index, bool _debug)
+    : PropertyInterface(SavePropertyType::IntProperty, _name, _index), c_value(_value),
+      c_debug(_debug) {
   }
 
   void IntProperty::deserialize(Reader& _reader, int32_t _size) {

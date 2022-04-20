@@ -8,6 +8,9 @@ namespace FG {
 
   struct FactoryCustomizationData {
     ObjectReference SwatchDesc;
+    inline std::string str() {
+      return SwatchDesc.str();
+    }
   };
 }
 

@@ -14,6 +14,7 @@ namespace FG {
     ~SplitterSortRule()=default;
     ObjectReference ItemClass;
     int32_t OutputIndex;
+    std::string str();
   };
 
 }

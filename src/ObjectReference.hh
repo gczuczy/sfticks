@@ -28,6 +28,7 @@ namespace FG {
     bool operator==(const ObjectReference& b) const;
 
     void resolve();
+    std::string str();
     inline void clear() {c_me = nullptr;};
     inline std::shared_ptr<ObjectHeader>& object() {resolve(); return c_obj;};
     template<class T>
@@ -35,6 +36,7 @@ namespace FG {
       resolve();
       return std::dynamic_pointer_cast<T>(c_obj);
     };
+
 
   private:
     void fillme();

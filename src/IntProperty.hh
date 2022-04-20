@@ -13,7 +13,7 @@ namespace FG {
   public:
     typedef int32_t value_type;
     IntProperty() = delete;
-    IntProperty(const std::string& _name, int32_t& _value, int32_t _index=0);
+    IntProperty(const std::string& _name, int32_t& _value, int32_t _index=0, bool _debug=false);
     virtual ~IntProperty()=default;
 
     virtual void deserialize(Reader& _reader, int32_t _size);
@@ -23,6 +23,7 @@ namespace FG {
 
   private:
     int32_t& c_value;
+    bool c_debug;
   };
 
 }
