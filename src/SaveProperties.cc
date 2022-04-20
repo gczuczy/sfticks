@@ -74,12 +74,7 @@ namespace FG {
 #endif
       it->second->deserialize(_reader, len);
     }
-    // sometimes there's some trailing null data, get rid of that
-    // so our reader doesn't throw
-#if 0
-    int64_t remnants = _reader.len() - _reader.pos();
-    if ( remnants ) _reader.skip(remnants);
-#endif
+    if ( c_suphandler ) c_suphandler(std::ref(_reader));
   }
 
 }

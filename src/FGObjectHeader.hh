@@ -40,6 +40,7 @@ namespace FG {
     inline int32_t componentInstanceid() const {return c_component_instanceid;};
 
     virtual void deserializeProperties(Reader &_reader);
+    virtual void deserializeSupplementalData(Reader &_reader) {};
     virtual std::string str() const;
     std::string str_compbase() const;
 

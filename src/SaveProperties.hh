@@ -4,9 +4,13 @@
 
 #include "PropertyInterface.hh"
 
+#include <functional>
+
 namespace FG {
 
   class SaveProperties {
+  public:
+    typedef std::function<void(Reader&)> supplemental_handler;
   public:
     SaveProperties()=default;
     virtual ~SaveProperties()=default;
@@ -14,6 +18,9 @@ namespace FG {
   protected:
     void defineProperty(PropertyInterfaceSP _prop);
     void loadProperties(Reader& _reader, bool _debug=false);
+    inline void defineSupplementalHandler(supplemental_handler _h) {
+      c_suphandler = _h;
+    }
 
   private:
     struct pdkey {
@@ -24,6 +31,7 @@ namespace FG {
       int32_t index;
     };
     std::map<pdkey, PropertyInterfaceSP> c_propdefs;
+    supplemental_handler c_suphandler;
   };
 
 }

@@ -237,6 +237,7 @@ namespace FG {
 
     int32_t propsize;
     for ( int32_t i=0; i<c_world_object_property_count; ++i) {
+      printf("%i/%i\n%s", i, c_world_object_property_count, objects[i]->str().c_str());
       _reader(propsize);
       Reader propreader(_reader, propsize, __FILE__, __LINE__, __PRETTY_FUNCTION__);
       try {
