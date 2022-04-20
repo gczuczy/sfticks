@@ -25,13 +25,11 @@ namespace FG {
   }
 
   void ConveyorBelt::supplementalHandler(Reader& _reader) {
-    TRACE;
     int32_t count;
     std::string unused;
 
     _reader.skip(4);
     _reader(count);
-    printf("sup cnt: %i\n", count);
 
     for (int i=0; i<count; ++i) {
       BeltItem bi;
