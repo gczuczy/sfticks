@@ -76,12 +76,18 @@ int main(int argc, char *argv[]) {
   for (auto it: world->belts()) {
     auto sdata = it.second->splineData();
 
-    printf("Belt: %s\n", it.second->instance().c_str());
+    printf("Belt(%.3f): %s\n", it.second->length(),
+	   it.second->instance().c_str());
+    printf(" Spline data:\n");
     for (int i=0; i<sdata.size(); ++i) {
-      printf(" %i:\n", i);
-      printf("  - Location: %s\n", sdata[i].Location.str().c_str());
-      printf("  - ArriveTangent: %s\n", sdata[i].ArriveTangent.str().c_str());
-      printf("  - LeaveTangent: %s\n", sdata[i].LeaveTangent.str().c_str());
+      printf("  %i:\n", i);
+      printf("   - Location: %s\n", sdata[i].Location.str().c_str());
+      printf("   - ArriveTangent: %s\n", sdata[i].ArriveTangent.str().c_str());
+      printf("   - LeaveTangent: %s\n", sdata[i].LeaveTangent.str().c_str());
+    }
+    printf(" Belt items:\n");
+    for (auto biit: it.second->beltItems()) {
+      printf("  - %.2f %s\n", biit.position, biit.item.pathName().c_str());
     }
   }
 #endif

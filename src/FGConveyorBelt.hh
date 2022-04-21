@@ -29,6 +29,8 @@ namespace FG {
     inline FactoryConnectionComponentSP ConveyorAny1() {return c_ConveyorAny1;};
     inline BeltItems& beltItems() {return c_belt_items;};
 
+    virtual float length();
+
   private:
     void supplementalHandler(Reader& _r);
 

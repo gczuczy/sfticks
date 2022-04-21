@@ -24,6 +24,22 @@ namespace FG {
   ConveyorBelt::~ConveyorBelt() {
   }
 
+  float ConveyorBelt::length() {
+    float d(0);
+
+    if ( c_mSplineData.size() < 2 )
+      EXCEPTION("ConveyorBelt::length needs at least 2 points");
+
+    Vector3 prev = c_mSplineData[0].Location;
+
+    for (int i=1; i<c_mSplineData.size(); ++i) {
+      d += (prev - c_mSplineData[i].Location).length();
+      prev = c_mSplineData[i].Location;
+    }
+
+    return d;
+  }
+
   void ConveyorBelt::supplementalHandler(Reader& _reader) {
     int32_t count;
     std::string unused;

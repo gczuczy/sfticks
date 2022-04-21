@@ -3,6 +3,7 @@
 #define SFT_VECTORS_H
 
 #include <stdint.h>
+#include <math.h>
 
 #include <string>
 
@@ -22,6 +23,17 @@ namespace FG {
     Vector3();
     Vector3(float _x, float _y, float _z);
     std::string str() const;
+
+    Vector3& operator=(const Vector3& b);
+    Vector3& operator=(Vector3& b);
+
+    inline Vector3 operator-(Vector3 b) {
+      return Vector3(x-b.x, y-b.y, z-b.z);
+    };
+
+    inline float length() const {
+      return sqrtf(x*x + y*y + z*z);
+    };
 
     float x=42.69, y=42.69, z=42.69;
   };
