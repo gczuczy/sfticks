@@ -11,3 +11,4 @@ Apart from that, longer direct multi-segment belts can be simplified into a sing
 
 Well, the graph building, optimization and execution is yet to be done, however as seeing the game data during the save's parsing, there's a lot of fun to be have here.
 
+I would like to thank [u/AnthorNet](https://www.reddit.com/user/AnthorNet/)'s help on quite a few things around dealing with the savegame data. His help definitely saved a lot of time and effort.
