@@ -12,8 +12,7 @@
 namespace FG {
 
   Building::Building(EntityType _et, Reader& _reader, ObjectHeader& _fgoh)
-    : Entity(_et, _reader, _fgoh), c_mTimeSinceStartStopProducing(0), c_mBuildTimeStamp(0), c_mDidFirstTimeUse(false),
-      c_mIsProducing(false) {
+    : Entity(_et, _reader, _fgoh) {
     defineProperty(std::make_shared<FloatProperty>("mTimeSinceStartStopProducing", c_mTimeSinceStartStopProducing));
     defineProperty(std::make_shared<ObjectProperty>("mPowerInfo", c_mPowerInfo));
     defineProperty(std::make_shared<ObjectProperty>("mBuiltWithRecipe", c_mBuiltWithRecipe));
