@@ -13,12 +13,21 @@
 namespace FG {
 
   enum class ETrainPlatformDockingStatus: int8_t {
-    ETDS_WaitingToStart=0,
+    ETPDS_None=0,
+    ETPDS_WaitingToStart,
+    ETPDS_Loading,
+    ETPDS_Unloading,
+    ETPDS_WaitingForTransfer,
+    ETPDS_Complete,
+    ETPDS_WaitForTransferCondition,
+    ETPDS_IdleWaitForTime,
   };
 
   enum class EFactoryConnectionDirection: int8_t {
     FCD_OUTPUT=0,
     FCD_INPUT,
+    FCD_ANY,
+    FCD_SNAP_ONLY,
   };
 
   enum class EItemTransferringStage: int8_t {
