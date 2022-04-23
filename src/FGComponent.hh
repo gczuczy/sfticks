@@ -3,6 +3,7 @@
 #define SFT_FGCOMPONENT_H
 
 #include "FGObjectHeader.hh"
+#include "FGBaseObject.hh"
 
 #include <stdint.h>
 #include <string>
@@ -21,7 +22,7 @@ namespace FG {
   };
 
   class Entity;
-  class Component: public ObjectHeader {
+  class Component: public ObjectHeader, public BaseObject {
     Component()=delete;
   public:
     Component(ComponentType _comptype, Reader& _reader, ObjectHeader& _fgoh);

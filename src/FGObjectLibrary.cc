@@ -1,5 +1,7 @@
 
 #include "FGObjectLibrary.hh"
+#include "Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -20,7 +22,7 @@ namespace FG {
     c_dictionaries.emplace(_levelname, _library);
   }
   
-  ObjectHeaderSP ObjectLibrary::lookup(const std::string& _levelname, const std::string& _pathname) {
+  BaseObjectSP ObjectLibrary::lookup(const std::string& _levelname, const std::string& _pathname) {
     auto it = c_dictionaries.find(_levelname);
     if ( it != c_dictionaries.end() ) return it->second.lookupObject(_pathname);
     EXCEPTION(strprintf("ObjectHeader::lookup(%s, %s) failed: no such level", _levelname.c_str(), _pathname.c_str()));

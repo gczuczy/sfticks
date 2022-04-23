@@ -1,6 +1,7 @@
 
 #include "ObjectReference.hh"
 #include "FGObjectLibrary.hh"
+#include "Exception.hh"
 
 #include <boost/core/null_deleter.hpp>
 

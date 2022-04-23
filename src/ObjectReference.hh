@@ -2,6 +2,8 @@
 #ifndef SFT_OBJECTREFERENCE_H
 #define SFT_OBJECTREFERENCE_H
 
+#include "FGBaseObject.hh"
+
 #include <string>
 #include <memory>
 
@@ -30,7 +32,7 @@ namespace FG {
     void resolve();
     std::string str();
     inline void clear() {c_me = nullptr;};
-    inline std::shared_ptr<ObjectHeader>& object() {resolve(); return c_obj;};
+    inline std::shared_ptr<BaseObject>& object() {resolve(); return c_obj;};
     template<class T>
     std::shared_ptr<T> as() {
       resolve();
@@ -44,7 +46,7 @@ namespace FG {
   private:
     std::string c_levelname="";
     std::string c_pathname="";
-    std::shared_ptr<ObjectHeader> c_obj;
+    BaseObjectSP c_obj;
     std::shared_ptr<ObjectReference> c_me;
   };
   typedef std::weak_ptr<ObjectReference> ObjectReferenceWP;

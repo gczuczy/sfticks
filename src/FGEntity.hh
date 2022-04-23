@@ -3,6 +3,7 @@
 #define SFT_FGENTITY_H
 
 #include "FGObjectHeader.hh"
+#include "FGBaseObject.hh"
 
 #include <stdint.h>
 #include <string>
@@ -71,7 +72,7 @@ namespace FG {
     TrainDockingStation,
   };
 
-  class Entity: public ObjectHeader {
+  class Entity: public ObjectHeader, public BaseObject {
   protected:
     typedef std::function<void(ComponentSP&)> compreg_func;
     // constructors/destructors

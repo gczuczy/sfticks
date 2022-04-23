@@ -74,7 +74,7 @@ namespace FG {
     virtual void deserialize(Reader &_reader);
     virtual void deserializeProperties(Reader &_reader) {};
     virtual std::string str() const;
-    virtual ObjectHeaderSP lookupObject(const std::string& _pathname);
+    virtual BaseObjectSP lookupObject(const std::string& _pathname);
 
   private:
     template<class T>

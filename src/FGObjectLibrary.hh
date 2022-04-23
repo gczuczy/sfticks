@@ -24,8 +24,8 @@ namespace FG {
     static ObjectLibrary* getInstance();
 
     void addDictionary(const std::string& _levelname, ObjectDictionary& _library);
-    ObjectHeaderSP lookup(const std::string& _levelname, const std::string& _pathname);
-    inline ObjectHeaderSP lookup(const ObjectReference& _ref) {
+    BaseObjectSP lookup(const std::string& _levelname, const std::string& _pathname);
+    inline BaseObjectSP lookup(const ObjectReference& _ref) {
       return lookup(_ref.levelName(), _ref.pathName());
     };
 

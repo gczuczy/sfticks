@@ -7,21 +7,24 @@
 #include "Loader.hh"
 #include "Timer.hh"
 #include "Exception.hh"
+#include "FGDocsJSON.hh"
 
 namespace po = boost::program_options;
 
 int main(int argc, char *argv[]) {
-  std::string filename;
+  std::string savefile, docsjson;
 
   // command line options
   po::options_description desc("SatisFactory ticks options");
   desc.add_options()
     ("help", "Show the help message")
-    ("save-file", po::value<std::string>(&filename)->required(), "Path to the save file")
+    ("docs-json", po::value<std::string>(&docsjson)->required(), "Path to the Docs.json file")
+    ("save-file", po::value<std::string>(&savefile)->required(), "Path to the save file")
     ;
 
   po::positional_options_description p;
-  p.add("save-file", -1);
+  p.add("docs-json", 1);
+  p.add("save-file", 1);
 
   po::variables_map vm;
   try {
@@ -47,12 +50,22 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  // check the docs.json first
+  printf("Docsjson: %s\n", docsjson.c_str());
+  std::shared_ptr<FG::DocsJSON> objdump;
+  try {
+    SFT::Timer t("docs.json parse");
+    objdump = std::make_shared<FG::DocsJSON>(docsjson);
+  } catch (std::exception& e) {
+    printf("Exception: %s\n", e.what());
+  }
+
   // the world we'll load it into
   std::shared_ptr<FG::World> world;
 
   // parse the file
   try {
-    SFT::Loader *l = new SFT::Loader(filename);
+    SFT::Loader *l = new SFT::Loader(savefile);
     SFT::Timer tl("World deserialization");
 
     world = l->parse();
@@ -71,7 +84,7 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
-#if 1
+#if 0
   // belt spline checks
   for (auto it: world->belts()) {
     auto sdata = it.second->splineData();

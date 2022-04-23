@@ -293,14 +293,17 @@ namespace FG {
     return strprintf("World %s\n", c_headers.sessionName().c_str());
   }
 
-  ObjectHeaderSP World::lookupObject(const std::string& _pathname) {
-    auto it = c_allobjects.find(_pathname);
-    if ( it != c_allobjects.end() ) return it->second;
-#if 0
-    for (auto it2: c_allobjects) {
-      printf("%s\n", it2.first.c_str());
+  BaseObjectSP World::lookupObject(const std::string& _pathname) {
+    // first look in entities
+    {
+      auto it = c_entities.find(_pathname);
+      if ( it != c_entities.end() ) return it->second;
     }
-#endif
-    EXCEPTION(strprintf("World::lookupObject(%s): not found", _pathname.c_str()));
+    // then components
+    {
+      auto it = c_components.find(_pathname);
+      if ( it != c_components.end() ) return it->second;
+    }
+    return nullptr;
   }
 }

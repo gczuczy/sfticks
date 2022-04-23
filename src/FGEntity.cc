@@ -8,7 +8,7 @@
 namespace FG {
 
   Entity::Entity(EntityType _et, Reader& _reader, ObjectHeader& _fgoh)
-    : ObjectHeader(_fgoh), c_entity_type(_et) {
+    : ObjectHeader(_fgoh), BaseObject(ObjectType::ENTITY), c_entity_type(_et) {
     deserialize(_reader);
   }
 

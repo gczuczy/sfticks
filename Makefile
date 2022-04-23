@@ -19,7 +19,7 @@ OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o W
 	ObjectProperty.o BoolProperty.o StructProperty.o GenericStruct.o IntProperty.o EnumProperty.o GenericArrayProperty.o \
 	FGConveyorLift.o SortRule.o SaveProperties.o ByteProperty.o FGFactoryConnectionComponent.o FGInventoryComponent.o \
 	SplinePointData.o FGEnums.o FGMiner.o FGMinerMk1.o FGMinerMk2.o FGMinerMk3.o FGObjectLibrary.o FGObjectDictionary.o \
-	FGPowerInfoComponent.o
+	FGPowerInfoComponent.o FGDocsJSON.o FGBaseObject.o FGJSONObject.o FGDescObject.o FGRecipeObject.o
 
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
@@ -38,7 +38,8 @@ CXXFLAGS+= -O2
 
 .PHONY = clean sfticks depend .depend
 
-sfticks: .depend $(OUT) $(OUT_ZL)
+# $(OUT_ZL)
+sfticks: .depend $(OUT)
 
 depend: .depend
 

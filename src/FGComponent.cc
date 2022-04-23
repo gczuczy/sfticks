@@ -1,5 +1,6 @@
 
 #include "FGComponent.hh"
+#include "FGEntity.hh"
 #include "Exception.hh"
 #include "FGObjectLibrary.hh"
 
@@ -8,7 +9,7 @@
 namespace FG {
 
   Component::Component(ComponentType _comptype, Reader& _reader, ObjectHeader& _fgoh)
-    : ObjectHeader(_fgoh), c_comptype(_comptype) {
+    : ObjectHeader(_fgoh), BaseObject(ObjectType::COMPONENT), c_comptype(_comptype) {
     deserialize(_reader);
   }
 

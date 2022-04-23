@@ -2,9 +2,8 @@
 #ifndef SFT_OBJECTDICTIONARY_H
 #define SFT_OBJECTDICTIONARY_H
 
-#include "FGObjectHeader.hh"
-#include "FGEntity.hh"
-#include "FGComponent.hh"
+#include "FGBaseObject.hh"
+#include "ObjectReference.hh"
 
 #include <string>
 
@@ -18,8 +17,8 @@ namespace FG {
     virtual ~ObjectDictionary()=0;
 
   public:
-    virtual ObjectHeaderSP lookupObject(const std::string& _pathname)=0;
-    inline ObjectHeaderSP lokupObject(const ObjectReference& _ref) {
+    virtual BaseObjectSP lookupObject(const std::string& _pathname)=0;
+    inline BaseObjectSP lokupObject(const ObjectReference& _ref) {
       return lookupObject(_ref.pathName());
     };
   };
