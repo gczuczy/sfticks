@@ -19,7 +19,9 @@ namespace FG {
 
   void ObjectProperty::deserializeData(Reader& _reader) {
     //TRACE;
-    _reader(c_value.levelName())(c_value.pathName());
+    std::string level, path;
+    _reader(level)(path);
+    c_value = std::move(ObjectReference(level, path));
     /*
       printf("ObjProp got: '%s'/'%s'\n", c_value.levelName().c_str(),
       c_value.pathName().c_str());

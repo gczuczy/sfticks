@@ -30,6 +30,20 @@ namespace FG {
   ObjectReference::~ObjectReference() {
   }
 
+  ObjectReference& ObjectReference::operator=(const ObjectReference& other) {
+    c_levelname = other.c_levelname;
+    c_pathname = other.c_pathname;
+    c_me = other.c_me;
+    return *this;
+  }
+
+  ObjectReference& ObjectReference::operator=(ObjectReference&& other) {
+    c_levelname = std::move(other.c_levelname);
+    c_pathname = std::move(other.c_pathname);
+    c_me = std::move(other.c_me);
+    return *this;
+  }
+
   void ObjectReference::fillme() {
 #if 0
     c_me = std::shared_ptr<ObjectReference>(this, boost::null_deleter());

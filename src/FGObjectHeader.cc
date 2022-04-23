@@ -107,7 +107,7 @@ namespace FG {
       EXCEPTION(strprintf("Unable to parse '%s'", c_instance.c_str()));
     }
 
-    c_fgobjtype = data.objtype;
+    c_classname = data.objtype;
     c_instanceid = data.instid;
     if ( isComponent() ) {
       c_component_name = data.compname;
@@ -120,8 +120,7 @@ namespace FG {
     int32_t n;
 
     _reader(a)(b)(n);
-    c_basecomp.levelName() = a;
-    c_basecomp.pathName() = b;
+    c_basecomp = std::move(ObjectReference(a, b));
 
     for (int32_t i=0; i<n; ++i) {
       _reader(a)(b);
@@ -139,14 +138,14 @@ namespace FG {
 
   std::string ObjectHeader::str() const {
     if ( isEntity() )
-      return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\n",
+      return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nClassname: %s\nInstanceid: %i\n",
 		       c_objtype==0?"Component":"Entity",
 		       c_name.c_str(), c_proptype.c_str(), c_instance.c_str(),
-		       c_fgobjtype.c_str(), c_instanceid);
-    return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nFGObjType: %s\nInstanceid: %i\nCompName: %s\nCompInstId: %i\n",
+		       c_classname.c_str(), c_instanceid);
+    return strprintf("Type: %s\nName: %s\nProptype: %s\nInstance: %s\nClassname: %s\nInstanceid: %i\nCompName: %s\nCompInstId: %i\n",
 		     c_objtype==0?"Component":"Entity",
 		     c_name.c_str(), c_proptype.c_str(), c_instance.c_str(),
-		     c_fgobjtype.c_str(), c_instanceid,
+		     c_classname.c_str(), c_instanceid,
 		     c_component_name.c_str(), c_component_instanceid);
   }
 

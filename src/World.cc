@@ -196,7 +196,7 @@ namespace FG {
       if ( header.isEntity() ) {
 	//printf("Entity: %s\n", header.ObjectType().c_str());
 	//printf("%s", header.str().c_str());
-	if ( (eit = c_entitydefs.find(header.objectType())) != c_entitydefs.end() ) {
+	if ( (eit = c_entitydefs.find(header.className())) != c_entitydefs.end() ) {
 	  objects[i] = eit->second(std::ref(_reader), std::ref(header));
 	} else {
 	  auto obj = std::make_shared<GenericEntity>(_reader, header);

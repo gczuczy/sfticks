@@ -19,9 +19,12 @@ namespace FG {
     ObjectReference(ObjectReference&&);
     ~ObjectReference();
 
-    inline std::string& levelName() {return c_levelname;};
+    ObjectReference& operator=(const ObjectReference& other);
+    ObjectReference& operator=(ObjectReference&& other);
+
+    //inline std::string& levelName() {return c_levelname;};
     inline const std::string& levelName() const {return c_levelname;};
-    inline std::string& pathName() {return c_pathname;};
+    //inline std::string& pathName() {return c_pathname;};
     inline const std::string& pathName() const {return c_pathname;};
 
     // comparision operators for being map keytypes for MapProperty

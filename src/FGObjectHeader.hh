@@ -35,7 +35,7 @@ namespace FG {
     inline std::string proptype() const {return c_proptype;};
     inline std::string instance() const {return c_instance;};
     inline int32_t instanceid() const {return c_instanceid;};
-    inline std::string objectType() const {return c_fgobjtype;};
+    inline std::string className() const {return c_classname;};
     inline std::string componentName() const {return c_component_name;};
     inline int32_t componentInstanceid() const {return c_component_instanceid;};
 
@@ -56,7 +56,7 @@ namespace FG {
     int32_t c_objtype;
     std::string c_name, c_proptype, c_instance;
     int32_t c_instanceid, c_component_instanceid;
-    std::string c_fgobjtype;
+    std::string c_classname;
     std::string c_component_name;
 
     ObjectReference c_basecomp;

@@ -52,7 +52,7 @@ namespace SFT {
     munmap(c_save, c_savesize);
   }
 
-  std::shared_ptr<FG::World> Loader::parse() {
+  FG::WorldSP Loader::parse() {
     //TRACE;
     std::shared_ptr<FG::World> world;
     Reader headers(c_save, c_savesize);

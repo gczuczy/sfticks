@@ -17,7 +17,7 @@ namespace SFT {
     Loader(const std::string& _file);
     ~Loader();
 
-    std::shared_ptr<FG::World> parse();
+    FG::WorldSP parse();
 
   public:
 

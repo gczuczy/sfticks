@@ -154,6 +154,7 @@ namespace FG {
     std::map<std::string, StorageUnitSP> c_storage_units;
     // collected objects
   };
+  typedef std::shared_ptr<World> WorldSP;
 
 }
 

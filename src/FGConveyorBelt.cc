@@ -47,10 +47,12 @@ namespace FG {
     _reader.skip(4);
     _reader(count);
 
+    std::string level,path;
     for (int i=0; i<count; ++i) {
       BeltItem bi;
       _reader.skip(4);
-      _reader(bi.item.pathName())(bi.item.levelName())(unused)(bi.position);
+      _reader(path)(level)(unused)(bi.position);
+      bi.item = std::move(ObjectReference(level, path));
       c_belt_items.push_back(bi);
     }
   }
