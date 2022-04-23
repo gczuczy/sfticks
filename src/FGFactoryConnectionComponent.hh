@@ -6,6 +6,7 @@
 #include "FGEnums.hh"
 //#include "InventoryStack.hh"
 #include "ObjectReference.hh"
+#include "FGInventoryComponent.hh"
 
 #include <vector>
 #include <set>
@@ -21,11 +22,12 @@ namespace FG {
 
     virtual std::string vtypename();
 
-    inline ObjectReference& mConnectedComponent() {return c_mConnectedComponent;};
-    inline ObjectReference& mConnectionInventory() {return c_mConnectionInventory;};
-    inline int32_t mInventoryAccessIndex() const {return c_mInventoryAccessIndex;};
-    inline EFactoryConnectionDirection mDirection() const {return c_mDirection;};
-    inline ObjectReference mConnectedComponent() const {return c_mConnectedComponent;};
+    inline InventoryComponentSP connectionInventory() {
+      return c_mConnectionInventory.as<InventoryComponent>();
+    };
+    inline int32_t inventoryAccessIndex() const {return c_mInventoryAccessIndex;};
+    inline EFactoryConnectionDirection direction() const {return c_mDirection;};
+    inline ComponentSP connectedComponent() {return c_mConnectedComponent.as<Component>();};
     virtual std::string compdetails();
 
   public:

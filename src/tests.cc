@@ -3,6 +3,8 @@
 #include <stdio.h>
 
 #include "FGPowerInfoComponent.hh"
+#include "FGJSONObject.hh"
+#include "FGFactoryConnectionComponent.hh"
 
 namespace SFT {
   void test_beltsplines(FG::WorldSP _world) {
@@ -19,43 +21,37 @@ namespace SFT {
 	printf("   - ArriveTangent: %s\n", sdata[i].ArriveTangent.str().c_str());
 	printf("   - LeaveTangent: %s\n", sdata[i].LeaveTangent.str().c_str());
       }
-      printf(" Belt items:\n");
-      for (auto biit: it.second->beltItems()) {
-	printf("  - %.2f %s\n", biit.position, biit.item.pathName().c_str());
-      }
     }
+  }
+
+  void test_objrefs_convany(const std::string& _name, FG::FactoryConnectionComponentSP _fccsp) {
+    auto comp = _fccsp->connectedComponent();
+
+    printf("%s:\n", _name.c_str());
+    if ( !comp ) {
+      printf(" - Not connected\n");
+      return;
+    }
+    printf("%s", comp->str().c_str());
+
+    printf(" - Parent:\n%s", comp->parent()->str().c_str());
   }
 
   void test_objrefs(FG::WorldSP _world) {
     // objref resolver tests
     for (auto it: _world->belts()) {
-      auto any0 = it.second->ConveyorAny0();
-      auto any1 = it.second->ConveyorAny1();
-      auto comp0 = any0->mConnectedComponent();
-      auto comp1 = any1->mConnectedComponent();
+      printf("\n\nChecking %s\n", it.second->instance().c_str());
+      test_objrefs_convany("Any0", it.second->ConveyorAny0());
+      test_objrefs_convany("Any1", it.second->ConveyorAny1());
 
-      printf("Any0:\n - Level: %s\n - Path: %s\n",
-	     comp0.levelName().c_str(),
-	     comp0.pathName().c_str());
-      comp0.resolve();
-      auto obj0 = comp0.as<FG::ObjectHeader>();
-      printf("%s", obj0->str().c_str());
-      if ( obj0->isComponent() ) {
-	FG::ComponentSP objc0;
-	if ( !(objc0 = comp0.as<FG::Component>()) ) {
-	  printf(" - FG::Component failed\n");
-	} else {
-	  printf(" - FG::Component now\n");
-	  printf(" - Parent: %s\n", objc0->parentEntityName().c_str());
-	  try {
-	    printf("%s", objc0->parent()->str().c_str());
-	  }
-	  catch (SFT::Exception& e) {
-	    printf("Error %s\n", e.what());
-	  }
-	} // successful component
+      printf("\n Belt items:\n");
+      for (auto biit: it.second->beltItems()) {
+	FG::JSONObjectSP item = biit.item.as<FG::JSONObject>();
+	printf("  - %.2f %s / ", biit.position, biit.item.pathName().c_str());
+	if ( item ) printf("%s\n", item->className().c_str());
+	else printf("lookup failed\n");
       }
-      break;
+      if ( it.second->beltItems().size()>0 ) break;
     }
   }
 

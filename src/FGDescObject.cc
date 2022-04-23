@@ -11,6 +11,7 @@ namespace FG {
     {"SS_MEDIUM", 100},
     {"SS_BIG", 200},
     {"SS_HUGE", 500},
+    {"SS_FLUID", 0},
   };
 
   static std::map<std::string, EResourceForm> g_resourceforms{

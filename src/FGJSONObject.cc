@@ -13,14 +13,11 @@ namespace FG {
   }
   
   void JSONObject::parseData(nlohmann::json& _json) {
-  }
-
-  void JSONObject::registerHandler(const std::string& _name, parsehandler_t _handler) {
-    parsedef pd;
-
-    pd.field = _name;
-    pd.handler = _handler;
-    c_parsehandlers.push_back(std::move(pd));
+    std::string strkey;
+    for (auto& [key, value]: _json.items()) {
+      auto it = c_parsehandlers.find(key);
+      if ( it != c_parsehandlers.end() ) it->second(std::ref(value));
+    }
   }
 
   void JSONObject::parseList(const std::string& _list, std::function<void(const std::string&, int32_t)> _handler) {

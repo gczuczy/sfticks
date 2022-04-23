@@ -25,6 +25,11 @@ namespace FG {
   BaseObjectSP ObjectLibrary::lookup(const std::string& _levelname, const std::string& _pathname) {
     auto it = c_dictionaries.find(_levelname);
     if ( it != c_dictionaries.end() ) return it->second.lookupObject(_pathname);
-    EXCEPTION(strprintf("ObjectHeader::lookup(%s, %s) failed: no such level", _levelname.c_str(), _pathname.c_str()));
+#if 0
+    for (auto xit: c_dictionaries) {
+      printf("Level: '%s'\n", it->first.c_str());
+    }
+#endif
+    EXCEPTION(strprintf("ObjectLibrary::lookup(%s, %s) failed: no such level", _levelname.c_str(), _pathname.c_str()));
   }
 }

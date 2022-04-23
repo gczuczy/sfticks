@@ -35,3 +35,9 @@ bool strtoint32(const std::string& _str, int32_t& _retval) {
   }
   return true;
 }
+
+template<>
+uint32_t fromstr<uint32_t>(const std::string& _str) {
+  char *end;
+  return std::strtoul(_str.c_str(), &end, 10);
+};

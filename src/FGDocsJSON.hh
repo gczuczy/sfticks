@@ -32,7 +32,9 @@ namespace FG {
     template<class T>
     void registerHandler() {
       for (auto it: T::nativeclasses) {
+	//printf("Registering handler for native %s\n", it.c_str());
 	c_handlers[it] = [&](nlohmann::json& _json)->BaseObjectSP {
+	  //printf("Instantiating object\n");
 	  return std::make_shared<T>(std::ref(_json));
 	};
       }

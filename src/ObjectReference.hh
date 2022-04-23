@@ -34,7 +34,6 @@ namespace FG {
 
     void resolve();
     std::string str();
-    inline void clear() {c_me = nullptr;};
     inline std::shared_ptr<BaseObject>& object() {resolve(); return c_obj;};
     template<class T>
     std::shared_ptr<T> as() {
@@ -42,15 +41,10 @@ namespace FG {
       return std::dynamic_pointer_cast<T>(c_obj);
     };
 
-
-  private:
-    void fillme();
-
   private:
     std::string c_levelname="";
     std::string c_pathname="";
-    BaseObjectSP c_obj;
-    std::shared_ptr<ObjectReference> c_me;
+    BaseObjectSP c_obj = nullptr;
   };
   typedef std::weak_ptr<ObjectReference> ObjectReferenceWP;
   typedef std::weak_ptr<ObjectReference> ObjectReferenceSP;

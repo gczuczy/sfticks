@@ -57,9 +57,17 @@ int main(int argc, char *argv[]) {
   try {
     SFT::Timer t("docs.json parse");
     objdump = std::make_shared<FG::DocsJSON>(docsjson);
-  } catch (std::exception& e) {
-    printf("Exception: %s\n", e.what());
   }
+  catch (SFT::Exception &e) {
+    printf("SFT::Exception: %s\n", e.what());
+    return -1;
+  }
+#if 0
+  catch (std::exception& e) {
+    printf("std::exception: %s\n", e.what());
+    return -2;
+  }
+#endif
 
   // the world we'll load it into
   FG::WorldSP world;
@@ -86,9 +94,23 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
-  //SFT::test_beltsplines(world);
-  //SFT::test_objrefs(world);
-  //SFT::test_world(world);
+  return 0;
+
+  //try {
+    //SFT::test_beltsplines(world);
+    SFT::test_objrefs(world);
+    //SFT::test_world(world);
+#if 0
+  }
+  catch (SFT::Exception& e) {
+    printf("Caught SFT::Exception: %s\n", e.what());
+    return -1;
+  }
+  catch (std::exception& e) {
+    printf("Caught std::exception: %s\n", e.what());
+    return -2;
+  }
+#endif
 
   return 0;
 }

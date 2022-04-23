@@ -6,19 +6,18 @@
 
 #include <nlohmann/json.hpp>
 #include <string>
-#include <list>
+#include <map>
 #include <functional>
+#include <memory>
+
+#include <stdio.h>
+#include "misc.hh"
 
 namespace FG {
 
   class JSONObject: public BaseObject {
   public:
     typedef std::function<void(nlohmann::json&)> parsehandler_t;
-  private:
-    struct parsedef {
-      std::string field;
-      parsehandler_t handler;
-    };
   public:
     JSONObject() = delete;
   protected:
@@ -33,20 +32,30 @@ namespace FG {
 
     template<typename T>
     void registerMember(const std::string& _name, T& _var) {
+      //printf("Registering handler for var %s\n", _name.c_str());
       registerHandler(_name,
 		      [&](nlohmann::json& _json) {
-			_var = _json.get<T>();
+			//printf("Storing variable %s\n", _name.c_str());
+			try {
+			  _var = _json.get<T>();
+			  return;
+			}
+			catch (...) {}
+			// now try to manually convert strings
+			_var = fromstr<T>(_json.get<std::string>());
 		      });
     };
-    void registerHandler(const std::string& _name, parsehandler_t _handler);
+    inline void registerHandler(const std::string& _name, parsehandler_t _handler) {
+      c_parsehandlers[_name] = _handler;
+    };
 
     void parseList(const std::string& _list, std::function<void(const std::string&, int32_t)> _handler);
 
   private:
-    std::list<parsedef> c_parsehandlers;
+    std::map<std::string, parsehandler_t> c_parsehandlers;
     std::string c_classname;
   };
-  
+  typedef std::shared_ptr<JSONObject> JSONObjectSP;
 }
 
 #endif

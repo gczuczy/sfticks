@@ -40,9 +40,6 @@ namespace FG {
     c_dumpjson = nlohmann::json::parse(strutf8);
     //std::cout << std::setw(2) << c_dumpjson << std::endl;
 
-    // we only get these categories
-    std::set<std::string> nativeclasses{
-    };
     //index the data
     for (auto& vit: c_dumpjson.items()) {
       //printf("Nativeclass: %s\n", vit.value()["NativeClass"].get<std::string>().c_str());
@@ -67,6 +64,16 @@ namespace FG {
   }
 
   BaseObjectSP DocsJSON::lookupObject(const std::string& _pathname) {
+    //printf("%s called on %s\n", __PRETTY_FUNCTION__, _pathname.c_str());
+    if ( _pathname.length() == 0 ) return nullptr;
+
+    // get the class, it's after the last dot
+    size_t dotpos = _pathname.rfind('.');
+    std::string classname = _pathname.substr(dotpos+1);
+    //printf(" - Classname: %s\n", classname.c_str());
+
+    auto it = c_objects.find(classname);
+    if ( it != c_objects.end() ) return it->second;
     return nullptr;
   }
 }

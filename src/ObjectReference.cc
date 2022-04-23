@@ -14,17 +14,17 @@ namespace FG {
 
   ObjectReference::ObjectReference(const std::string& _ln, const std::string& _pn)
     : c_levelname(_ln), c_pathname(_pn) {
-    fillme();
+    if ( c_levelname.length() > c_pathname.length() ) {
+      EXCEPTION(strprintf("Levelname(%s) longer than pathname(%s)", _ln.c_str(), _pn.c_str()));
+    }
   }
 
   ObjectReference::ObjectReference(const ObjectReference& _other)
     : c_levelname(_other.c_levelname), c_pathname(_other.c_pathname) {
-    fillme();
   }
 
   ObjectReference::ObjectReference(ObjectReference&& _other)
     : c_levelname(std::move(_other.c_levelname)), c_pathname(std::move(_other.c_pathname)) {
-    fillme();
   }
 
   ObjectReference::~ObjectReference() {
@@ -33,22 +33,15 @@ namespace FG {
   ObjectReference& ObjectReference::operator=(const ObjectReference& other) {
     c_levelname = other.c_levelname;
     c_pathname = other.c_pathname;
-    c_me = other.c_me;
+    c_obj = other.c_obj;
     return *this;
   }
 
   ObjectReference& ObjectReference::operator=(ObjectReference&& other) {
     c_levelname = std::move(other.c_levelname);
     c_pathname = std::move(other.c_pathname);
-    c_me = std::move(other.c_me);
+    c_obj = std::move(other.c_obj);
     return *this;
-  }
-
-  void ObjectReference::fillme() {
-#if 0
-    c_me = std::shared_ptr<ObjectReference>(this, boost::null_deleter());
-    ObjectLibrary::getInstance()->addReference(c_me);
-#endif
   }
 
   bool ObjectReference::operator<(const ObjectReference& b) const {
@@ -68,10 +61,14 @@ namespace FG {
 
   void ObjectReference::resolve() {
     if ( c_obj ) return;
-    if ( c_pathname.size()==0 )
+    if ( c_pathname.size()==0 ) {
+      c_obj = nullptr;
+#if 0
       EXCEPTION(strprintf("Unable to resolve empty objref %s:%s",
 			  c_levelname.c_str(),
 			  c_pathname.c_str()));
+#endif
+    }
     c_obj = ObjectLibrary::getInstance()->lookup(*this);
   }
 
