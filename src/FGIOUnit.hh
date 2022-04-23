@@ -30,9 +30,9 @@ namespace FG {
 
   private:
     //virtual void deserialize(Reader &_reader);
-    float c_mCurrentManufacturingProgress, c_mPendingPotential, c_mCurrentPotential;
+    float c_mCurrentManufacturingProgress=0, c_mPendingPotential=0, c_mCurrentPotential=0;
     ObjectReference c_mInputInventory, c_mCurrentRecipe, c_mOutputInventory, c_mInventoryPotential;
-    bool c_mIsProductionPaused;
+    bool c_mIsProductionPaused=false;
 
   protected:
   };

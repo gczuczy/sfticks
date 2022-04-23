@@ -8,8 +8,7 @@
 namespace FG {
 
   IOUnit::IOUnit(EntityType _et, Reader& _reader, ObjectHeader& _fgoh)
-    : Building(_et, _reader, _fgoh), c_mCurrentManufacturingProgress(0),
-      c_mPendingPotential(0), c_mCurrentPotential(0), c_mIsProductionPaused(false) {
+    : Building(_et, _reader, _fgoh) {
     defineProperty(std::make_shared<FloatProperty>("mCurrentManufacturingProgress", c_mCurrentManufacturingProgress));
     defineProperty(std::make_shared<ObjectProperty>("mInputInventory", c_mInputInventory));
     defineProperty(std::make_shared<ObjectProperty>("mOutputInventory", c_mOutputInventory));
