@@ -41,18 +41,6 @@ namespace FG {
   };
   typedef std::shared_ptr<FactoryConnectionComponent> FactoryConnectionComponentSP;
 
-#if 0
-  // and alias it
-  class FGFactoryConnectionComponent: public FactoryConnectionComponent {
-  public:
-    FGFactoryConnectionComponent() = delete;
-    FGFactoryConnectionComponent(Reader& _reader, ObjectHeader& _fgoh);
-    virtual ~FGFactoryConnectionComponent()=default;
-    virtual std::string vtypename();
-    static std::string pathname;
-  };
-#endif
-
 }
 
 #endif
