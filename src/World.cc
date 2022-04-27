@@ -43,6 +43,7 @@
 #include "FGStorageContainerMk1.hh"
 #include "FGStorageContainerMk2.hh"
 #include "FGTrainDockingStation.hh"
+#include "FGTruckStation.hh"
 //#include "FG.hh"
 
 // components
@@ -151,6 +152,7 @@ namespace FG {
     // logistics units
     registerEntityType<DroneStation>();
     registerEntityType<TrainDockingStation>();
+    registerEntityType<TruckStation>();
     // stroage
     registerEntityType<StorageContainerMk1>();
     registerEntityType<StorageContainerMk2>();

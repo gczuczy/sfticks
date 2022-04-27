@@ -70,6 +70,7 @@ namespace FG {
     StorageContainerMk1,
     StorageContainerMk2,
     TrainDockingStation,
+    TruckStation,
   };
 
   class Entity: public ObjectHeader, public BaseObject {

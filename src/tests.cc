@@ -61,7 +61,7 @@ namespace SFT {
     {
       //std::set<std::string> filter{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
       std::set<std::string> filter;
-      for (auto it: _world->iounits()) {
+      for (auto it: _world->storageUnits()) {
 	if ( filter.size() &&
 	     filter.find(it.second->className()) == filter.end() ) continue;
 	printf("\n\n ++ Entity:\n%s", it.second->str().c_str());

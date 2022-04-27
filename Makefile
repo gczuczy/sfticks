@@ -15,12 +15,13 @@ OBJS=main.o Loader.o Exception.o Timer.o vectors.o Reader.o Trace.o Saveable.o W
 	FGConveyorAttachmentSplitterSmart.o FGIOUnit.o FGAssemblerMk1.o FGBlender.o FGConstructorMk1.o FGFoundryMk1.o \
 	FGHadronCollider.o FGManufacturerMk1.o FGOilRefinery.o FGPackager.o FGSmelterMk1.o FGGeneratorCoal.o FGGeneratorFuel.o \
 	FGGeneratorNuclear.o FGResourceSink.o FGSpaceElevator.o FGStorageUnit.o FGDroneStation.o FGStorageContainerMk1.o \
-	FGStorageContainerMk2.o FGTrainDockingStation.o FGGeneratorUnit.o PropertyInterface.o FloatProperty.o ObjectReference.o \
-	ObjectProperty.o BoolProperty.o StructProperty.o GenericStruct.o IntProperty.o EnumProperty.o GenericArrayProperty.o \
-	FGConveyorLift.o SortRule.o SaveProperties.o ByteProperty.o FGFactoryConnectionComponent.o FGInventoryComponent.o \
-	SplinePointData.o FGEnums.o FGMiner.o FGMinerMk1.o FGMinerMk2.o FGMinerMk3.o FGObjectLibrary.o FGObjectDictionary.o \
-	FGPowerInfoComponent.o FGDocsJSON.o FGBaseObject.o FGJSONObject.o FGDescObject.o FGRecipeObject.o tests.o \
-	BeltSubsystem.o DCG.o DCGNode.o DCGEdge.o DCGComponent.o
+	FGStorageContainerMk2.o FGTrainDockingStation.o FGTruckStation.o FGGeneratorUnit.o PropertyInterface.o \
+	FloatProperty.o ObjectReference.o ObjectProperty.o BoolProperty.o StructProperty.o GenericStruct.o IntProperty.o \
+	EnumProperty.o GenericArrayProperty.o FGConveyorLift.o SortRule.o SaveProperties.o ByteProperty.o \
+	FGFactoryConnectionComponent.o FGInventoryComponent.o SplinePointData.o FGEnums.o FGMiner.o FGMinerMk1.o \
+	FGMinerMk2.o FGMinerMk3.o FGObjectLibrary.o FGObjectDictionary.o FGPowerInfoComponent.o FGDocsJSON.o \
+	FGBaseObject.o FGJSONObject.o FGDescObject.o FGRecipeObject.o tests.o BeltSubsystem.o DCG.o DCGNode.o \
+	DCGEdge.o DCGComponent.o
 
 OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
