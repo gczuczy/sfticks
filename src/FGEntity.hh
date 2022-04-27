@@ -48,6 +48,7 @@ namespace FG {
     MinerMk1,
     MinerMk2,
     MinerMk3,
+    TreeGiftProducer,
     // production units, "converters"
     AssemblerMk1,
     Blender,

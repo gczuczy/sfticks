@@ -25,6 +25,7 @@
 #include "FGMinerMk1.hh"
 #include "FGMinerMk2.hh"
 #include "FGMinerMk3.hh"
+#include "FGTreeGiftProducer.hh"
 #include "FGAssemblerMk1.hh"
 #include "FGBlender.hh"
 #include "FGConstructorMk1.hh"
@@ -132,6 +133,7 @@ namespace FG {
     registerEntityType<MinerMk1>();
     registerEntityType<MinerMk2>();
     registerEntityType<MinerMk3>();
+    registerEntityType<TreeGiftProducer>();
     // manufacturing units
     registerEntityType<AssemblerMk1>();
     registerEntityType<ConstructorMk1>();
