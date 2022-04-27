@@ -16,6 +16,8 @@ namespace FG {
 
   class Building: public Entity {
   public:
+    typedef std::vector<FactoryConnectionComponentSP> Connections;
+  public:
     Building()=delete;
     Building(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
     virtual ~Building();
@@ -26,8 +28,8 @@ namespace FG {
     inline ObjectReference& builtWithRecipe() {return c_mBuiltWithRecipe;};
     inline bool isProducing() {return c_mIsProducing;};
     inline bool didFirstTimeUse() {return c_mDidFirstTimeUse;};
-    inline std::vector<FactoryConnectionComponentSP>& inputs() {return c_inputs;};
-    inline std::vector<FactoryConnectionComponentSP>& outputs() {return c_outputs;};
+    inline Connections& inputs() {return c_inputs;};
+    inline Connections& outputs() {return c_outputs;};
     inline std::map<std::string, InventoryComponentSP>& inventories() {return c_inventories;};
 
   protected:
@@ -45,8 +47,9 @@ namespace FG {
 
   private:
     std::map<std::string, InventoryComponentSP> c_inventories;
-    std::vector<FactoryConnectionComponentSP> c_inputs, c_outputs;
+    Connections c_inputs, c_outputs;
   };
+  typedef std::shared_ptr<Building> BuildingSP;
 
 }
 

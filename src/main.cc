@@ -9,6 +9,7 @@
 #include "Exception.hh"
 #include "FGDocsJSON.hh"
 #include "tests.hh"
+#include "BeltSubsystem.hh"
 
 namespace po = boost::program_options;
 
@@ -94,13 +95,21 @@ int main(int argc, char *argv[]) {
   }
 #endif
 
-  return 0;
+  SFT::BeltSubsystemUP bss(std::make_unique<SFT::BeltSubsystem>());
+  printf("Teaching");
+  try {
+    SFT::Timer t("teaching BeltSubsystem");
+    bss->learn(world);
+  }
+  catch (SFT::Exception& e) {
+    printf("SFT::Exception: %s\n", e.what());
+    return -1;
+  }
 
-  //try {
+  try {
     //SFT::test_beltsplines(world);
-    SFT::test_objrefs(world);
+    //SFT::test_objrefs(world);
     //SFT::test_world(world);
-#if 0
   }
   catch (SFT::Exception& e) {
     printf("Caught SFT::Exception: %s\n", e.what());
@@ -110,7 +119,9 @@ int main(int argc, char *argv[]) {
     printf("Caught std::exception: %s\n", e.what());
     return -2;
   }
-#endif
 
+  // deallocation
+  bss = nullptr;
+  world = nullptr;
   return 0;
 }
