@@ -30,6 +30,7 @@ namespace SFT {
   private:
     float c_throughput=0;
     float c_speed=0;
+    float c_length=0;
     // front input, back output
     std::list<FG::ConveyorBeltSP> c_belts;
     DCGConnection c_input, c_output;

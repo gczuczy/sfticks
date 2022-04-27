@@ -21,8 +21,10 @@ namespace SFT {
       // first associate the buildings with the component
       // and remove them from the pool
       std::string inststr;
+      //printf("reg&erase:\n");
       for (auto it: _comp->buildings()) {
 	inststr = it->instance();
+	//printf(" - %s\n", inststr.c_str());
 	c_component_map[inststr] = (_comp);
 	_pool.erase(inststr);
       }
@@ -64,29 +66,35 @@ namespace SFT {
 	toadd.splice(toadd.begin(), it->tryConnect(helpers));
       }
 
-      printf("Collected toadd %lu\n", toadd.size());
+      //printf("Collected toadd %lu\n", toadd.size());
 
       // nothing to add, job well done
       if ( toadd.size() == 0 ) break;
 
-      for (auto& it: toadd)
-	addElement(it, helpers);
-    }
+      for (auto& it: toadd) {
+	if ( c_component_map.find(it->instance()) == c_component_map.end() ) {
+	  addElement(it, helpers);
+	} else {
+	  //printf("toadd loop skipping %s\n", it->instance().c_str());
+	}
+      }
+    } // while true, looping while we've added everything to this dcg
   }
 
   void DCG::addElement(FG::BuildingSP _element, helpers_t _helpers) {
     DCGComponentSP comp;
 
-    printf("Adding element %s ... ", _element->instance().c_str());
+    //printf("Adding element %s ... ", _element->instance().c_str());
     if (FG::ConveyorBeltSP item; (item = std::dynamic_pointer_cast<FG::ConveyorBelt>(_element)) ) {
-      printf("is belt\n");
+      //printf("is belt\n");
       comp = std::make_shared<DCGEdge>(item, _helpers);
     } else if ( FG::BuildingSP item; (item = std::dynamic_pointer_cast<FG::Building>(_element)) ) {
-      printf("is building\n");
+      //printf("is building\n");
       comp = std::make_shared<DCGNode>(item, _helpers);
     } else {
-      printf("fuck knows %u\n", _element->entityType());
+      //printf("fuck knows %u\n", _element->entityType());
     }
     _helpers.reg(comp);
+    //printf("\n");
   }
 }

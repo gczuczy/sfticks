@@ -32,7 +32,6 @@ namespace SFT {
       dcg->build(pool);
       printf("DCG done(%u items), remaining pool size %lu\n", dcg->size(), pool.size());
       c_dcgs.push_back(dcg);
-      break;
     }
   }
 }

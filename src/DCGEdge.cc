@@ -3,6 +3,8 @@
 
 #include "DCGEdge.hh"
 #include "Exception.hh"
+#include "misc.hh"
+
 #include <functional>
 
 namespace SFT {
@@ -16,9 +18,12 @@ namespace SFT {
 
     std::function<void(FG::FactoryConnectionComponentSP)> walk =
       [&](FG::FactoryConnectionComponentSP _conn) {
-	printf("  Processing belt conncomp %s", _conn?_conn->instance().c_str():"none\n");
+	//printf("  Processing belt conncomp %s", _conn?_conn->instance().c_str():"none\n");
 	// partially similar logic to DCGComponent::learnConnection
-	if ( !_conn ) return;
+	if ( !_conn ) {
+	  //printf(" noconn\n");
+	  return;
+	}
 
 	// there are other as well
 	bool isinput = _conn->direction() == FG::EFactoryConnectionDirection::FCD_INPUT;
@@ -33,17 +38,17 @@ namespace SFT {
 	if ( !conncomp ) {
 	  // no peer connected
 	  if ( isinput ) {
-	    printf(" input");
+	    //printf(" input");
 	    c_input.connection = _conn;
 	    c_input.connected = false;
 	  } else if ( isoutput ) {
-	    printf(" output");
+	    //printf(" output");
 	    c_output.connection = _conn;
 	    c_output.connected = false;
 	  } else {
 	    EXCEPTION("Unknown direction");
 	  }
-	  printf(" no conncomp\n");
+	  //printf(" no conncomp\n");
 	  return;
 	}
 
@@ -54,12 +59,17 @@ namespace SFT {
 	// A) same speed AND opposite component direction (out->in) = attach here
 	// B) differnt speed OR same compdirs (out->out/in->in) = new edge connection
 	if ( belt ) {
-	  // Sanity check: if this belt has been procesed earlier, something is wrong
-	  if ( _helpers.lookup(belt) )
-	    EXCEPTION("Edge segment belt already in use");
+	  //printf(" belt");
 
 	  if ( belt->throughput() == c_throughput &&
 	       _conn->direction() != conncomp->direction() ) {
+	    //printf(" same");
+
+	    // Sanity check: if this belt has been procesed earlier, something is wrong
+	    // this only applies for samespeed belts. differents are different edges
+	    if ( _helpers.lookup(belt) )
+	      EXCEPTION(strprintf("Edge segment belt already in use: %s", belt->instance().c_str()));
+
 	    // same type of belt, attach to this virtual segment in the edge
 	    FG::FactoryConnectionComponentSP nextcomp;
 	    if ( isinput ) {
@@ -77,20 +87,22 @@ namespace SFT {
 	      EXCEPTION("ConveyorAny0/1 have the same direction");
 	    }
 
-	    printf("same speed belt added\n");
+	    //printf(" added\n  %s\n", belt->instance().c_str());
 	    walk(nextcomp);
-	    return;
 	  } else { // belt but different speed or direction mismatch
+	    //printf(" different");
 	    // different speed or same direction, it's a separate edge
 	    FG::BuildingSP bsp;
 	    if ( isinput ) {
-	      bsp = learnConnection(c_input, conncomp);
+	      //printf(" input");
+	      bsp = learnConnection(c_input, _conn);
 	      c_input.peer = _helpers.lookup(bsp);
 	    } else {
-	      bsp = learnConnection(c_output, conncomp);
+	      //printf(" output");
+	      bsp = learnConnection(c_output, _conn);
 	      c_output.peer = _helpers.lookup(bsp);
 	    }
-	    return;
+	    //printf(" added\n  %s\n", bsp->instance().c_str());
 	  }
 	  return;
 	} // if belt
@@ -99,7 +111,7 @@ namespace SFT {
 	auto bsp = std::dynamic_pointer_cast<FG::Building>(conncomp->parent());
 	// something is wrong
 	if ( !bsp )
-	  EXCEPTION("No parent to connection peer comp");
+	  EXCEPTION(strprintf("No parent to connection peer comp: %s", conncomp->instance().c_str()));
 
 	// this will be a node
 	if ( isinput ) {
@@ -111,7 +123,18 @@ namespace SFT {
 	} else {
 	  EXCEPTION("Edge bsp neither in our out");
 	}
+	//printf(" bulding connection added\n  %s\n", bsp->instance().c_str());
       }; // end of walk lambda
+
+    // now walk both ends
+    walk(_belt->ConveyorAny0());
+    walk(_belt->ConveyorAny1());
+
+    // calculate the total length
+    for (auto& it: c_belts) c_length += it->length();
+
+    //printf("Edge created, belts (len: %.2f\n", c_length);
+    //for (auto& it: c_belts) printf(" - %s\n", it->instance().c_str());
   }
   
   DCGEdge::~DCGEdge() {
@@ -127,25 +150,40 @@ namespace SFT {
   std::list<FG::BuildingSP> DCGEdge::tryConnect(helpers_t& _helpers) {
     std::list<FG::BuildingSP> rv;
 
+    ////printf("DCGEdge::tryConnect\n");
+
     auto collect = [&](DCGConnection& item) {
+      if ( !item.connection ) {
+	////printf(" Connection missing\n");
+	return;
+      }
+      ////printf(" Checking %s ", item.connection->instance().c_str());
       // if it's an empty port, we leave it
-      if ( !item.connected ) return;
+      if ( !item.connected ) {
+	////printf(" noconn\n");
+	return;
+      }
       
       // if the peer is associated, that means we have it
       // in the propert state
-      if ( item.peer ) return;
+      if ( item.peer ) {
+	////printf(" has peer\n");
+	return;
+      }
 
       // if the item is not associated, then we try to do so
       // and if it still cannot be done, we add it
       FG::BuildingSP bsp = std::dynamic_pointer_cast<FG::Building>(item.peerconnection->parent());
       if ( !(item.peer = _helpers.lookup(bsp)) ) {
 	rv.push_back(bsp);
+	////printf(" returning\n");
       }
     };
 
-    collect(c_input);
-    collect(c_output);
+    collect(std::ref(c_input));
+    collect(std::ref(c_output));
 
+    ////printf(" retsize: %lu\n", rv.size());
     return rv;
   }
 }

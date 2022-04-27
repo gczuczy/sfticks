@@ -17,14 +17,14 @@ namespace SFT {
 	auto bsp = learnConnection(conn, it);
 	
 	if ( bsp ) {
-	  printf(" - Connection to %s .. ", bsp->instance().c_str());
+	  //printf(" - Connection to %s .. ", bsp->instance().c_str());
 	  if ( (conn.peer = _helpers.lookup(bsp)) ) {
-	    printf(" found\n");
+	    //printf(" found\n");
 	  } else {
-	    printf(" not yet found, TBD\n");
+	    //printf(" not yet found, TBD\n");
 	  }
 	} else {
-	  printf("Not connected");
+	  //printf("Not connected");
 	}
       }
     }; // lambda inouts
@@ -43,20 +43,20 @@ namespace SFT {
   std::list<FG::BuildingSP> DCGNode::tryConnect(helpers_t& _helpers) {
     std::list<FG::BuildingSP> rv;
 
-    printf("DCGNode::tryConnect()\n");
+    //printf("DCGNode::tryConnect()\n");
 
     auto collect = [&](DCGConnection& item) {
-      printf(" checking %s", item.connection?item.connection->instance().c_str():"!connection");
+      //printf(" checking %s", item.connection?item.connection->instance().c_str():"!connection");
       // if it's an empty port, we leave it
       if ( !item.connected ) {
-	printf(" not connected\n");
+	//printf(" not connected\n");
 	return;
       }
       
       // if the peer is associated, that means we have it
       // in the propert state
       if ( item.peer ) {
-	printf(" peer present\n");
+	//printf(" peer present\n");
 	return;
       }
 
@@ -65,9 +65,9 @@ namespace SFT {
       FG::BuildingSP bsp = std::dynamic_pointer_cast<FG::Building>(item.peerconnection->parent());
       if ( !(item.peer = _helpers.lookup(bsp)) ) {
 	rv.push_back(bsp);
-	printf(" peer lookup failed\n");
+	//printf(" peer lookup failed\n");
       } else {
-	printf(" succewssful lookup of %s\n", bsp->instance().c_str());
+	//printf(" succewssful lookup of %s\n", bsp->instance().c_str());
       }
     };
 
