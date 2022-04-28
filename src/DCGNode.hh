@@ -20,6 +20,8 @@ namespace SFT {
     virtual std::list<FG::BuildingSP> buildings();
     virtual std::list<FG::BuildingSP> tryConnect(helpers_t& _helpers);
     virtual std::string dbgstr() const;
+    virtual bool isGraphInput() const;
+    virtual bool isGraphOutput() const;
 
   private:
     FG::BuildingSP c_building;

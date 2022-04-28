@@ -19,8 +19,8 @@ namespace FG {
     ConveyorAttachmentSplitter(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
 
   public:
-    inline int32_t& mCurrentOutputIndex() {return c_mCurrentOutputIndex;};
-    inline int32_t& mLastOutputIndex() {return c_mLastOutputIndex;};
+    inline int32_t& currentOutputIndex() {return c_mCurrentOutputIndex;};
+    inline int32_t& lastOutputIndex() {return c_mLastOutputIndex;};
     // TODO: add lookup call for mItemToLastOutputMap
 
     static std::string objtypename;
@@ -33,6 +33,7 @@ namespace FG {
     int32_t c_mCurrentOutputIndex, c_mLastOutputIndex;
     std::map<ObjectReference, int8_t> c_mItemToLastOutputMap;
   };
+  typedef std::shared_ptr<ConveyorAttachmentSplitter> ConveyorAttachmentSplitterSP;
 
 }
 

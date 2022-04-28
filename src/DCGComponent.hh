@@ -34,6 +34,8 @@ namespace SFT {
     // and returns the unconnected BuildingSPs
     virtual std::list<FG::BuildingSP> tryConnect(helpers_t& _helpers)=0;
     virtual std::string dbgstr() const =0;
+    virtual bool isGraphInput() const =0;
+    virtual bool isGraphOutput() const =0;
 
   protected:
     FG::BuildingSP learnConnection(DCGConnection& _conn,

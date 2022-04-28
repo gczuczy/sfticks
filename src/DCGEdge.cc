@@ -101,6 +101,16 @@ namespace SFT {
 
     return rv;
   }
+
+  bool DCGEdge::isGraphInput() const {
+    if ( c_input.connected ) return false;
+    return true;
+  }
+
+  bool DCGEdge::isGraphOutput() const {
+    if ( c_output.connected ) return false;
+    return true;
+  }
   
   void DCGEdge::walk(FG::FactoryConnectionComponentSP _conn, helpers_t& _helpers) {
 #ifdef DEBUG_DCG_BUILD

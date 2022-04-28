@@ -110,6 +110,9 @@ namespace SFT {
 	}
       }
     } // while true, looping while we've added everything to this dcg
+
+    // and now find our entry points
+    findEntryPoints();
   }
 
   std::string DCG::dbgstr() const {
@@ -149,6 +152,25 @@ namespace SFT {
     _helpers.reg(comp);
 #ifdef DEBUG_DCG_BUILD
     printf("\n");
+#endif
+  }
+
+  void DCG::findEntryPoints() {
+    for (auto it: c_edges) {
+      if ( it->isGraphInput() ) c_inputs.push_back(it);
+      if ( it->isGraphOutput() ) c_outputs.push_back(it);
+    }
+    for (auto it: c_nodes) {
+      if ( it->isGraphInput() ) c_inputs.push_back(it);
+      if ( it->isGraphOutput() ) c_outputs.push_back(it);
+    }
+#ifdef DEBUG_DCG_BUILD
+    printf("DCG:%u inputs:%lu outputs:%lu\n", c_index,
+	   c_inputs.size(), c_outputs.size());
+    printf("Inputs:\n");
+    for (auto it: c_inputs) printf(" %s", it->dbgstr().c_str());
+    printf("Outputs:\n");
+    for (auto it: c_outputs) printf(" %s", it->dbgstr().c_str());
 #endif
   }
 }

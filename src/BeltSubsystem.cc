@@ -52,7 +52,9 @@ namespace SFT {
 #endif
       dcg->build(pool);
       auto end = pool.size();
-      printf("  - DCG built (%u items), remaining pool size %lu\n", dcg->size(), end);
+      printf("  - DCG built (%u items, i:%u o:%u), remaining pool size %lu\n",
+	     dcg->size(), dcg->nInputs(), dcg->nOutputs(),
+	     end);
       c_dcgs.push_back(dcg);
       uint64_t used = start-end;
       if ( dcg->size() > used ) printf(" ++ anomaly DCG:%u used:%lu!\n%s",

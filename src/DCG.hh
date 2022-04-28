@@ -40,15 +40,20 @@ namespace SFT {
     void build(std::map<std::string, FG::EntitySP>& _pool);
     inline uint32_t size() const {return c_edges.size()+c_nodes.size();};
     std::string dbgstr() const;
+    inline uint32_t nInputs() const {return c_inputs.size();};
+    inline uint32_t nOutputs() const {return c_outputs.size();};
 
   private:
     void addElement(FG::BuildingSP _element, helpers_t _helpers);
+    void findEntryPoints();
 
   private:
     uint32_t c_index;
     std::map<std::string, DCGComponentSP> c_component_map;
     std::list<DCGEdgeSP> c_edges;
     std::list<DCGNodeSP> c_nodes;
+    // input and output entry points for the whole graph
+    std::list<DCGComponentSP> c_inputs, c_outputs;
   };
   typedef std::shared_ptr<DCG> DCGSP;
 

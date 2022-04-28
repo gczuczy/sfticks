@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "DCGNode.hh"
 #include "misc.hh"
-
-
+#include "FGConveyorAttachmentSplitter.hh"
+#include "FGConveyorAttachmentMerger.hh"
 
 namespace SFT {
   DCGNode::DCGNode(FG::BuildingSP _building, helpers_t& _helpers)
@@ -103,16 +103,62 @@ namespace SFT {
   std::string DCGNode::dbgstr() const {
     std::string rv;
 
-    rv += strprintf("Node(%s):\n Inputs:", c_building->instance().c_str());
+    rv += strprintf("Node(%s): I:", c_building->instance().c_str());
     for (auto& it:c_inputs) {
       rv += strprintf(" %s", it.connected?"conn":"noconn");
     }
-    rv += strprintf("\n Outputs:");
+    rv += strprintf(" O:");
     for (auto& it:c_outputs) {
       rv += strprintf(" %s", it.connected?"conn":"noconn");
     }
     rv += strprintf("\n");
 
+#ifdef DEBUG_DCG_BUILD
+    // for in or out nodes, examine types of interest more closely
+    if ( isGraphInput() || isGraphOutput() ) {
+      if (FG::ConveyorAttachmentSplitterSP cau;
+	  (cau = std::dynamic_pointer_cast<FG::ConveyorAttachmentSplitter>(c_building))) {
+	//examine more closely if it's a splitter
+	if ( isGraphInput() ) {
+	  printf("Details %s\n", cau->instance().c_str());
+	  // a splitter shouldn't be an input, single input and that should be plugged
+	  auto in = cau->inputs()[0];
+	  if ( in ) {
+	    printf("%s\n", in->compdetails().c_str());
+	  } else {
+	    printf("No input object");
+	  }
+	}
+      } else if (FG::ConveyorAttachmentMergerSP cau;
+		 (cau = std::dynamic_pointer_cast<FG::ConveyorAttachmentMerger>(c_building))) {
+	//examine more closely if it's a splitter
+	if ( isGraphOutput() ) {
+	  printf("Details %s\n", cau->instance().c_str());
+	  // a merger shouldn't be an output, single output and that should be plugged
+	  auto in = cau->outputs()[0];
+	  if ( in ) {
+	    printf("%s\n", in->compdetails().c_str());
+	  } else {
+	    printf("No input object");
+	  }
+	}
+      }
+
+    } // if in/oput
+#endif
+
     return rv;
+  }
+
+  bool DCGNode::isGraphInput() const {
+    for (auto& it: c_inputs)
+      if ( it.connected ) return false;
+    return true;
+  }
+
+  bool DCGNode::isGraphOutput() const {
+    for (auto& it: c_outputs)
+      if ( it.connected ) return false;
+    return true;
   }
 }
