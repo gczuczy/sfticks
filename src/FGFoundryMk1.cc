@@ -8,7 +8,7 @@ namespace FG {
   FoundryMk1::FoundryMk1(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::FoundryMk1, _reader, _fgoh){
     defineInputs({"Input0", "Input1"});
-    defineOutputs({"Output0"});
+    defineOutputs({"Output2"});
   }
 
   FoundryMk1::~FoundryMk1() {
