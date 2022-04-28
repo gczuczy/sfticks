@@ -26,6 +26,10 @@ namespace SFT {
 
     virtual std::list<FG::BuildingSP> buildings();
     virtual std::list<FG::BuildingSP> tryConnect(helpers_t& _helpers);
+    virtual std::string dbgstr() const;
+
+  private:
+    void walk(FG::FactoryConnectionComponentSP _conn, helpers_t& _helpers);
 
   private:
     float c_throughput=0;

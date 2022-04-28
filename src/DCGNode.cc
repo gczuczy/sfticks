@@ -1,6 +1,9 @@
 
 #include <stdio.h>
 #include "DCGNode.hh"
+#include "misc.hh"
+
+
 
 namespace SFT {
   DCGNode::DCGNode(FG::BuildingSP _building, helpers_t& _helpers)
@@ -17,14 +20,22 @@ namespace SFT {
 	auto bsp = learnConnection(conn, it);
 	
 	if ( bsp ) {
-	  //printf(" - Connection to %s .. ", bsp->instance().c_str());
+#ifdef DEBUG_DCG_BUILD
+	  printf(" - Connection to %s .. ", bsp->instance().c_str());
+#endif
 	  if ( (conn.peer = _helpers.lookup(bsp)) ) {
-	    //printf(" found\n");
+#ifdef DEBUG_DCG_BUILD
+	    printf(" found\n");
+#endif
 	  } else {
-	    //printf(" not yet found, TBD\n");
+#ifdef DEBUG_DCG_BUILD
+	    printf(" not yet found, TBD\n");
+#endif
 	  }
 	} else {
-	  //printf("Not connected");
+#ifdef DEBUG_DCG_BUILD
+	  printf("Not connected\n");
+#endif
 	}
       }
     }; // lambda inouts
@@ -43,20 +54,28 @@ namespace SFT {
   std::list<FG::BuildingSP> DCGNode::tryConnect(helpers_t& _helpers) {
     std::list<FG::BuildingSP> rv;
 
-    //printf("DCGNode::tryConnect()\n");
+#ifdef DEBUG_DCG_BUILD
+    printf("DCGNode::tryConnect()\n");
+#endif
 
     auto collect = [&](DCGConnection& item) {
-      //printf(" checking %s", item.connection?item.connection->instance().c_str():"!connection");
+#ifdef DEBUG_DCG_BUILD
+      printf(" checking %s", item.connection?item.connection->instance().c_str():"!connection");
+#endif
       // if it's an empty port, we leave it
       if ( !item.connected ) {
-	//printf(" not connected\n");
+#ifdef DEBUG_DCG_BUILD
+	printf(" not connected\n");
+#endif
 	return;
       }
       
       // if the peer is associated, that means we have it
       // in the propert state
       if ( item.peer ) {
-	//printf(" peer present\n");
+#ifdef DEBUG_DCG_BUILD
+	printf(" peer present\n");
+#endif
 	return;
       }
 
@@ -65,14 +84,34 @@ namespace SFT {
       FG::BuildingSP bsp = std::dynamic_pointer_cast<FG::Building>(item.peerconnection->parent());
       if ( !(item.peer = _helpers.lookup(bsp)) ) {
 	rv.push_back(bsp);
-	//printf(" peer lookup failed\n");
+#ifdef DEBUG_DCG_BUILD
+	printf(" peer lookup failed\n");
+#endif
       } else {
-	//printf(" succewssful lookup of %s\n", bsp->instance().c_str());
+#ifdef DEBUG_DCG_BUILD
+	printf(" succewssful lookup of %s\n", bsp->instance().c_str());
+#endif
       }
     };
 
     for (auto& it: c_inputs) collect(std::ref(it));
     for (auto& it: c_outputs) collect(std::ref(it));
+
+    return rv;
+  }
+
+  std::string DCGNode::dbgstr() const {
+    std::string rv;
+
+    rv += strprintf("Node(%s):\n Inputs:", c_building->instance().c_str());
+    for (auto& it:c_inputs) {
+      rv += strprintf(" %s", it.connected?"conn":"noconn");
+    }
+    rv += strprintf("\n Outputs:");
+    for (auto& it:c_outputs) {
+      rv += strprintf(" %s", it.connected?"conn":"noconn");
+    }
+    rv += strprintf("\n");
 
     return rv;
   }

@@ -19,6 +19,7 @@ namespace SFT {
 
     virtual std::list<FG::BuildingSP> buildings();
     virtual std::list<FG::BuildingSP> tryConnect(helpers_t& _helpers);
+    virtual std::string dbgstr() const;
 
   private:
     FG::BuildingSP c_building;

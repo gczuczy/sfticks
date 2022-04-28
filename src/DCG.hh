@@ -28,8 +28,9 @@ namespace SFT {
       connections are between Edges and Nodes
       AND between Edges and Edges. This happens
       when two different types (MkN) of belts are connected.
-      Connections are represented by Bridge classes, abstracted.
     */
+  private:
+    static uint32_t c_indexcounter;
   public:
     DCG();
     DCG(const DCG&) = delete;
@@ -38,11 +39,13 @@ namespace SFT {
 
     void build(std::map<std::string, FG::EntitySP>& _pool);
     inline uint32_t size() const {return c_edges.size()+c_nodes.size();};
+    std::string dbgstr() const;
 
   private:
     void addElement(FG::BuildingSP _element, helpers_t _helpers);
 
   private:
+    uint32_t c_index;
     std::map<std::string, DCGComponentSP> c_component_map;
     std::list<DCGEdgeSP> c_edges;
     std::list<DCGNodeSP> c_nodes;

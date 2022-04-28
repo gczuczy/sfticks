@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
 #endif
 
   SFT::BeltSubsystemUP bss(std::make_unique<SFT::BeltSubsystem>());
-  printf("Teaching");
+  printf("Teaching Beltsubsystem ...\n");
   try {
-    SFT::Timer t("teaching BeltSubsystem");
+    SFT::Timer t("Teaching BeltSubsystem");
     bss->learn(world);
   }
   catch (SFT::Exception& e) {

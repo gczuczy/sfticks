@@ -8,7 +8,9 @@
 
 namespace SFT {
 
+  uint32_t DCG::c_indexcounter=0;
   DCG::DCG() {
+    c_index = c_indexcounter++;
   }
 
   DCG::~DCG() {
@@ -21,19 +23,41 @@ namespace SFT {
       // first associate the buildings with the component
       // and remove them from the pool
       std::string inststr;
-      //printf("reg&erase:\n");
+#ifdef DEBUG_DCG_BUILD
+      printf("DCG:%u reg&erase %lu:\n", c_index, _pool.size());
+#endif
       for (auto it: _comp->buildings()) {
 	inststr = it->instance();
-	//printf(" - %s\n", inststr.c_str());
+#ifdef DEBUG_DCG_BUILD
+	printf(" - %s\n", inststr.c_str());
+#endif
+	if ( _pool.find(inststr) == _pool.end() ) {
+	  if ( c_component_map.find(inststr) == c_component_map.end() ) {
+	    EXCEPTION(strprintf("DCG:%u reg/erase: instance not in pool and not reg: %s",
+				c_index, inststr.c_str()));
+	  } else {
+	    EXCEPTION(strprintf("DCG:%u reg/erase: instance not in pool and reg: %s",
+				c_index, inststr.c_str()));
+	  }
+	}
 	c_component_map[inststr] = (_comp);
 	_pool.erase(inststr);
       }
       // then register the nodes and edges
       if ( _comp->componentType() == DCGComponentType::Edge ) {
 	c_edges.push_back(std::dynamic_pointer_cast<DCGEdge>(_comp));
+#ifdef DEBUG_DCG_BUILD
+	printf(" edge\n");
+#endif
       } else if ( _comp->componentType() == DCGComponentType::Node ) {
 	c_nodes.push_back(std::dynamic_pointer_cast<DCGNode>(_comp));
+#ifdef DEBUG_DCG_BUILD
+	printf(" node\n");
+#endif
       }
+#ifdef DEBUG_DCG_BUILD
+      printf(" Pool remnants: %lu\n", _pool.size());
+#endif
     };
 
     helpers.lookup = [&](FG::BuildingSP _b)->DCGComponentSP {
@@ -45,8 +69,11 @@ namespace SFT {
     FG::BuildingSP element = std::dynamic_pointer_cast<FG::Building>(_pool.begin()->second);
 
     if ( !element )
-      EXCEPTION("Unable to cat to BuildingSP");
+      EXCEPTION("Unable to cast to BuildingSP");
 
+#ifdef DEBUG_DCG_BUILD
+    printf(" DCG:%u Starting with %s\n", c_index, element->instance().c_str());
+#endif
     addElement(element, helpers);
 
     // we have the first component, now build the rest of the graph based
@@ -66,7 +93,9 @@ namespace SFT {
 	toadd.splice(toadd.begin(), it->tryConnect(helpers));
       }
 
-      //printf("Collected toadd %lu\n", toadd.size());
+#ifdef DEBUG_DCG_BUILD
+      printf("Collected toadd %lu\n", toadd.size());
+#endif
 
       // nothing to add, job well done
       if ( toadd.size() == 0 ) break;
@@ -75,26 +104,51 @@ namespace SFT {
 	if ( c_component_map.find(it->instance()) == c_component_map.end() ) {
 	  addElement(it, helpers);
 	} else {
-	  //printf("toadd loop skipping %s\n", it->instance().c_str());
+#ifdef DEBUG_DCG_BUILD
+	  printf("toadd loop skipping %s\n", it->instance().c_str());
+#endif
 	}
       }
     } // while true, looping while we've added everything to this dcg
   }
 
+  std::string DCG::dbgstr() const {
+    std::string rv;
+
+    // list the elements
+    rv += strprintf("DCG:%u Nodes(%lu): \n", c_index, c_nodes.size());
+    for (auto& it: c_nodes) rv += it->dbgstr();
+
+    rv += strprintf("DCG:%u Edges(%lu):\n", c_index, c_edges.size());
+    for (auto& it: c_edges) rv += it->dbgstr();
+
+    return rv;
+  }
+
   void DCG::addElement(FG::BuildingSP _element, helpers_t _helpers) {
     DCGComponentSP comp;
 
-    //printf("Adding element %s ... ", _element->instance().c_str());
+#ifdef DEBUG_DCG_BUILD
+    printf("Adding element %s ... ", _element->instance().c_str());
+#endif
     if (FG::ConveyorBeltSP item; (item = std::dynamic_pointer_cast<FG::ConveyorBelt>(_element)) ) {
-      //printf("is belt\n");
+#ifdef DEBUG_DCG_BUILD
+      printf("is belt\n");
+#endif
       comp = std::make_shared<DCGEdge>(item, _helpers);
     } else if ( FG::BuildingSP item; (item = std::dynamic_pointer_cast<FG::Building>(_element)) ) {
-      //printf("is building\n");
+#ifdef DEBUG_DCG_BUILD
+      printf("is building\n");
+#endif
       comp = std::make_shared<DCGNode>(item, _helpers);
     } else {
-      //printf("fuck knows %u\n", _element->entityType());
+#ifdef DEBUG_DCG_BUILD
+      printf("fuck knows %u\n", _element->entityType());
+#endif
     }
     _helpers.reg(comp);
-    //printf("\n");
+#ifdef DEBUG_DCG_BUILD
+    printf("\n");
+#endif
   }
 }

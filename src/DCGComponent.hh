@@ -15,12 +15,11 @@ namespace SFT {
   enum class DCGComponentType:uint8_t {
     Edge=0,
     Node,
-    Bridge,
   };
 
   struct DCGConnection;
   struct helpers_t;
-  // This is a base class for edges, nodes and bridges
+  // This is a base class for edges and nodes
   class DCGComponent {
   public:
     DCGComponent()=delete;
@@ -34,6 +33,7 @@ namespace SFT {
     // this one tries to connect all unconnected inouts,
     // and returns the unconnected BuildingSPs
     virtual std::list<FG::BuildingSP> tryConnect(helpers_t& _helpers)=0;
+    virtual std::string dbgstr() const =0;
 
   protected:
     FG::BuildingSP learnConnection(DCGConnection& _conn,

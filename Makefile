@@ -27,6 +27,10 @@ OBJS_ZL=zltest.o Timer.o Exception.o
 OUT=../bin/sfticks
 OUT_ZL=../bin/zltest
 
+.if defined(DEBUG_DCG_BUILD)
+CXXFLAGS+= -DDEBUG_DCG_BUILD
+.endif
+
 .if defined(DEBUG)
 CXXFLAGS+= -O0 -DSFT_DEBUG -ferror-limit=2 -glldb
 .else
