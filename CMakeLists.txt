@@ -1,6 +1,8 @@
 
 cmake_minimum_required(VERSION 3.21)
 
+# need option for DEBUG_DCG_BUILD
+
 # Set a default build type if none was specified
 set(default_build_type "Release")
 #if(EXISTS "${CMAKE_SOURCE_DIR}/.git")
@@ -22,7 +24,6 @@ project(SFTicks VERSION 0.1 LANGUAGES CXX)
 
 add_executable(sfticks)
 
-
 configure_file(include/cmakeconfig.hh.in include/cmakeconfig.hh)
 
 target_include_directories(sfticks
@@ -30,13 +31,45 @@ target_include_directories(sfticks
   SYSTEM /usr/local/include
 )
 
+# checks
+include(CheckSymbolExists)
+# mmap
+check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
+if(NOT HAVE_MMAP)
+  message(FATAL_ERROR "mmap is missing")
+endif()
+
+# threads
+find_package(Threads)
+if(NOT Threads_FOUND)
+  message(FATAL_ERROR "threading is required")
+endif()
+
+# boost
+find_package(Boost
+  1.72.0
+  REQUIRED
+  COMPONENTS program_options
+)
+
+#zlib
+find_package(ZLIB REQUIRED)
+if(NOT ZLIB_FOUND)
+  message(FATAL_ERROR "zlib is required")
+endif()
+
 target_compile_options(sfticks
-  PRIVATE -Werror -pedantic -std=c++20 -Wno-c11-extensions
+  PRIVATE -Werror -pedantic -std=c++20 -Wno-c11-extensions -I${Boost_INCLUDE_DIRS}
   $<$<CONFIG:Debug>:-O0 -glldb -ferror-limit=2>
   $<$<CONFIG:Release>:-O2>
 )
 target_link_options(sfticks
-  PRIVATE -L/usr/local/lib -pthread -lboost_program_options -lz
+  PRIVATE
+  -L/usr/local/lib
+  -L${Boost_LIBRARY_DIRS}
+  -pthread
+  -lboost_program_options
+  -lz
 )
 
 add_subdirectory(src)
