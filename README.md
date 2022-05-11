@@ -1,7 +1,7 @@
 # sfticks
 Fun project to see how fast I can tick satisfactory belts.
 
-Currently it's in the phase of parsing the dumpfile, and verifying that all the needed data is available.
+Current state: Graphs are built. Growing too large for current build environment, cmake would be nice. Entity/component associations should be revised, now that I see how they are.
 
 Regarding the implementation details, it's early to say anything, I have a bunch of ideas for this, and I yet have to see how each thing is performing.
 
