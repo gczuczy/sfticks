@@ -1,0 +1,14 @@
+target_sources(sfticks
+  PRIVATE
+  BeltSubsystem.hh
+  DCG.hh
+  DCGComponent.hh
+  DCGEdge.hh
+  DCGNode.hh
+  Exception.hh
+  Loader.hh
+  Reader.hh
+  Timer.hh
+  Trace.hh
+  tests.hh
+)

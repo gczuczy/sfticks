@@ -4,12 +4,12 @@
 
 #include <boost/program_options.hpp>
 
-#include "Loader.hh"
-#include "Timer.hh"
-#include "Exception.hh"
-#include "FGDocsJSON.hh"
-#include "tests.hh"
-#include "BeltSubsystem.hh"
+#include "SFT/Loader.hh"
+#include "SFT/Timer.hh"
+#include "SFT/Exception.hh"
+#include "FG/DocsJSON.hh"
+#include "SFT/tests.hh"
+#include "SFT/BeltSubsystem.hh"
 
 namespace po = boost::program_options;
 
