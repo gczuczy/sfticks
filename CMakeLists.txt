@@ -33,6 +33,7 @@ target_include_directories(sfticks
 
 # checks
 include(CheckSymbolExists)
+include(CheckCXXSymbolExists)
 # mmap
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 if(NOT HAVE_MMAP)
@@ -56,6 +57,22 @@ find_package(Boost
 find_package(ZLIB REQUIRED)
 if(NOT ZLIB_FOUND)
   message(FATAL_ERROR "zlib is required")
+endif()
+
+# kqueue
+# non-bsd users can try https://github.com/mheily/libkqueue, however this requires code support as well,
+# as it is not a drop-in replacement
+# mmap
+check_symbol_exists(kqueue "sys/event.h" HAVE_KQUEUE)
+if(NOT HAVE_KQUEUE)
+  message(FATAL_ERROR "kqueue is missing")
+endif()
+
+# nlohmann/json - local should be handled differently here, not in a hardcoded way
+set(CMAKE_REQUIRED_INCLUDES ";/usr/local/include")
+CHECK_INCLUDE_FILE_CXX("nlohmann/json.hpp" HAVE_NLJSON)
+if(NOT HAVE_NLJSON)
+  message(FATAL_ERROR "nlohmann::json is missing")
 endif()
 
 target_compile_options(sfticks
