@@ -14,10 +14,6 @@ namespace FG {
     defineProperty(std::make_shared<IntProperty>("mWasteLeftFromCurrentFuel", c_mWasteLeftFromCurrentFuel));
     defineProperty(std::make_shared<FloatProperty>("mCurrentSupplementalAmount", c_mCurrentSupplementalAmount));
     defineProperty(std::make_shared<BoolProperty>("mHasSupplementalCached", c_mHasSupplementalCached));
-
-    // components
-    defineInputs({"Input0"});
-    defineOutputs({"Output0"});
   }
 
   GeneratorNuclear::~GeneratorNuclear() {

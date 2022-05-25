@@ -84,43 +84,15 @@ namespace FG {
     Entity(EntityType _et, Reader& _reader, ObjectHeader& _fgoh);
     virtual ~Entity();
 
-    Entity& associate(ComponentSP _component);
+    virtual void associateComponents();
     inline EntityType entityType() const {return c_entity_type;};
     inline const std::map<std::string, ComponentSP> components() const { return c_components;};
 
   private:
     virtual void deserialize(Reader &_reader);
 
-  protected:
-    template<class T>
-    void registerComponent(const std::string& _name, std::shared_ptr<T>& _var) {
-      c_compregs[_name] = [&](ComponentSP& _comp)->void {
-	if ( T::componenttype != _comp->componentType() ) {
-#ifdef SFT_DEBUG
-	  printf(" ! Comp:\n%s", _comp->str().c_str());
-	  if ( _comp->componentType() == ComponentType::Generic ) {
-	    std::reinterpret_pointer_cast<GenericComponent>(_comp)->dump("/tmp/comp-generic.dump");
-	  }
-#endif
-	  EXCEPTION(strprintf("association: Wrong component type for %s src:%s dst:%s",
-			      _comp->instance().c_str(),
-			      EnumDict<ComponentType>::tostr(_comp->componentType()).c_str(),
-			      EnumDict<ComponentType>::tostr(T::componenttype).c_str()));
-	}
-#if 0
-	printf("_comp type: %s / %s\n%s",
-	       _comp->vtypename().c_str(),
-	       EnumDict<ComponentType>::tostr(T::componenttype).c_str(),
-	       _comp->str().c_str());
-#endif
-	_var = std::static_pointer_cast<T>(_comp);
-      };
-    };
-
   private:
     EntityType c_entity_type;
-    // component name, callback to place it
-    std::map<std::string, compreg_func> c_compregs;
 
   protected:
     int32_t c_needtransform;

@@ -6,6 +6,8 @@
 #include "SFT/Exception.hh"
 #include "FG/Enums.hh"
 
+//#include <stdio.h>
+
 #include <map>
 
 namespace FG {
@@ -31,7 +33,13 @@ namespace FG {
     virtual void deserializeData(Reader& _reader) {
       std::string valuestr;
       _reader(valuestr);
+#if 0
+      if ( c_enumtypestr == "EFactoryConnectionDirection" )
+	throw std::exception();
+#endif
+      //printf("Setting %s enumtype %s from value '%s'\n", name().c_str(), c_enumtypestr.c_str(), valuestr.c_str());
       c_value = EnumDict<T>::fromstr(valuestr);
+      //printf(" - to: '%s'\n", EnumDict<T>::tostr(c_value).c_str());
     }
 
   private:

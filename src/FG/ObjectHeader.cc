@@ -131,7 +131,6 @@ namespace FG {
   void ObjectHeader::deserializeProperties(Reader &_reader) {
     //TRACE;
     deserializeCompDefs(_reader);
-    //printf("%s", str_compbase().c_str());
 
     loadProperties(_reader);
   }

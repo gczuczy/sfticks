@@ -16,8 +16,7 @@ namespace FG {
   ComponentType FactoryConnectionComponent::componenttype(ComponentType::FactoryConnection);
 
   FactoryConnectionComponent::FactoryConnectionComponent(Reader& _reader, ObjectHeader& _fgoh)
-    : Component(ComponentType::FactoryConnection, _reader, _fgoh),
-      c_mDirection(EFactoryConnectionDirection::FCD_INPUT) {
+    : Component(ComponentType::FactoryConnection, _reader, _fgoh) {
 
     defineProperty(std::make_shared<ObjectProperty>("mConnectedComponent", c_mConnectedComponent));
     defineProperty(std::make_shared<ObjectProperty>("mConnectionInventory", c_mConnectionInventory));
@@ -40,5 +39,9 @@ namespace FG {
 		     c_mConnectionInventory.levelName().c_str(), c_mConnectionInventory.pathName().c_str(),
 		     c_mInventoryAccessIndex,
 		     EnumDict<EFactoryConnectionDirection>::tostr(c_mDirection).c_str());
+  }
+
+  std::string FactoryConnectionComponent::str() {
+    return compdetails();
   }
 }

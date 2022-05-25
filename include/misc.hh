@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <stdint.h>
+#include <cctype>
 
 __attribute__((format(printf, 1, 2))) std::string strprintf(const char* fmt...);
 bool strtoint32(const std::string& _str, int32_t& _retval);
@@ -17,5 +18,7 @@ T fromstr(const std::string& _str) {
 // uint32_t specialization
 template<>
 uint32_t fromstr<uint32_t>(const std::string& _str);
+
+std::string tolower(const std::string& _str, size_t _len=0);
 
 #endif

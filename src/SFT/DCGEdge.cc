@@ -17,8 +17,8 @@ namespace SFT {
     c_belts.push_back(_belt);
 
     // now walk both ends
-    walk(_belt->ConveyorAny0(), _helpers);
-    walk(_belt->ConveyorAny1(), _helpers);
+    walk(_belt->input(), _helpers);
+    walk(_belt->output(), _helpers);
 
     // calculate the total length
     for (auto& it: c_belts) c_length += it->length();
@@ -188,10 +188,11 @@ namespace SFT {
 	} else {
 	  EXCEPTION("Neither input or output");
 	}
-	if ( belt->ConveyorAny0()->direction() == _conn->direction() ) {
-	  nextcomp = belt->ConveyorAny0();
-	} else if ( belt->ConveyorAny1()->direction() == _conn->direction() ) {
-	  nextcomp = belt->ConveyorAny1();
+	// TODO: revise for s/ConveyorAny[01]/(input|output)/
+	if ( belt->input()->direction() == _conn->direction() ) {
+	  nextcomp = belt->input();
+	} else if ( belt->output()->direction() == _conn->direction() ) {
+	  nextcomp = belt->output();
 	} else {
 	  EXCEPTION("ConveyorAny0/1 have the same direction");
 	}

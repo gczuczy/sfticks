@@ -20,6 +20,7 @@ namespace FG {
   void Component::deserializeProperties(Reader &_reader) {
     //TRACE;
     loadProperties(_reader);
+    //printf(" - Comp props loaded for %s\n%s", instance().c_str(), compdetails().c_str());
   }
 
   std::string Component::vtypename() {

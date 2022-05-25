@@ -14,11 +14,6 @@ namespace FG {
     defineProperty(std::make_shared<ObjectProperty>("mInventory", c_mInventory));
     defineProperty(std::make_shared<ObjectProperty>("mFuelInventory", c_mFuelInventory));
 
-    //registerComponent("Inventory", c_inventory);
-    //registerComponent("FuelInventory", c_fuelinventory);
-    defineInventories({"Inventory", "FuelInventory"});
-    defineOutputs({"Output0", "Output1"});
-    defineInputs({"Input0", "Input1", "Input2"});
   }
 
   TruckStation::~TruckStation() {

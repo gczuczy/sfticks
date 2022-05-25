@@ -15,17 +15,7 @@ namespace FG {
   Entity::~Entity() {
   }
 
-  Entity& Entity::associate(ComponentSP _component) {
-    // generic component association
-    c_components[_component->instance()] = _component;
-
-    // check the registry whether this one is needed directly
-    auto it = c_compregs.find(_component->componentName());
-    if ( it != c_compregs.end() ) {
-      it->second(std::ref(_component));
-    }
-
-    return *this;
+  void Entity::associateComponents() {
   }
 
   void Entity::deserialize(Reader &_reader) {

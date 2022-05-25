@@ -27,10 +27,6 @@ namespace FG {
     defineProperty(std::make_shared<IntProperty>("mCurrentOutputIndex", c_mCurrentOutputIndex));
     defineProperty(std::make_shared<IntProperty>("mLastOutputIndex", c_mLastOutputIndex));
     defineProperty(std::make_shared<MapProperty<ObjectProperty, ByteProperty> >("mItemToLastOutputMap", c_mItemToLastOutputMap));
-
-    //components
-    defineInputs({"Input1"});
-    defineOutputs({"Output1", "Output2", "Output3"});
   }
 
 }

@@ -7,8 +7,6 @@ namespace FG {
 
   StorageContainerMk2::StorageContainerMk2(Reader& _reader, ObjectHeader& _fgoh)
     : StorageUnit(EntityType::StorageContainerMk2, _reader, _fgoh, 48){
-    defineInputs({"Input0", "Input1"});
-    defineOutputs({"Output1", "Output2"});
   }
 
   StorageContainerMk2::~StorageContainerMk2() {

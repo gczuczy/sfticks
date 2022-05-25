@@ -25,9 +25,12 @@ namespace FG {
 
     inline int32_t throughput() const {return c_throughput;};
     inline std::vector<SplinePointData>& splineData() {return c_mSplineData;};
-    inline FactoryConnectionComponentSP ConveyorAny0() {return c_ConveyorAny0;};
-    inline FactoryConnectionComponentSP ConveyorAny1() {return c_ConveyorAny1;};
+    //inline FactoryConnectionComponentSP ConveyorAny0() {return c_ConveyorAny0;};
+    //inline FactoryConnectionComponentSP ConveyorAny1() {return c_ConveyorAny1;};
     inline BeltItems& beltItems() {return c_belt_items;};
+    // quickhands
+    inline FactoryConnectionComponentSP input() {return inputs()[0];};
+    inline FactoryConnectionComponentSP output() {return outputs()[0];};
 
     virtual float length();
 
@@ -37,7 +40,7 @@ namespace FG {
   private:
     int32_t c_throughput; // items per minute
     std::vector<SplinePointData> c_mSplineData;
-    FactoryConnectionComponentSP c_ConveyorAny0, c_ConveyorAny1;
+    //FactoryConnectionComponentSP c_ConveyorAny0, c_ConveyorAny1;
     BeltItems c_belt_items;
   };
 

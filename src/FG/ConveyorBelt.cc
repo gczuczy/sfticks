@@ -11,10 +11,6 @@ namespace FG {
     : Building(_et, _reader, _fgoh), c_throughput(_throughput) {
     defineProperty(std::make_shared<ArrayProperty<StructProperty<SplinePointData> > >("mSplineData", c_mSplineData));
 
-    // components
-    registerComponent("ConveyorAny0", c_ConveyorAny0);
-    registerComponent("ConveyorAny1", c_ConveyorAny1);
-
     // supplemental data handler
     defineSupplementalHandler(std::bind(&ConveyorBelt::supplementalHandler,
 					this,

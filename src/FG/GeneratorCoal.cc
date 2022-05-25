@@ -13,8 +13,6 @@ namespace FG {
       c_mHasSupplementalCached(false) {
     defineProperty(std::make_shared<FloatProperty>("mCurrentSupplementalAmount", c_mCurrentSupplementalAmount));
     defineProperty(std::make_shared<BoolProperty>("mHasSupplementalCached", c_mHasSupplementalCached));
-
-    defineInputs({"Input0"});
   }
 
   GeneratorCoal::~GeneratorCoal() {

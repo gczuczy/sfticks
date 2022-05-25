@@ -12,8 +12,6 @@ namespace FG {
     defineProperty(std::make_shared<ObjectProperty>("mCurrentFuelClass", c_mCurrentFuelClass));
     defineProperty(std::make_shared<FloatProperty>("mCurrentFuelAmount", c_mCurrentFuelAmount));
     defineProperty(std::make_shared<BoolProperty>("mHasFuelCached", c_mHasFuelCached));
-  
-    defineInventories({"FuelInventory"});
   }
 
   GeneratorUnit::~GeneratorUnit() {

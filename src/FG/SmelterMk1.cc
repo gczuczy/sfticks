@@ -7,8 +7,6 @@ namespace FG {
 
   SmelterMk1::SmelterMk1(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::SmelterMk1, _reader, _fgoh){
-    defineInputs({"Input0"});
-    defineOutputs({"Output2"});
   }
 
   SmelterMk1::~SmelterMk1() {

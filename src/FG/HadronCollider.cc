@@ -7,8 +7,6 @@ namespace FG {
 
   HadronCollider::HadronCollider(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::HadronCollider, _reader, _fgoh){
-    defineInputs({"Input0", "Input1"});
-    defineOutputs({"Output0"});
   }
 
   HadronCollider::~HadronCollider() {

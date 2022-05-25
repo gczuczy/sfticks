@@ -51,6 +51,7 @@ namespace FG {
 
   protected:
     void deserializeCompDefs(Reader& _reader);
+    std::list<ObjectReference>& getCompDefs() {return c_compdefs;};
 
   protected:
     int32_t c_objtype;

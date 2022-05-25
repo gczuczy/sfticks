@@ -41,3 +41,17 @@ uint32_t fromstr<uint32_t>(const std::string& _str) {
   char *end;
   return std::strtoul(_str.c_str(), &end, 10);
 };
+
+std::string tolower(const std::string& _str, size_t _len) {
+  std::string instr;
+  if ( _len == 0 ) {
+    instr = _str;
+  } else {
+    instr = _str.substr(0, _len);
+  }
+
+  std::transform(instr.begin(), instr.end(), instr.begin(),
+		 [](unsigned char c) {return std::tolower(c);});
+
+  return instr;
+}

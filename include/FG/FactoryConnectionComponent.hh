@@ -29,6 +29,7 @@ namespace FG {
     inline EFactoryConnectionDirection direction() const {return c_mDirection;};
     inline ComponentSP connectedComponent() {return c_mConnectedComponent.as<Component>();};
     virtual std::string compdetails();
+    virtual std::string str();
 
   public:
     static std::set<std::string> pathname;
@@ -37,7 +38,7 @@ namespace FG {
   private:
     ObjectReference c_mConnectedComponent, c_mConnectionInventory;
     int32_t c_mInventoryAccessIndex=0;
-    EFactoryConnectionDirection c_mDirection;
+    EFactoryConnectionDirection c_mDirection = EFactoryConnectionDirection::FCD_ANY;
   };
   typedef std::shared_ptr<FactoryConnectionComponent> FactoryConnectionComponentSP;
 

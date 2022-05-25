@@ -41,8 +41,8 @@ namespace SFT {
     // objref resolver tests
     for (auto it: _world->belts()) {
       printf("\n\nChecking %s\n", it.second->instance().c_str());
-      test_objrefs_convany("Any0", it.second->ConveyorAny0());
-      test_objrefs_convany("Any1", it.second->ConveyorAny1());
+      test_objrefs_convany("input", it.second->input());
+      test_objrefs_convany("output", it.second->output());
 
       printf("\n Belt items:\n");
       for (auto biit: it.second->beltItems()) {
@@ -69,8 +69,8 @@ namespace SFT {
 	  printf(" + Component:\n%s%s", cit.second->str().c_str(), cit.second->compdetails().c_str());
 	}
 #if 0
-	printf("ConveyorAny0:\n%s", it.second->ConveyorAny0()->compdetails().c_str());
-	printf("ConveyorAny1:\n%s", it.second->ConveyorAny1()->compdetails().c_str());
+	printf("input:\n%s", it.second->input()->compdetails().c_str());
+	printf("output:\n%s", it.second->output()->compdetails().c_str());
 #endif
 	printf("Inputs:\n");
 	for (auto cit: it.second->inputs()) {
@@ -99,7 +99,7 @@ namespace SFT {
 	}
 	printf("PowerInfo:\n");
 	try {
-	  auto pi = it.second->powerInfo().as<FG::PowerInfoComponent>();
+	  auto pi = it.second->powerInfo();
 	  if ( pi ) {
 	    printf("%s", pi->str().c_str());
 	  } else {

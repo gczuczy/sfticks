@@ -11,8 +11,6 @@ namespace FG {
     : IOUnit(EntityType::ResourceSink, _reader, _fgoh), c_mProducingTimer(0) {
     defineProperty(std::make_shared<ObjectProperty>("mCouponInventory", c_mCouponInventory));
     defineProperty(std::make_shared<FloatProperty>("mProducingTimer", c_mProducingTimer));
-
-    defineInputs({"Input0"});
   }
 
   ResourceSink::~ResourceSink() {

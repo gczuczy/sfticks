@@ -11,8 +11,6 @@ namespace FG {
 
   ConstructorMk1::ConstructorMk1(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::ConstructorMk1, _reader, _fgoh) {
-    defineInputs({"Input0"});
-    defineOutputs({"Output0"});
   }
 
   ConstructorMk1::~ConstructorMk1() {

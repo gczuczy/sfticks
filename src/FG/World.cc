@@ -262,20 +262,8 @@ namespace FG {
 
     // associate components with their entities
     printf("Associating components with their entites\n");
-    for (auto it: c_components) {
-      auto entit = c_entities.find(it.second->parentEntityName());
-      if ( entit == c_entities.end() ) {
-	printf("Component %s has no parent %s\n", it.first.c_str(),
-	       it.second->parentEntityName().c_str());
-	continue;
-      }
-      try {
-	entit->second->associate(it.second);
-      }
-      catch (SFT::Exception& e) {
-	printf("Caught exception: %s\n", e.what());
-	return;
-      }
+    for (auto& it: c_entities) {
+      it.second->associateComponents();
     }
     printf("Components associated\n");
 

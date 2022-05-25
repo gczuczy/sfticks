@@ -21,35 +21,39 @@ namespace FG {
     defineProperty(std::make_shared<BoolProperty>("mDidFirstTimeUse", c_mDidFirstTimeUse));
     defineProperty(std::make_shared<StructProperty<FactoryCustomizationData> >("mCustomizationData", c_mCustomizationData));
 
-    //components
-    defineInventories({"InputInventory", "OutputInventory", "InventoryPotential"});
   }
 
   Building::~Building() {
   }
 
-  void Building::defineInputs(const std::vector<std::string>& _compnames) {
-    if ( !c_inputs.empty() )
-      EXCEPTION(strprintf("Inputs(%li) already defined %s",
-			  c_inputs.size(), instance().c_str()));
+  void Building::associateComponents() {
+    auto& compdefs = getCompDefs();
 
-    c_inputs.resize(_compnames.size());
-    for (auto i=0; i<_compnames.size(); ++i )
-      registerComponent(_compnames[i], c_inputs[i]);
-  }
+    for (auto &compdef: compdefs) {
 
-  void Building::defineOutputs(const std::vector<std::string>& _compnames) {
-    if ( !c_outputs.empty() )
-      EXCEPTION(strprintf("Outputs(%li) already defined %s",
-			  c_outputs.size(), instance().c_str()));
+      //ComponentSP component = compdef.as<Component>();
+      if (FactoryConnectionComponentSP fcc; (fcc = compdef.as<FactoryConnectionComponent>()) ) {
+	EFactoryConnectionDirection dir = fcc->direction();
 
-    c_outputs.resize(_compnames.size());
-    for (auto i=0; i<_compnames.size(); ++i )
-      registerComponent(_compnames[i], c_outputs[i]);
-  }
-
-  void Building::defineInventories(const std::list<std::string>& _compnames) {
-    for (auto it: _compnames)
-      registerComponent(it, c_inventories[it]);
-  }
-}
+	if ( dir == EFactoryConnectionDirection::FCD_OUTPUT ) {
+	  c_outputs.push_back(fcc);
+	} else if ( dir == EFactoryConnectionDirection::FCD_INPUT ) {
+	  c_inputs.push_back(fcc);
+	} else {
+	  // non-belt components don't seem to have this set
+	  // So it goes by name
+	  if ( tolower(fcc->componentName(), 5) == "input" ) {
+	    c_inputs.push_back(fcc);
+	  } else if ( tolower(fcc->componentName(), 6) == "output" ) {
+	    c_outputs.push_back(fcc);
+	  }
+	}
+      } else if ( InventoryComponentSP invcomp; (invcomp = compdef.as<InventoryComponent>()) ) {
+	c_inventories[invcomp->componentName()] = invcomp;
+      } else if ( PowerInfoComponentSP picomp; (picomp = compdef.as<PowerInfoComponent>()) ) {
+	c_powerinfo = picomp;
+      } // else it's generic and we don't deal with it
+    }
+    if ( !c_powerinfo ) c_powerinfo = c_mPowerInfo.as<PowerInfoComponent>();
+  } // assicateComponents
+} // namespace FG

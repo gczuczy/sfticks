@@ -7,9 +7,6 @@ namespace FG {
 
   Blender::Blender(Reader& _reader, ObjectHeader& _fgoh)
     : IOUnit(EntityType::Blender, _reader, _fgoh){
-    
-    defineInputs({"Input0", "Input1"});
-    defineOutputs({"Output1"});
   }
 
   Blender::~Blender() {
