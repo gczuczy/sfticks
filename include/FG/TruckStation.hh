@@ -22,7 +22,7 @@ namespace FG {
     //virtual void deserialize(Reader &_reader);
 
     bool c_mIsInLoadMode=false;
-    ObjectReference c_mInventory, c_mFuelInventory;
+    ObjectReference c_mInventory, c_mFuelInventory, c_mInfo;
   };
 
 }

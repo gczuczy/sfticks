@@ -13,6 +13,7 @@ namespace FG {
     defineProperty(std::make_shared<BoolProperty>("mIsInLoadMode", c_mIsInLoadMode));
     defineProperty(std::make_shared<ObjectProperty>("mInventory", c_mInventory));
     defineProperty(std::make_shared<ObjectProperty>("mFuelInventory", c_mFuelInventory));
+    defineProperty(std::make_shared<ObjectProperty>("mInfo", c_mInfo));
 
   }
 
