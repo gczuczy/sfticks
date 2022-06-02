@@ -48,12 +48,21 @@ namespace FG {
 	    c_outputs.push_back(fcc);
 	  }
 	}
+	fcc->finalize();
       } else if ( InventoryComponentSP invcomp; (invcomp = compdef.as<InventoryComponent>()) ) {
 	c_inventories[invcomp->componentName()] = invcomp;
+	invcomp->finalize();
       } else if ( PowerInfoComponentSP picomp; (picomp = compdef.as<PowerInfoComponent>()) ) {
 	c_powerinfo = picomp;
+	picomp->finalize();
       } // else it's generic and we don't deal with it
     }
     if ( !c_powerinfo ) c_powerinfo = c_mPowerInfo.as<PowerInfoComponent>();
   } // assicateComponents
+
+  bool Building::recv(DescObjectSP& _item, SFT::tickinfo_t& _tick, FactoryConnectionComponent& _src) {
+    // for now we don't accept stuff
+    printf("%s\n - %s\n", __PRETTY_FUNCTION__, instance().c_str());
+    return false;
+  }
 } // namespace FG

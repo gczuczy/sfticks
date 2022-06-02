@@ -17,6 +17,8 @@ namespace FG {
 
     inline std::vector<SplitterSortRule>& mSortRules() {return c_mSortRules;};
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

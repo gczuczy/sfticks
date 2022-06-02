@@ -3,6 +3,8 @@
 
 #include "FG/FloatProperty.hh"
 #include "FG/ObjectProperty.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -16,4 +18,8 @@ namespace FG {
   Miner::~Miner() {
   }
 
+  void Miner::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+  
 }

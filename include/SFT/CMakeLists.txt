@@ -1,4 +1,4 @@
-target_sources(sfticks
+set(SFT_HEADERS
   PRIVATE
   BeltSubsystem.hh
   DCG.hh
@@ -11,4 +11,15 @@ target_sources(sfticks
   Timer.hh
   Trace.hh
   tests.hh
+  tick.hh
+)
+
+target_sources(sfticks
+  PRIVATE
+  ${SFT_HEADERS}
+)
+
+target_precompile_headers(sfticks
+  PRIVATE
+  ${SFT_HEADERS}
 )

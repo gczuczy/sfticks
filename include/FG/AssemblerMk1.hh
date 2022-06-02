@@ -12,6 +12,8 @@ namespace FG {
     AssemblerMk1(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~AssemblerMk1();
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+    
     static std::string objtypename;
 
   private:

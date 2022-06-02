@@ -1,5 +1,4 @@
-target_sources(sfticks
-  PRIVATE
+set(FG_HEADERS
   AssemblerMk1.hh
   ArrayProperty.hh
   BaseObject.hh
@@ -83,4 +82,13 @@ target_sources(sfticks
   World.hh
   vectors.hh
   MapProperty.hh
+)
+target_sources(sfticks
+  PRIVATE
+  ${FG_HEADERS}
+)
+
+target_precompile_headers(sfticks
+  PRIVATE
+  ${FG_HEADERS}
 )

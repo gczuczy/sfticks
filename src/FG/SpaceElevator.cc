@@ -1,5 +1,7 @@
 
 #include "FG/SpaceElevator.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -12,4 +14,7 @@ namespace FG {
   SpaceElevator::~SpaceElevator() {
   }
 
+  void SpaceElevator::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
 }

@@ -1,5 +1,7 @@
 
 #include "FG/ManufacturerMk1.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -12,4 +14,8 @@ namespace FG {
   ManufacturerMk1::~ManufacturerMk1() {
   }
 
+  void ManufacturerMk1::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+  
 }

@@ -2,6 +2,8 @@
 #include "FG/ConveyorAttachmentSplitterSmart.hh"
 #include "FG/ArrayProperty.hh"
 #include "FG/StructProperty.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -13,6 +15,10 @@ namespace FG {
   }
 
   ConveyorAttachmentSplitterSmart::~ConveyorAttachmentSplitterSmart() {
+  }
+
+  void ConveyorAttachmentSplitterSmart::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
   }
 
 }

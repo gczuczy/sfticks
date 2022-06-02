@@ -24,11 +24,15 @@ project(SFTicks VERSION 0.1 LANGUAGES CXX)
 
 add_executable(sfticks)
 
+# for some resaon numeric values are not passed
+# so this is directly set in cmakeconfig.hh
+#option(BELTITEM_DISTANCE "Distance between belt items" 120)
 configure_file(include/cmakeconfig.hh.in include/cmakeconfig.hh)
 
 target_include_directories(sfticks
   PRIVATE ${SFTicks_SOURCE_DIR}/include
   SYSTEM /usr/local/include
+  SYSTEM $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
 )
 
 # checks

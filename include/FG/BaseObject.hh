@@ -14,7 +14,6 @@ namespace FG {
     RECIPE,
   };
 
-  // this is a 
   class BaseObject {
   public:
     BaseObject()=delete;

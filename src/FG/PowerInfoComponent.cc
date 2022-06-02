@@ -38,4 +38,7 @@ namespace FG {
 
     return rv;
   }
+
+  void PowerInfoComponent::finalize() {
+  }
 }

@@ -21,6 +21,8 @@ namespace FG {
     inline float& mCurrentFuelAmount() {return c_mCurrentFuelAmount;};
     inline bool& mHasFuelCached() {return c_mHasFuelCached;};
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
   private:
     //virtual void deserialize(Reader &_reader);
     float c_mCurrentFuelAmount;

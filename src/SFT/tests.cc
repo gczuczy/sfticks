@@ -6,10 +6,12 @@
 #include "FG/JSONObject.hh"
 #include "FG/FactoryConnectionComponent.hh"
 
+#include <map>
+
 namespace SFT {
-  void test_beltsplines(FG::WorldSP _world) {
+  void test_beltsplines(testargs& _args) {
     // belt spline checks
-    for (auto it: _world->belts()) {
+    for (auto it: _args.world->belts()) {
       auto sdata = it.second->splineData();
 
       printf("Belt(%.3f): %s\n", it.second->length(),
@@ -37,31 +39,28 @@ namespace SFT {
     printf(" - Parent:\n%s", comp->parent()->str().c_str());
   }
 
-  void test_objrefs(FG::WorldSP _world) {
+  void test_objrefs(testargs& _args) {
     // objref resolver tests
-    for (auto it: _world->belts()) {
+    for (auto it: _args.world->belts()) {
       printf("\n\nChecking %s\n", it.second->instance().c_str());
       test_objrefs_convany("input", it.second->input());
       test_objrefs_convany("output", it.second->output());
 
       printf("\n Belt items:\n");
       for (auto biit: it.second->beltItems()) {
-	FG::JSONObjectSP item = biit.item.as<FG::JSONObject>();
-	printf("  - %.2f %s / ", biit.position, biit.item.pathName().c_str());
-	if ( item ) printf("%s\n", item->className().c_str());
-	else printf("lookup failed\n");
+	printf("%s\n", biit.item->className().c_str());
       }
       if ( it.second->beltItems().size()>0 ) break;
     }
   }
 
-  void test_world(FG::WorldSP _world) {
+  void test_world(testargs& _args) {
     // we have a Brave New World, let's examine it
     printf("Checking components\n");
     {
       //std::set<std::string> filter{"Build_MinerMk1_C", "Build_MinerMk2_C", "Build_MinerMk3_C"};
       std::set<std::string> filter;
-      for (auto it: _world->iounits()) {
+      for (auto it: _args.world->iounits()) {
 	if ( filter.size() &&
 	     filter.find(it.second->className()) == filter.end() ) continue;
 	printf("\n\n ++ Entity:\n%s", it.second->str().c_str());
@@ -110,6 +109,41 @@ namespace SFT {
 	  printf("powerInfo lookup failed: %s\n", e.what());
 	}
       }
+    }
+  } // test_args.world
+
+  void test_entityticks(testargs& _args) {
+    std::map<FG::EntityType, FG::BuildingSP> subjects;
+
+    // first we're looking for subjects for all entites
+    for (auto it: _args.world->entities()) {
+      auto et = it.second->entityType();
+      if ( et == FG::EntityType::GenericEntity ||
+	   subjects.find(et) != subjects.end() ) continue;
+      if (FG::ConveyorBeltSP belt; (belt = std::dynamic_pointer_cast<FG::ConveyorBelt>(it.second)) ) {
+	if ( !belt->beltItems().size() ) continue;
+	subjects[et] = belt;
+      } else {
+	subjects[et] = std::dynamic_pointer_cast<FG::Building>(it.second);
+      }
+    }
+
+    printf("Collected %lu subjects\n", subjects.size());
+
+    //assemble the tickinfo
+    tickinfo_t ti;
+    ti.tickno = _args.world->headers().saveDate()+1;
+    ti.timedelta = 1.0/(1.0*_args.frequency);
+
+    printf("Running ConveyorBelt doTickCache...\n");
+    FG::ConveyorBelt::doTickCache(ti);
+
+    // now test each
+    int i=0, max=3;
+    for (auto it: subjects) {
+      if ( i++ >= max ) break;
+      printf("\n--\nTesting subject: %s\n", it.second->instance().c_str());
+      it.second->doTick(ti);
     }
   }
 }

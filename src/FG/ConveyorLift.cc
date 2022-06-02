@@ -17,7 +17,7 @@ namespace FG {
   ConveyorLift::~ConveyorLift() {
   }
 
-  float ConveyorLift::length() {
+  float ConveyorLift::calcLength() {
     return c_mTopTransform.Translation.z;
   }
 }

@@ -16,6 +16,8 @@ namespace FG {
     inline float& mProducingTimer() {return c_mProducingTimer;};
     inline ObjectReference& mCouponInventory() {return c_mCouponInventory;};
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

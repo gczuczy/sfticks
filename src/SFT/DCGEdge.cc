@@ -16,6 +16,12 @@ namespace SFT {
     c_output.direction = FG::EFactoryConnectionDirection::FCD_OUTPUT;
     c_belts.push_back(_belt);
 
+    // sanity checks
+    if ( _belt->inputs().size() == 0 )
+      EXCEPTION(strprintf("No inputs on %s", _belt->instance().c_str()));
+    if ( _belt->outputs().size() == 0 )
+      EXCEPTION(strprintf("No outputs on %s", _belt->instance().c_str()));
+
     // now walk both ends
     walk(_belt->input(), _helpers);
     walk(_belt->output(), _helpers);

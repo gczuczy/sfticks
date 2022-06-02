@@ -20,7 +20,8 @@ namespace FG {
     inline Transform topTransform() {return c_mTopTransform;};
     inline std::vector<ObjectReference>& snappedPassthroughs() {return c_mSnappedPassthroughs;};
 
-    virtual float length();
+  protected:
+    virtual float calcLength();
 
   private:
     std::vector<ObjectReference> c_mSnappedPassthroughs;

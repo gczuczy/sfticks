@@ -4,6 +4,8 @@
 #include "FG/ByteProperty.hh"
 #include "FG/MapProperty.hh"
 #include "FG/ObjectProperty.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -23,10 +25,13 @@ namespace FG {
   ConveyorAttachmentSplitter::~ConveyorAttachmentSplitter() {
   }
 
+  void ConveyorAttachmentSplitter::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+
   void ConveyorAttachmentSplitter::defProps() {
     defineProperty(std::make_shared<IntProperty>("mCurrentOutputIndex", c_mCurrentOutputIndex));
     defineProperty(std::make_shared<IntProperty>("mLastOutputIndex", c_mLastOutputIndex));
     defineProperty(std::make_shared<MapProperty<ObjectProperty, ByteProperty> >("mItemToLastOutputMap", c_mItemToLastOutputMap));
   }
-
 }

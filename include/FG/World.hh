@@ -125,6 +125,7 @@ namespace FG {
     inline std::map<std::string, ConveyorBeltLogicSP>& beltLogics() {return c_belt_logics;};
     inline std::map<std::string, IOUnitSP>& iounits() {return c_iounits;};
     inline std::map<std::string, StorageUnitSP>& storageUnits() {return c_storage_units;};
+    inline const Header& headers() const {return c_headers;};
 
   private:
     Header c_headers;

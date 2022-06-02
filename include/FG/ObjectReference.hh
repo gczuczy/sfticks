@@ -2,10 +2,12 @@
 #ifndef SFT_OBJECTREFERENCE_H
 #define SFT_OBJECTREFERENCE_H
 
-#include "FG/BaseObject.hh"
-
 #include <string>
 #include <memory>
+
+#include "FG/BaseObject.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -31,6 +33,9 @@ namespace FG {
     bool operator<(const ObjectReference& b) const;
     bool operator>(const ObjectReference& b) const;
     bool operator==(const ObjectReference& b) const;
+    inline operator bool() const {
+      return c_pathname.size()!=0;
+    };
 
     void resolve();
     std::string str();
@@ -40,6 +45,17 @@ namespace FG {
       resolve();
       return std::dynamic_pointer_cast<T>(c_obj);
     };
+
+    template<class T> bool resolveInto(std::shared_ptr<T>& _obj, bool _throw=true) {
+      if ( (*this) && !_obj) {
+	_obj = as<T>();
+	if ( !_obj ) {
+	  if ( _throw ) EXCEPTION(strprintf("Unable to resolve %s\n", str().c_str()));
+	  else return false;
+	}
+      }
+      return true;
+    }
 
   private:
     std::string c_levelname="";

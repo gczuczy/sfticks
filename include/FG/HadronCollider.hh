@@ -11,6 +11,8 @@ namespace FG {
     HadronCollider()=delete;
     HadronCollider(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~HadronCollider();
+    
+    virtual void doTick(SFT::tickinfo_t& _tick);
 
     static std::string objtypename;
 

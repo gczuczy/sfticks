@@ -26,6 +26,17 @@ namespace FG {
     virtual ~JSONObject()=0;
 
     inline const std::string& className() const {return c_classname;};
+    inline bool operator==(const JSONObject& _other) const {
+      // TODO: string comparision is sluggish, we will need something
+      // to speed this up
+      return c_classname == _other.c_classname;
+    }
+
+    inline bool operator!=(const JSONObject& _other) const {
+      // TODO: string comparision is sluggish, we will need something
+      // to speed this up
+      return c_classname != _other.c_classname;
+    }
 
   protected:
     void parseData(nlohmann::json& _json);

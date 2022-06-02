@@ -22,6 +22,8 @@ namespace FG {
     inline float& mCurrentExtractProgress() {return c_mCurrentExtractProgress;};
     inline ObjectReference& mmExtractableResource() {return c_mExtractableResource;};
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
   private:
     //virtual void deserialize(Reader &_reader);
     float c_mExtractStartupTimer=0, c_mCurrentExtractProgress=0;

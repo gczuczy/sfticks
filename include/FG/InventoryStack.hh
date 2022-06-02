@@ -4,6 +4,7 @@
 
 #include <stdint.h>
 #include <string>
+#include "misc.hh"
 
 namespace FG {
 
@@ -11,7 +12,7 @@ namespace FG {
     int32_t un1;
     std::string ItemType, un2, un3;
     inline std::string str() {
-      return std::string("InventoryStack: ")+ItemType;
+      return strprintf("InventoryStack(%s)", ItemType.c_str());
     };
   };
 

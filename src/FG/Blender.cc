@@ -1,5 +1,7 @@
 
 #include "FG/Blender.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -12,4 +14,8 @@ namespace FG {
   Blender::~Blender() {
   }
 
+  void Blender::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+  
 }

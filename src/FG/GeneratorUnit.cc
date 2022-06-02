@@ -3,6 +3,8 @@
 #include "FG/ObjectProperty.hh"
 #include "FG/FloatProperty.hh"
 #include "FG/BoolProperty.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -17,4 +19,7 @@ namespace FG {
   GeneratorUnit::~GeneratorUnit() {
   }
 
+  void GeneratorUnit::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
 }

@@ -40,4 +40,7 @@ namespace FG {
   std::string GenericComponent::compdetails() {
     return "";
   }
+
+  void GenericComponent::finalize() {
+  }
 }

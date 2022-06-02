@@ -13,6 +13,8 @@ namespace FG {
     ConstructorMk1(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~ConstructorMk1();
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

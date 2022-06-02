@@ -8,6 +8,7 @@
 #include "FG/InventoryComponent.hh"
 #include "FG/FactoryConnectionComponent.hh"
 #include "FG/PowerInfoComponent.hh"
+#include "SFT/tick.hh"
 
 #include <vector>
 #include <map>
@@ -24,6 +25,8 @@ namespace FG {
     virtual ~Building();
   
     virtual void associateComponents();
+    virtual void doTick(SFT::tickinfo_t&)=0;
+    virtual bool recv(DescObjectSP& _item, SFT::tickinfo_t& _tick, FactoryConnectionComponent& _src);
 
     inline float timeSinceStartStopProducing() {return c_mTimeSinceStartStopProducing;};
     inline float buildTimeStamp() {return c_mBuildTimeStamp;};

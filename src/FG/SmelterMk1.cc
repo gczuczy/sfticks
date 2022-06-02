@@ -1,5 +1,7 @@
 
 #include "FG/SmelterMk1.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -12,4 +14,8 @@ namespace FG {
   SmelterMk1::~SmelterMk1() {
   }
 
+  void SmelterMk1::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+  
 }

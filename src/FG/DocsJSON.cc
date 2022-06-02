@@ -74,6 +74,12 @@ namespace FG {
 
     auto it = c_objects.find(classname);
     if ( it != c_objects.end() ) return it->second;
+#if 0
+    printf("Unable to look up %s(%s)\nDB:", classname.c_str(), _pathname.c_str());
+    for (auto& it: c_objects) {
+      printf(" - %s\n", it.first.c_str());
+    }
+#endif
     return nullptr;
   }
 }

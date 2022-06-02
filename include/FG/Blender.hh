@@ -12,6 +12,8 @@ namespace FG {
     Blender(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~Blender();
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

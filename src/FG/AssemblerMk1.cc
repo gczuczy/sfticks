@@ -1,5 +1,7 @@
 
 #include "FG/AssemblerMk1.hh"
+#include "SFT/Exception.hh"
+#include "misc.hh"
 
 namespace FG {
 
@@ -13,4 +15,8 @@ namespace FG {
   AssemblerMk1::~AssemblerMk1() {
   }
 
+  void AssemblerMk1::doTick(SFT::tickinfo_t& _tick) {
+    EXCEPTION(strprintf("Check %s", __PRETTY_FUNCTION__));
+  }
+  
 }

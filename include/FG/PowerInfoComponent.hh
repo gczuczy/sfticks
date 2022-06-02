@@ -23,20 +23,16 @@ namespace FG {
     inline bool isFullBlast() {return c_mIsFullBlast;};
     inline float baseProduction() {return c_mBaseProduction;};
 
+    virtual void finalize();
+
   public:
     static std::set<std::string> pathname;
     static ComponentType componenttype;
 
   private:
-#if 1
     float c_mTargetConsumption=1.0, c_mDynamicProductionCapacity=1.0,
       c_mBaseProduction=1.0;
     bool c_mIsFullBlast=true;
-#else
-    float c_mTargetConsumption, c_mDynamicProductionCapacity,
-      c_mBaseProduction;
-    bool c_mIsFullBlast;
-#endif
   };
   typedef std::shared_ptr<PowerInfoComponent> PowerInfoComponentSP;
 

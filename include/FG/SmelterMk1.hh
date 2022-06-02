@@ -12,6 +12,8 @@ namespace FG {
     SmelterMk1(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~SmelterMk1();
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

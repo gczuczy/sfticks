@@ -23,6 +23,8 @@ namespace FG {
     inline int32_t capacity() const {return c_capacity;};
     inline ObjectReference& storageInventory() {return c_mStorageInventory;};
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
   private:
     int32_t c_capacity;
     //virtual void deserialize(Reader &_reader);

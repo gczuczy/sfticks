@@ -17,6 +17,7 @@ namespace FG {
     // debug functions
     void dump(const std::string _file);
     virtual std::string compdetails();
+    virtual void finalize();
 
   private:
     virtual void deserialize(Reader &_reader);

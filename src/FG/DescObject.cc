@@ -31,6 +31,8 @@ namespace FG {
       "Class'/Script/FactoryGame.FGItemDescAmmoTypeColorCartridge'",
       "Class'/Script/FactoryGame.FGGasMask'",
       "Class'/Script/FactoryGame.FGItemDescriptorNuclearFuel'",
+      "Class'/Script/FactoryGame.FGConsumableDescriptor'",
+      "Class'/Script/FactoryGame.FGEquipmentDescriptor'",
   };
 
   DescObject::DescObject(nlohmann::json& _json): JSONObject(ObjectType::DESC) {

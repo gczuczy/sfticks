@@ -12,6 +12,8 @@ namespace FG {
     SpaceElevator(Reader& _reader, ObjectHeader& _fgoh);
     virtual ~SpaceElevator();
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:

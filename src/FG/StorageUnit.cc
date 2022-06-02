@@ -12,4 +12,8 @@ namespace FG {
   StorageUnit::~StorageUnit() {
   }
 
+  void StorageUnit::doTick(SFT::tickinfo_t& _tick) {
+    // it's a no-op here
+  }
+  
 }

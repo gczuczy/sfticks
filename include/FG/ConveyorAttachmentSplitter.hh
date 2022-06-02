@@ -23,6 +23,8 @@ namespace FG {
     inline int32_t& lastOutputIndex() {return c_mLastOutputIndex;};
     // TODO: add lookup call for mItemToLastOutputMap
 
+    virtual void doTick(SFT::tickinfo_t& _tick);
+
     static std::string objtypename;
 
   private:
