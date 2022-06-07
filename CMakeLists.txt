@@ -38,6 +38,7 @@ target_include_directories(sfticks
 # checks
 include(CheckSymbolExists)
 include(CheckCXXSymbolExists)
+include(CheckIPOSupported)
 # mmap
 check_symbol_exists(mmap "sys/mman.h" HAVE_MMAP)
 if(NOT HAVE_MMAP)
@@ -77,6 +78,15 @@ set(CMAKE_REQUIRED_INCLUDES ";/usr/local/include")
 CHECK_INCLUDE_FILE_CXX("nlohmann/json.hpp" HAVE_NLJSON)
 if(NOT HAVE_NLJSON)
   message(FATAL_ERROR "nlohmann::json is missing")
+endif()
+
+# IPO/LTO check
+check_ipo_supported(RESULT LTO_supported OUTPUT error)
+if(LTO_supported)
+  message(STATUS "Enabling IPO/LTO")
+  set_property(TARGET sfticks PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+  message(STATUS "IPO/LTO not supported: <${error}>")
 endif()
 
 target_compile_options(sfticks
